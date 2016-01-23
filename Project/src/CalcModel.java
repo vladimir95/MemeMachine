@@ -23,7 +23,7 @@ public class CalcModel
 		inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
 		historyValue = new StringBuilder(INITIAL_DISPLAYED_HISTORY);
 		calcStack = new Stack<Double>();
-		calcStack.push(0.0);
+		calcStack.push(Double.parseDouble(INITIAL_DISPLAYED_VALUE));
 		valueResetFlag = true;
 		historyResetFlag = true;
 	}
@@ -37,10 +37,7 @@ public class CalcModel
 		if(valueResetFlag)
 		{
 			inputValue = new StringBuilder(buttonName);
-			if(historyValue.indexOf(" =") != -1)
-			{
-				historyValue.delete(historyValue.indexOf(" ="), historyValue.length());
-			}
+			checkEqualSign();
 			valueResetFlag = false;
 		}
 		else
@@ -60,15 +57,8 @@ public class CalcModel
 		double top, secondTop;
 		
 		if(!valueResetFlag)
-		{
-			calcStack.push(Double.parseDouble(inputValue.toString()));
-			commaPos = historyValue.length();
-			historyValue.append(", " + getInputValue());
-		}
-		if(historyValue.indexOf(" =") != -1)
-		{
-			historyValue.delete(historyValue.indexOf(" ="), historyValue.length());
-		}
+			enter();
+		checkEqualSign();
 		top = calcStack.pop();
 		secondTop = calcStack.pop();
 		calcStack.push(secondTop + top);
@@ -76,7 +66,6 @@ public class CalcModel
 		commaPos = historyValue.indexOf(",");
 		historyValue.append(" + =");
 		inputValue = new StringBuilder(calcStack.peek().toString());
-		valueResetFlag = true;
 	}
 	
 	/**
@@ -114,5 +103,16 @@ public class CalcModel
 	public String getHistoryValue()
 	{
 		return historyValue.toString();
+	}
+	
+	/**
+	 * Checks to see if the historyValue has a "=" sign in it and deletes it. 
+	 */
+	private void checkEqualSign()
+	{
+		if(historyValue.indexOf(" =") != -1)
+		{
+			historyValue.delete(historyValue.indexOf(" ="), historyValue.length());
+		}
 	}
 }
