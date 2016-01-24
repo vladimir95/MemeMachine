@@ -36,9 +36,10 @@ public class CalcModel
 	{
 		if(valueResetFlag)
 		{
-			inputValue = new StringBuilder(buttonName);
-			checkEqualSign();
-			valueResetFlag = false;
+				inputValue = new StringBuilder(buttonName);
+				checkEqualSign();
+				if(!buttonName.equals(INITIAL_DISPLAYED_VALUE))
+					valueResetFlag = false;
 		}
 		else
 			inputValue.append(buttonName);
@@ -59,13 +60,16 @@ public class CalcModel
 		if(!valueResetFlag)
 			enter();
 		checkEqualSign();
-		top = calcStack.pop();
-		secondTop = calcStack.pop();
-		calcStack.push(secondTop + top);
-		historyValue.deleteCharAt(commaPos);
-		commaPos = historyValue.indexOf(",");
-		historyValue.append(" + =");
-		inputValue = new StringBuilder(calcStack.peek().toString());
+		if(enoughOperands())
+		{	
+			top = calcStack.pop();
+			secondTop = calcStack.pop();
+			calcStack.push(secondTop + top);
+			historyValue.deleteCharAt(commaPos);
+			commaPos = historyValue.indexOf(",");
+			historyValue.append(" + =");
+			inputValue = new StringBuilder(calcStack.peek().toString());
+		}
 	}
 	
 	/**
@@ -114,5 +118,34 @@ public class CalcModel
 		{
 			historyValue.delete(historyValue.indexOf(" ="), historyValue.length());
 		}
+	}
+	
+	private boolean enoughOperands()
+	{
+		double secondTop, top;
+		boolean enough = true;
+		
+		top = calcStack.pop();
+		if(calcStack.empty())
+		{
+			calcStack.push(top);
+			enough = false;
+		}
+		else
+		{
+			secondTop = calcStack.pop();
+			if(calcStack.empty())
+			{
+				calcStack.push(secondTop);
+				calcStack.push(top);
+				enough = false;
+			}
+			else
+			{
+				calcStack.push(secondTop);
+				calcStack.push(top);
+			}
+		}
+		return enough;
 	}
 }

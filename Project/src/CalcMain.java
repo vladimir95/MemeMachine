@@ -35,6 +35,8 @@ public class CalcMain {
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 		model.sum();
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
+		model.sum();
+		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 	}
 
 }
