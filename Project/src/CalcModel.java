@@ -55,7 +55,7 @@ public class CalcModel
 	 */
 	public void sum()
 	{
-		double top, secondTop;
+		double top, secondTop, sum;
 		
 		if(!valueResetFlag)
 			enter();
@@ -64,11 +64,12 @@ public class CalcModel
 		{	
 			top = calcStack.pop();
 			secondTop = calcStack.pop();
-			calcStack.push(secondTop + top);
+			sum = secondTop + top;
+			calcStack.push(sum);
 			historyValue.deleteCharAt(commaPos);
 			commaPos = historyValue.indexOf(",");
 			historyValue.append(" + =");
-			inputValue = new StringBuilder(calcStack.peek().toString());
+			updateOperationValue(sum);
 		}
 	}
 	
@@ -120,6 +121,10 @@ public class CalcModel
 		}
 	}
 	
+	/**
+	 * Checks if enough operands exist
+	 * @return - true if 2 operands are found, false otherwise
+	 */
 	private boolean enoughOperands()
 	{
 		double secondTop, top;
@@ -147,5 +152,13 @@ public class CalcModel
 			}
 		}
 		return enough;
+	}
+	
+	private void updateOperationValue(double result)
+	{
+		if(result == Math.floor(result))
+			inputValue = new StringBuilder(Integer.toString((int)result));
+		else
+			inputValue = new StringBuilder(Double.toString(result));
 	}
 }
