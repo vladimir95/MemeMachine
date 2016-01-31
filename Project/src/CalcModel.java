@@ -3,33 +3,42 @@ import java.util.Stack;
 public class CalcModel 
 {
 	private StringBuilder inputValue;	//value displayed as user pressing numeric and decimal buttons
-	private StringBuilder historyValue; //history displayed when user completes input or performs arithmetic operation
+	private StringBuilder historyValue; //string representation of historyStack
+	private Stack<String> historyStack; //history stored when user completes input or performs arithmetic operation
+	private Stack<String> printStack;	//temp. stack used to print the contents of the historyStack
 	private Stack<Double> calcStack;	//user input is stored in a stack data type
+	private Stack<Double> preStack;		//stack that holds the numeric value of previous calculations and input
 	
 	private final String INITIAL_DISPLAYED_VALUE = "0";
 	private final String INITIAL_DISPLAYED_HISTORY = "start new calculation";
 	
+	private final String BINARY = "+-*/";
+	private final String UNARY  = "sincos!";
+	private final String FACT	= "!";
+	
 	private boolean valueResetFlag;		//true if inputValue needs to be reset, false if inputValue needs to be appended.
 	private boolean historyResetFlag; 	//true if historyValue needs to be reset, false if historyValue needs to be appended.
 	
-	private int commaPos; 				//tracks the location of the right most comma in the historyValue.
+	private Stack<Integer> commaStack;	//tracks the location of the right most comma in the historyValue.
 	
 	/**
-	 * Creates a new model with initial user and history value,
-	 * and initializes a new empty stack.
+	 * Creates a new model with initial user and history values, and initializes empty stacks.
 	 */
 	CalcModel()
 	{
 		inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
 		historyValue = new StringBuilder(INITIAL_DISPLAYED_HISTORY);
 		calcStack = new Stack<Double>();
-		calcStack.push(Double.parseDouble(INITIAL_DISPLAYED_VALUE));
+		historyStack = new Stack<String>();
+		printStack = new Stack<String>();
+		preStack = new Stack<Double>();
+		commaStack = new Stack<Integer>();
 		valueResetFlag = true;
 		historyResetFlag = true;
 	}
 	
 	/**
-	 * Reads the user input as the user when the user presses numeric or decimal buttons.
+	 * Reads the user input when the user presses numeric or decimal buttons.
 	 * @param buttonName - The name of the button as seen in the View.
 	 */
 	public void numericButton(String buttonName)
@@ -59,37 +68,28 @@ public class CalcModel
 		
 		if(!valueResetFlag)
 			enter();
-		checkEqualSign();
-		if(enoughOperands())
-		{	
-			top = calcStack.pop();
-			secondTop = calcStack.pop();
-			sum = secondTop + top;
-			calcStack.push(sum);
-			historyValue.deleteCharAt(commaPos);
-			commaPos = historyValue.indexOf(",");
-			historyValue.append(" + =");
-			updateOperationValue(sum);
-		}
+		enoughOperands();
+		top = calcStack.pop();
+		secondTop = calcStack.pop();
+		sum = secondTop + top;
+		calcStack.push(sum);
+		preStack.push(secondTop);
+		preStack.push(top);
+		historyStack.push("+");
+		printHistory();
+		updateOperationValue(sum);
 	}
 	
 	/**
-	 * Pushes the user value to the top of the stack.
+	 * Pushes the user value to the top of the valueStack and the historyStack.
 	 */
 	public void enter()
 	{
 		calcStack.push(Double.parseDouble(inputValue.toString()));
 		valueResetFlag = true;
-		if(historyResetFlag)
-		{
-			historyValue = new StringBuilder(getInputValue());
-			historyResetFlag = false;
-		}
-		else
-		{
-			commaPos = historyValue.length();
-			historyValue.append(", " + getInputValue());
-		}
+		historyStack.push(inputValue.toString());
+		printHistory();
+		historyResetFlag = false;
 	}
 	
 	/**
@@ -122,38 +122,107 @@ public class CalcModel
 	}
 	
 	/**
-	 * Checks if enough operands exist
-	 * @return - true if 2 operands are found, false otherwise
+	 * prints the data in the historyStack into the historyValue in infix representation
 	 */
-	private boolean enoughOperands()
+	private void printHistory()
 	{
-		double secondTop, top;
-		boolean enough = true;
+		String value;
+		int commaPos;
 		
-		top = calcStack.pop();
-		if(calcStack.empty())
+		historyValue = new StringBuilder();
+		while(!historyStack.empty())
 		{
-			calcStack.push(top);
-			enough = false;
+			value = historyStack.pop();
+			printStack.push(value);
 		}
-		else
+		while(!printStack.empty())
 		{
-			secondTop = calcStack.pop();
-			if(calcStack.empty())
+			value = printStack.pop();
+			checkEqualSign();
+			if(BINARY.indexOf(value) != -1)
 			{
-				calcStack.push(secondTop);
-				calcStack.push(top);
-				enough = false;
+				commaPos = commaStack.pop();
+				historyValue.replace(commaPos, commaPos + 1, " " + value);
+				commaPos = commaStack.pop();
+				if(commaPos == 0)
+					historyValue.insert(commaPos, "(");
+				else
+					historyValue.insert(commaPos + 2, "(");
+				historyValue.append(")");
+				commaStack.push(commaPos);
+				historyValue.append(" =");
+			}
+			else if(UNARY.indexOf(value) != -1)
+			{
+				if(value.equals(FACT))
+					historyValue.append(value);
+				else
+				{	
+					commaPos = commaStack.pop();
+					if(commaPos == 0)
+						historyValue.insert(commaPos, value + "(");
+					else
+						historyValue.insert(commaPos + 2, value + "(");
+					historyValue.append(")");
+					commaStack.push(commaPos);
+				}
+				historyValue.append(" =");
 			}
 			else
 			{
-				calcStack.push(secondTop);
+				if(historyValue.length() == 0)
+				{
+					historyValue.append(value);
+					commaPos = 0;
+					commaStack.push(commaPos);
+				}
+				else
+				{
+					commaPos = historyValue.length();
+					commaStack.push(commaPos);
+					historyValue.append(", ");
+					historyValue.append(value);
+				}
+			}
+			historyStack.push(value);
+		}
+	}
+	
+	/**
+	 * Checks if enough operands exist in the calcStack.
+	 * If there are, does nothing. If not, substitutes missing operands with zeroes (0).
+	 */
+	private void enoughOperands()
+	{
+		double top;
+		
+		if(calcStack.empty())
+		{
+			calcStack.push(0.0);
+			calcStack.push(0.0);
+			historyStack.push("0");
+			historyStack.push("0");
+		}
+		else
+		{
+			top = calcStack.pop();
+			if(calcStack.empty())
+			{
+				calcStack.push(top);
+				calcStack.push(0.0);
+				historyStack.push("0");
+			}
+			else
+			{
 				calcStack.push(top);
 			}
 		}
-		return enough;
 	}
 	
+	/**
+	 * Updates the Value with the result of an arithmetic operation with the correct format type.
+	 * @param result - the result of the arithmetic operation.
+	 */
 	private void updateOperationValue(double result)
 	{
 		if(result == Math.floor(result))

@@ -6,7 +6,7 @@ public class CalcMain {
 		//Main app in which the controller will be instantiated
 		CalcModel model = new CalcModel();
 		
-		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
+		/*System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 		model.numericButton("2");
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 		model.numericButton("1");
@@ -17,12 +17,12 @@ public class CalcMain {
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 		model.numericButton("5");
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
-		/*model.enter();
+		model.enter();
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 		model.sum();
-		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());*/
-		model.sum();
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
+		//model.sum();
+		//System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 		model.numericButton("4");
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 		model.enter();
@@ -34,6 +34,20 @@ public class CalcMain {
 		model.sum();
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 		model.sum();
+		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
+		model.sum();
+		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
+		//model.sum();
+		//System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());*/
+		model.numericButton("2");
+		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
+		model.numericButton(".");
+		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
+		model.numericButton("5");
+		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
+		model.enter();
+		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
+		model.numericButton("1");
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 		model.sum();
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
