@@ -68,7 +68,7 @@ public class CalcModel
 		
 		if(!valueResetFlag)
 			enter();
-		enoughOperands();
+		enoughOperandsBinary();
 		top = calcStack.pop();
 		secondTop = calcStack.pop();
 		sum = secondTop + top;
@@ -81,6 +81,78 @@ public class CalcModel
 	}
 	
 	/**
+	 * Subtracts the 2 top values of the stack and pushes the result back to the top of the stack.
+	 */
+	public void subtract()
+	{
+		double top, secondTop, diff;
+		
+		if(!valueResetFlag)
+			enter();
+		enoughOperandsBinary();
+		top = calcStack.pop();
+		secondTop = calcStack.pop();
+		diff = secondTop - top;
+		calcStack.push(diff);
+		preStack.push(secondTop);
+		preStack.push(top);
+		historyStack.push("-");
+		printHistory();
+		updateOperationValue(diff);
+	}
+	
+	/**
+	 * Multiplies the 2 top values of the stack and pushes the result back to the top of the stack.
+	 */
+	public void multiply()
+	{
+		double top, secondTop, result;
+		
+		if(!valueResetFlag)
+			enter();
+		enoughOperandsBinary();
+		top = calcStack.pop();
+		secondTop = calcStack.pop();
+		result = secondTop * top;
+		calcStack.push(result);
+		preStack.push(secondTop);
+		preStack.push(top);
+		historyStack.push("*");
+		printHistory();
+		updateOperationValue(result);
+	}
+	
+	/**
+	 * Divides the 2 top values of the stack and pushes the result back to the top of the stack.
+	 * If a division by 0 occurs, the calculator is reset and an error message is displayed.
+	 */
+	public void divide()
+	{
+		double top, secondTop, result;
+		
+		if(!valueResetFlag)
+			enter();
+		enoughOperandsBinary();
+		top = calcStack.pop();
+		if(top == 0)
+		{
+			clear();
+			inputValue = new StringBuilder("MATH ERROR");
+		}
+		else
+		{
+			secondTop = calcStack.pop();
+			result = secondTop * top;
+			calcStack.push(result);
+			preStack.push(secondTop);
+			preStack.push(top);
+			historyStack.push("*");
+			printHistory();
+			updateOperationValue(result);
+		}
+	}
+	
+	/**
 	 * Pushes the user value to the top of the valueStack and the historyStack.
 	 */
 	public void enter()
@@ -90,6 +162,72 @@ public class CalcModel
 		historyStack.push(inputValue.toString());
 		printHistory();
 		historyResetFlag = false;
+	}
+	
+	/**
+	 * Clears the data in all stacks and resets the history and input value to the initial configuration.
+	 */
+	public void clear()
+	{
+		inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
+		historyValue = new StringBuilder(INITIAL_DISPLAYED_HISTORY);
+		calcStack = new Stack<Double>();
+		historyStack = new Stack<String>();
+		printStack = new Stack<String>();
+		preStack = new Stack<Double>();
+		commaStack = new Stack<Integer>();
+		valueResetFlag = true;
+		historyResetFlag = true;
+	}
+	
+	/**
+	 * Undoes the last user operation. 
+	 * If the user was typing an input, removes the last digit typed.
+	 * If the user was not typing, removes the previous arithmetic or enter operation.
+	 */
+	public void undo()
+	{
+		String value;
+		double top, secondTop;
+		
+		if(!valueResetFlag)
+		{
+			inputValue.deleteCharAt(inputValue.length() - 1);
+			if(inputValue.length() == 0)
+				valueResetFlag = true;
+		}
+		else if(inputValue.length() == 0)
+		{
+			printHistory();
+			if(calcStack.empty())
+				updateOperationValue(Double.parseDouble(INITIAL_DISPLAYED_VALUE));
+			else
+				updateOperationValue(calcStack.peek());
+		}
+		else if(historyStack.empty())
+				clear();
+		else
+		{
+			calcStack.pop();
+			value = historyStack.pop();
+			if(BINARY.indexOf(value) != -1)
+			{
+				top = preStack.pop();
+				secondTop = preStack.pop();
+				calcStack.push(secondTop);
+				calcStack.push(top);
+			}
+			if(UNARY.indexOf(value) != -1)
+			{
+				top = preStack.pop();
+				calcStack.push(top);
+			}
+			printHistory();
+			if(calcStack.empty())
+				updateOperationValue(Double.parseDouble(INITIAL_DISPLAYED_VALUE));
+			else
+				updateOperationValue(calcStack.peek());
+		}
 	}
 	
 	/**
@@ -189,10 +327,10 @@ public class CalcModel
 	}
 	
 	/**
-	 * Checks if enough operands exist in the calcStack.
+	 * Checks if enough operands exist in the calcStack for a binary operation.
 	 * If there are, does nothing. If not, substitutes missing operands with zeroes (0).
 	 */
-	private void enoughOperands()
+	private void enoughOperandsBinary()
 	{
 		double top;
 		
@@ -216,6 +354,19 @@ public class CalcModel
 			{
 				calcStack.push(top);
 			}
+		}
+	}
+	
+	/**
+	 * Checks if an operand exists in the calcStack for a unary operation.
+	 * If so, does nothing. If not, substitutes a zero (0).
+	 */
+	private void enoughOperandsUnary()
+	{
+		if(calcStack.empty())
+		{
+			calcStack.push(0.0);
+			historyStack.push("0");
 		}
 	}
 	
