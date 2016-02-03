@@ -15,6 +15,7 @@ public class CalcModel
 	private final String BINARY = "+-*/";
 	private final String UNARY  = "sincos!";
 	private final String FACT	= "!";
+	private final String PI 	= "π";
 	
 	private boolean valueResetFlag;		//true if inputValue needs to be reset, false if inputValue needs to be appended.
 	private boolean historyResetFlag; 	//true if historyValue needs to be reset, false if historyValue needs to be appended.
@@ -39,6 +40,7 @@ public class CalcModel
 	
 	/**
 	 * Reads the user input when the user presses numeric or decimal buttons.
+	 * Validates the input to avoid entring a number with leading zeroes (0) and multiple decimal points.
 	 * @param buttonName - The name of the button as seen in the View.
 	 */
 	public void numericButton(String buttonName)
@@ -50,7 +52,7 @@ public class CalcModel
 				if(!buttonName.equals(INITIAL_DISPLAYED_VALUE))
 					valueResetFlag = false;
 		}
-		else
+		else if(inputValue.indexOf(".") == -1)
 			inputValue.append(buttonName);
 		
 		if (historyResetFlag)
@@ -153,12 +155,122 @@ public class CalcModel
 	}
 	
 	/**
+	 * Calculates the sine of the top value of the stack and pushes the result back to the top of the stack.
+	 */
+	public void sine()
+	{
+		double top, result;
+		
+		if(!valueResetFlag)
+			enter();
+		enoughOperandsUnary();
+		top = calcStack.pop();
+		result = Math.sin(top);
+		calcStack.push(result);
+		preStack.push(top);
+		historyStack.push("sin");
+		printHistory();
+		updateOperationValue(result);
+	}
+	
+	/**
+	 * Calculates the cosine of the top value of the stack and pushes the result back to the top of the stack.
+	 */
+	public void cosine()
+	{
+		double top, result;
+		
+		if(!valueResetFlag)
+			enter();
+		enoughOperandsUnary();
+		top = calcStack.pop();
+		result = Math.cos(top);
+		calcStack.push(result);
+		preStack.push(top);
+		historyStack.push("cos");
+		printHistory();
+		updateOperationValue(result);
+	}
+	
+	/**
+	 * Changes the sign of the inputValue without pushing the result into a stack.
+	 */
+	public void changeSign()
+	{
+		double value;
+		value = Double.parseDouble(getInputValue());
+		value *= -1;
+		updateOperationValue(value);
+	}
+	
+	/**
+	 * Pushes the Pi constant into the stack.
+	 * If user was typing an input, pushes the input into the stack and multiplies it by pi (3*pi).
+	 */
+	public void pi()
+	{
+		if(!valueResetFlag)
+		{
+			enter();
+			calcStack.push(Math.PI);
+			historyStack.push(PI);
+			multiply();
+		}
+		else
+		{
+			calcStack.push(Math.PI);
+			historyStack.push(PI);
+			printHistory();
+			updateOperationValue(Math.PI);
+		}
+	}
+	
+	/**
+	 * Calculates the factorial of the top value of the stack, and pushes the result back to the top of the stack.
+	 * If the value is not a whole number, the calculator is reset and an error message is displayed.
+	 */
+	public void factorial()
+	{
+		double top, result;
+		
+		if(!valueResetFlag)
+			enter();
+		enoughOperandsUnary();
+		top = calcStack.pop();
+		if(top < 0 || top != Math.floor(top))
+		{
+			clear();
+			inputValue = new StringBuilder("MATH ERROR");
+		}
+		else
+		{
+			result = 1;
+			if((int)top == 0)
+				result = 1;
+			else
+				for(int i = 1; i <= (int)top; i++)
+					result *= i;
+			calcStack.push(result);
+			preStack.push(top);
+			historyStack.push("!");
+			printHistory();
+			updateOperationValue(result);
+		}
+		
+	}
+	
+	/**
 	 * Pushes the user value to the top of the valueStack and the historyStack.
+	 * If the input has a decimal point, validates and corrects the input into proper decimal format.
 	 */
 	public void enter()
 	{
 		calcStack.push(Double.parseDouble(inputValue.toString()));
 		valueResetFlag = true;
+		if(inputValue.charAt(0) == '.')
+			inputValue.insert(0, '0');
+		if(inputValue.charAt(inputValue.length() - 1) == '.')
+			inputValue.append('0');
 		historyStack.push(inputValue.toString());
 		printHistory();
 		historyResetFlag = false;
