@@ -95,7 +95,6 @@ public class CalcView extends JFrame implements ActionListener {
 	    commands.add(bfact);
 	    commands.add(bx);
 	    this.add(mainpanel);
-	    this.pack();
 	    this.setVisible(true);
 		
 	}
