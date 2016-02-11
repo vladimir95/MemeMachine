@@ -6,13 +6,14 @@ import java.awt.event.ActionListener;
 
 
 public class CalcView extends JFrame implements ActionListener {
-	JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bdot,bclear,bmultiply,bdivide,badd,bsubtract,benter, bpi, bfact, bundo, bsin, bcos, bx;
+	JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bdot,bclear,bmultiply,bdivide,badd,bsubtract,benter, bpi, 
+									bfact, bundo, bsin, bcos, bx, bgraph;
 	JTextArea display,historyDisplay;
-	JPanel pad, commands, operators, mainpanel, buttonspanel ;
+	JPanel pad, commands, operators, mainpanel, buttonspanel, signs;
 	
 	public CalcView () {
-		super();
-		this.setSize(640, 480);
+		super("pizdec :)");
+		setSize(800, 600);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		b0 = new JButton("0");
 		b1 = new JButton("1");
@@ -37,8 +38,9 @@ public class CalcView extends JFrame implements ActionListener {
 		bsin = new JButton("sin"); 
 		bcos = new JButton("cos"); 
 		bx = new JButton("x"); 
+		bgraph = new JButton("GRAPH");
 		display = new JTextArea("0");
-		historyDisplay = new JTextArea("");
+		historyDisplay = new JTextArea("xyu");
 		display.setSize(25,0);
 		display.setEditable(false);
 		historyDisplay.setSize(25,0);
@@ -48,6 +50,53 @@ public class CalcView extends JFrame implements ActionListener {
 		operators = new JPanel();
 		buttonspanel = new JPanel();
 	    mainpanel = new JPanel();
+	    signs = new JPanel();
+	    mainpanel.setLayout(new BoxLayout(mainpanel, BoxLayout.Y_AXIS));
+	    mainpanel.add(historyDisplay);
+	    mainpanel.add(display);
+	    mainpanel.add(pad);
+	    pad.setLayout(new GridLayout(2,2));
+	    pad.add(buttonspanel);
+	    pad.add(operators);
+	    pad.add(commands);
+	    pad.add(bgraph);
+	    buttonspanel.setLayout(new GridLayout(4,3));
+	    buttonspanel.add(b1);
+	    buttonspanel.add(b2);
+	    buttonspanel.add(b3);
+	    buttonspanel.add(b4);
+	    buttonspanel.add(b5);
+	    buttonspanel.add(b6);
+	    buttonspanel.add(b7);
+	    buttonspanel.add(b8);
+	    buttonspanel.add(b9);
+	    buttonspanel.add(bdot);
+	    buttonspanel.add(b0);
+	    buttonspanel.add(bpi);
+	    operators.setLayout(new BoxLayout(operators, BoxLayout.Y_AXIS));
+	    operators.add(bclear);
+	    operators.add(bundo);
+	    operators.add(signs);
+	    signs.setLayout(new GridLayout(2,2));
+	    signs.add(badd);
+	    signs.add(bsubtract);
+	    signs.add(bmultiply);
+	    signs.add(bdivide);
+	    operators.add(benter);
+	    bclear.setMaximumSize(signs.getMaximumSize());
+	    bclear.setMinimumSize(signs.getMaximumSize());
+	    bundo.setMaximumSize(signs.getMaximumSize());
+	    bundo.setMinimumSize(signs.getMaximumSize());
+	    benter.setMaximumSize(signs.getMaximumSize());
+	    benter.setMinimumSize(signs.getMaximumSize());
+	    commands.setLayout(new GridLayout(2,2));
+	    commands.add(bsin);
+	    commands.add(bcos);
+	    commands.add(bfact);
+	    commands.add(bx);
+	    this.add(mainpanel);
+	    this.pack();
+	    this.setVisible(true);
 		
 	}
 	/**
@@ -55,7 +104,7 @@ public class CalcView extends JFrame implements ActionListener {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		CalcView c = new CalcView();
 	}
 
 	@Override
