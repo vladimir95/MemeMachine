@@ -13,7 +13,7 @@ public class CalcView extends JFrame implements ActionListener {
 	
 	public CalcView () {
 		super("pizdec :)");
-		setSize(800, 600);
+		setSize(480, 640);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		b0 = new JButton("0");
 		b1 = new JButton("1");
@@ -94,6 +94,7 @@ public class CalcView extends JFrame implements ActionListener {
 	    commands.add(bcos);
 	    commands.add(bfact);
 	    commands.add(bx);
+	    this.setResizable(false);
 	    this.add(mainpanel);
 	    this.setVisible(true);
 		
