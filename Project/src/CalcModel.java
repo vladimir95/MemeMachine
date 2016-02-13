@@ -12,7 +12,7 @@ public class CalcModel
 	private final String INITIAL_DISPLAYED_VALUE = "0";
 	private final String INITIAL_DISPLAYED_HISTORY = "start new calculation";
 	
-	private final String BINARY = "+-*/";
+	private final String BINARY = "+- */";	//The space in the middle is important for checking operator precedence
 	private final String UNARY  = "sincos!";
 	private final String FACT	= "!";
 	private final String PI 	= "π";
@@ -144,11 +144,11 @@ public class CalcModel
 		else
 		{
 			secondTop = calcStack.pop();
-			result = secondTop * top;
+			result = secondTop / top;
 			calcStack.push(result);
 			preStack.push(secondTop);
 			preStack.push(top);
-			historyStack.push("*");
+			historyStack.push("/");
 			printHistory();
 			updateOperationValue(result);
 		}
@@ -378,7 +378,9 @@ public class CalcModel
 	{
 		String value;
 		int commaPos;
+		int currentPrecedence;
 		
+		Stack<Integer> operatorStack = new Stack<Integer>();	//Holds precedence values for operators
 		historyValue = new StringBuilder();
 		while(!historyStack.empty())
 		{
@@ -392,23 +394,50 @@ public class CalcModel
 			if(BINARY.indexOf(value) != -1)
 			{
 				commaPos = commaStack.pop();
-				historyValue.replace(commaPos, commaPos + 1, " " + value);
-				commaPos = commaStack.pop();
-				if(commaPos == 0)
-					historyValue.insert(commaPos, "(");
-				else
-					historyValue.insert(commaPos + 2, "(");
-				historyValue.append(")");
-				commaStack.push(commaPos);
+				currentPrecedence = checkPrecedence(operatorStack, value);
+				if(currentPrecedence == 0)
+				{
+					historyValue.replace(commaPos, commaPos + 1, " " + value);
+				}
+				if(currentPrecedence == 1)
+				{
+					historyValue.replace(commaPos, commaPos + 1, ") " + value);
+					commaPos = commaStack.pop();
+					if(commaPos == 0)
+						historyValue.insert(commaPos, "(");
+					else
+						historyValue.insert(commaPos + 2, "(");
+					commaStack.push(commaPos);
+				}
+				if(currentPrecedence == 2)
+				{
+					historyValue.replace(commaPos, commaPos + 2, " " + value + " (");
+					historyValue.append(")");
+				}
+				if(currentPrecedence == 3)
+				{
+					historyValue.replace(commaPos, commaPos + 2, ") " + value + " (");
+					commaPos = commaStack.pop();
+					if(commaPos == 0)
+						historyValue.insert(commaPos, "(");
+					else
+						historyValue.insert(commaPos + 2, "(");
+					historyValue.append(")");
+					commaStack.push(commaPos);
+				}
 				historyValue.append(" =");
 			}
 			else if(UNARY.indexOf(value) != -1)
 			{
 				if(value.equals(FACT))
+				{
 					historyValue.append(value);
+					operatorStack.push(10);
+				}
 				else
 				{	
 					commaPos = commaStack.pop();
+					operatorStack.push(10);
 					if(commaPos == 0)
 						historyValue.insert(commaPos, value + "(");
 					else
@@ -423,12 +452,14 @@ public class CalcModel
 				if(historyValue.length() == 0)
 				{
 					historyValue.append(value);
+					operatorStack.push(10);
 					commaPos = 0;
 					commaStack.push(commaPos);
 				}
 				else
 				{
 					commaPos = historyValue.length();
+					operatorStack.push(10);
 					commaStack.push(commaPos);
 					historyValue.append(", ");
 					historyValue.append(value);
@@ -492,5 +523,47 @@ public class CalcModel
 			inputValue = new StringBuilder(Integer.toString((int)result));
 		else
 			inputValue = new StringBuilder(Double.toString(result));
+	}
+	
+	/**
+	 * Checks the precedence of the current operator, compared to previous ones.
+	 * @param precedenceStack - Holds precedence values for operators 
+	 * @param value - The string representation of the current binary operator
+	 * @return 0 - If the current operator does not have precedence
+	 * 		   1 - If the current operator has precedence over the left expression.
+	 * 	       2 - If the current operator has precedence over the right expression.
+	 * 		   3 - If the current operator has precedence over both expressions.
+	 */
+	private int checkPrecedence(Stack<Integer> precedenceStack, String value)
+	{
+		int leftExp, rightExp;	//Precedence value of left and right expression relative to a binary operator
+		int operatorValue;
+		int precedence = 0;
+		
+		rightExp = precedenceStack.pop();
+		leftExp = precedenceStack.pop();
+		operatorValue = BINARY.indexOf(value);
+		if(leftExp + 1 > operatorValue && rightExp + 1 > operatorValue)
+		{
+			precedence = 0;
+		}
+		if(leftExp + 1 < operatorValue && rightExp + 1 > operatorValue)
+		{
+			precedence = 1;
+		}
+		if(leftExp + 1 == operatorValue && rightExp + 1 > operatorValue)
+		{
+			precedence = 2;
+		}
+		if(leftExp + 1 > operatorValue && rightExp + 1 < operatorValue)
+		{
+			precedence = 2;
+		}
+		if(leftExp + 1 < operatorValue && rightExp + 1 < operatorValue)
+		{
+			precedence = 3;
+		}
+		precedenceStack.push(operatorValue);
+		return precedence;
 	}
 }
