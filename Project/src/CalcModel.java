@@ -431,13 +431,26 @@ public class CalcModel
 			{
 				if(value.equals(FACT))
 				{
-					historyValue.append(value);
+					operatorStack.pop();
 					operatorStack.push(10);
+					if(BINARY.indexOf(historyStack.peek()) != -1)
+					{
+						commaPos = commaStack.pop();
+						if(commaPos == 0)
+							historyValue.insert(commaPos, "(");
+						else
+							historyValue.insert(commaPos + 2, "(");
+						historyValue.append(")!");
+						commaStack.push(commaPos);
+					}
+					else
+						historyValue.append(value);
 				}
 				else
 				{	
-					commaPos = commaStack.pop();
+					operatorStack.pop();
 					operatorStack.push(10);
+					commaPos = commaStack.pop();
 					if(commaPos == 0)
 						historyValue.insert(commaPos, value + "(");
 					else
