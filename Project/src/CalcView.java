@@ -1,22 +1,31 @@
-import javax.swing.*;
+import java.awt.GridLayout;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
-public class CalcView extends JFrame implements ActionListener {
-	JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bdot,bclear,bmultiply,bdivide,badd,bsubtract,benter, bpi, 
-									bfact, bundo, bsin, bcos, bx, bgraph;
-	JTextArea display,historyDisplay;
+public class CalcView extends JFrame {
+	JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bdot,bclear,bmultiply,bdivide,badd,bsubtract,benter,
+									bpi,bfact, bundo, bsin, bcos, bx, bgraph, bsign;
+	JTextField display,historyDisplay;
+	//JTextField historyDisplay; <-- Should we use JTextArea, which allows multiple lines of
+												//text for history??
 	JPanel pad, commands, operators, operators2, mainpanel, buttonspanel, signs, graph;
 	
-	public CalcView () {
-		super("pizdec :)");
 	
+	//Implement Controller first and then use it. 
+	//public CalcView (CalcController theController) {
+	
+	public CalcView() {
+		super("pizdec :)");
 		//setSize(480, 640);
 		setSize(720, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		//Buttons
 		b0 = new JButton("0");
 		b1 = new JButton("1");
 		b2 = new JButton("2");
@@ -29,7 +38,7 @@ public class CalcView extends JFrame implements ActionListener {
 		b9 = new JButton("9");
 		bdot = new JButton(".");
 		bclear = new JButton("CLEAR");
-		bmultiply = new JButton("x");
+		bmultiply = new JButton("*"); // must be a "*" to not to look like "x" in TextField. 
 		bdivide = new JButton("/");
 		badd = new JButton("+");
 		bsubtract = new JButton("-");
@@ -41,12 +50,17 @@ public class CalcView extends JFrame implements ActionListener {
 		bcos = new JButton("cos"); 
 		bx = new JButton("x"); 
 		bgraph = new JButton("GRAPH");
-		display = new JTextArea("0");
-		historyDisplay = new JTextArea("xyu");
+		bsign = new JButton("+/-"); //<-- ChangeSign Button!!!
+		
+		//TextAreas 
+		display = new JTextField("0",20); 
+		historyDisplay = new JTextField("xyu",20);
 		display.setSize(25,0);
-		display.setEditable(false);
+		//display.setEditable(false);    
 		historyDisplay.setSize(25,0);
-		historyDisplay.setEditable(false);
+		//historyDisplay.setEditable(false); 
+		
+		//Panels 
 		graph = new JPanel();
 		pad = new JPanel();
 		commands = new JPanel();
@@ -112,10 +126,12 @@ public class CalcView extends JFrame implements ActionListener {
 	    commands.add(bx);
 	    this.setResizable(false);
 	    this.add(mainpanel);
+	    MyButtonAdapter(); //<-- Runs the Button Adapter thing.
 	    this.setVisible(true);
 		
 	}
 	/**
+	 * We will not need this method eventually, as the View will be launched from Controller
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -123,10 +139,103 @@ public class CalcView extends JFrame implements ActionListener {
 		CalcView c = new CalcView();
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	/*
+	 * @Suppress warnings shit allows us to not to create some final long ID for 
+	 * every single buttonAdapter
+	 */
+	@SuppressWarnings("serial") 
+	public void MyButtonAdapter() {
+		
+		add(new ButtonAdapter(badd) {
+		       public void pressed(){ theController.sum();}});
+		
+		add(new ButtonAdapter(bsubtract) {
+		       public void pressed(){ theController.subtract();}});
+		
+		add(new ButtonAdapter(bmultiply) {
+		       public void pressed(){ theController.multiply();}});
+		
+		add(new ButtonAdapter(bdivide) {
+		       public void pressed(){ theController.divide();}});
+		
+		add(new ButtonAdapter(bclear) {
+		       public void pressed(){ theController.clear();}});
+		
+		add(new ButtonAdapter(bundo) {
+		       public void pressed(){ theController.undo();}});
+		
+		add(new ButtonAdapter(benter) {
+		       public void pressed(){ theController.enter();}});
+		
+		//Leave it as blank method in Controller/Model?
+		add(new ButtonAdapter(bgraph) { 
+		       public void pressed(){ theController.graph();}});
+		
+		add(new ButtonAdapter(bsin) {
+		       public void pressed(){ theController.sine();}});
+		
+		add(new ButtonAdapter(bcos) {
+		       public void pressed(){ theController.cosine();}});
+		
+		add(new ButtonAdapter(bpi) {
+		       public void pressed(){ theController.pi();}});
+		
+		add(new ButtonAdapter(bfact) {
+		       public void pressed(){ theController.factorial();}});
+		
+		add(new ButtonAdapter(bsign) {
+		       public void pressed(){ theController.changeSign();}});
+		
+		//Leave it as blank method in Controller/Model?
+		add(new ButtonAdapter(bx) { 
+		       public void pressed(){ theController.x();}});
+		
+		add(new ButtonAdapter(bdot) { 
+		       public void pressed(){ theController.numericButton(bdot.getName());}});
+		
+		add(new ButtonAdapter(b0) {
+		       public void pressed(){ theController.numericButton(b0.getName());}});
+		
+		add(new ButtonAdapter(b1) {
+		       public void pressed(){ theController.numericButton(b1.getName());}});
+		
+		add(new ButtonAdapter(b2) {
+		       public void pressed(){ theController.numericButton(b2.getName());}});
+		
+		add(new ButtonAdapter(b3) {
+		       public void pressed(){ theController.numericButton(b3.getName());}});
+		
+		add(new ButtonAdapter(b4) {
+		       public void pressed(){ theController.numericButton(b4.getName());}});
+		
+		add(new ButtonAdapter(b5) {
+		       public void pressed(){ theController.numericButton(b5.getName());}});
+		
+		add(new ButtonAdapter(b6) {
+		       public void pressed(){ theController.numericButton(b6.getName());}});
+		
+		add(new ButtonAdapter(b7) {
+		       public void pressed(){ theController.numericButton(b7.getName());}});
+		
+		add(new ButtonAdapter(b8) {
+		       public void pressed(){ theController.numericButton(b8.getName());}});
+		
+		add(new ButtonAdapter(b9) {
+		       public void pressed(){ theController.numericButton(b9.getName());}});
 		
 	}
-
+	
+	/*
+	 * Check if these work properly!
+	 * @param inputValue
+	 */
+	public void setDisplayText(String inputValue) {
+		display.setText(inputValue);
+		
+	}
+	
+	public void setHistoryText(String historyValue) {
+		historyDisplay.setText(historyValue);
+		
+	}
 }
