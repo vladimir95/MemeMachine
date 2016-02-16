@@ -52,9 +52,10 @@ public class CalcModel
 				if(!buttonName.equals(INITIAL_DISPLAYED_VALUE))
 					valueResetFlag = false;
 		}
-		else if(inputValue.indexOf(".") == -1)
+		else if(inputValue.substring(0, inputValue.length()-1).indexOf(".") == -1)
+		{
 			inputValue.append(buttonName);
-		
+		}
 		if (historyResetFlag)
 		{
 			historyValue = new StringBuilder();
