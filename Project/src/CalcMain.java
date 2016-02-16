@@ -17,16 +17,13 @@ public class CalcMain {
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());*/
 		model.numericButton("2");
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
-		model.enter();
+		model.numericButton(".");
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
-		model.numericButton("3");
+		model.numericButton("5");
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
-		model.multiply();
+		model.numericButton(".");
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
-		model.factorial();
-		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
-		model.sum();
+		model.numericButton("5");
 		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue());
 	}
-
 }
