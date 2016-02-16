@@ -40,7 +40,7 @@ public class CalcModel
 	
 	/**
 	 * Reads the user input when the user presses numeric or decimal buttons.
-	 * Validates the input to avoid entring a number with leading zeroes (0) and multiple decimal points.
+	 * Validates the input to avoid entering a number with leading zeroes (0) and multiple decimal points.
 	 * @param buttonName - The name of the button as seen in the View.
 	 */
 	public void numericButton(String buttonName)
