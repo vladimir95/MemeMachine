@@ -1,5 +1,3 @@
-import javax.sound.midi.ControllerEventListener;
-
 public class CalcMain {
 
 	public static void main(String[] args) 
@@ -9,8 +7,11 @@ public class CalcMain {
 	
 		controller.numericButton("2");
 		controller.enter();
-		controller.undo();
-		controller.undo();
-		controller.undo();
+		controller.numericButton("3");
+		controller.sum();
+		//controller.changeSign();
+		controller.numericButton("2");
+		controller.enter();
+		controller.multiply();
 	}
 }

@@ -387,7 +387,7 @@ public class TestCalcModel
 		model.multiply();
 		model.divide();
 		assertEquals(model.getInputValue(), "0.5");				//Passes
-		assertEquals(model.getHistoryValue(), "2 ÷ (1 × 4)");	//Fails
+		assertEquals(model.getHistoryValue(), "2 ÷ (1 × 4) =");	//Fails
 	}
 	
 	/**
@@ -412,7 +412,7 @@ public class TestCalcModel
 		model.multiply();
 		model.divide();
 		assertEquals(model.getInputValue(), "1");					//Passes
-		assertEquals(model.getHistoryValue(), "(2 + 2) ÷ 2 × 2 =");	//Fails
+		assertEquals(model.getHistoryValue(), "(2 + 2) ÷ (2 × 2) =");	//Fails
 	}
 	
 	/**

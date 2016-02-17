@@ -12,10 +12,11 @@ public class CalcModel
 	private final String INITIAL_DISPLAYED_VALUE = "0";
 	private final String INITIAL_DISPLAYED_HISTORY = "start new calculation";
 	
-	private final String BINARY = "+- ×÷";	//The space in the middle is important for checking operator precedence
-	private final String UNARY  = "sincos!";
+	private final String BINARY = "+- × ÷";	//The space in the middle is important for checking operator precedence
+	private final String UNARY  = "sincos!CS";
 	private final String FACT	= "!";
 	private final String PI 	= "π";
+	private final String CHANGE_SIGN = "CS";
 	
 	private boolean valueResetFlag;		//true if inputValue needs to be reset, false if inputValue needs to be appended.
 	private boolean historyResetFlag; 	//true if historyValue needs to be reset, false if historyValue needs to be appended.
@@ -148,7 +149,7 @@ public class CalcModel
 			calcStack.push(result);
 			preStack.push(secondTop);
 			preStack.push(top);
-			historyStack.push(BINARY.charAt(4) + "");
+			historyStack.push(BINARY.charAt(5) + "");
 			printHistory();
 			updateOperationValue(result);
 		}
@@ -198,18 +199,33 @@ public class CalcModel
 	public void changeSign()
 	{
 		String value;
+		double top, result;
 		
-		value = getInputValue();
-		if(!value.isEmpty())
+		if(!valueResetFlag)
 		{
-			if((value.length() != 1) || (value.charAt(0) != '-'))
+			value = getInputValue();
+			if(!value.isEmpty())
 			{
-				if(value.charAt(0) == '-')
-					value = value.substring(1);
-				else
-					value = "-" + value;
-				updateOperationValue(Double.parseDouble(value));
+				if((value.length() != 1) || (value.charAt(0) != '-'))
+				{
+					if(value.charAt(0) == '-')
+						value = value.substring(1);
+					else
+						value = "-" + value;
+					updateOperationValue(Double.parseDouble(value));
+				}
 			}
+		}
+		else
+		{
+			top = calcStack.pop();
+			result = -1 * top;
+			calcStack.push(result);
+			preStack.push(top);
+			historyStack.push(CHANGE_SIGN);
+			printHistory();
+			updateOperationValue(result);
+		
 		}
 	}
 	
@@ -389,6 +405,8 @@ public class CalcModel
 		String value;
 		int commaPos;
 		int currentPrecedence;
+		int lastOperatorValue = 10;
+		String lastExpr = "";
 		
 		Stack<Integer> operatorStack = new Stack<Integer>();	//Holds precedence values for operators
 		historyValue = new StringBuilder();
@@ -455,6 +473,66 @@ public class CalcModel
 					}
 					else
 						historyValue.append(value);
+				}
+				else if(value.equals(CHANGE_SIGN))
+				{
+					if(BINARY.indexOf(historyStack.peek()) != -1 || historyStack.peek().equals(FACT))
+					{
+						lastOperatorValue = operatorStack.pop();
+						operatorStack.push(10);
+						commaPos = commaStack.pop();
+						if(commaPos == 0)
+						{
+							lastExpr = historyValue.substring(commaPos);
+							historyValue.insert(commaPos, "-(");
+						}
+						else
+						{
+							lastExpr = historyValue.substring(commaPos + 2);
+							historyValue.insert(commaPos + 2, "-(");
+						}
+						historyValue.append(")");
+						commaStack.push(commaPos);
+					}
+					else if(historyStack.peek().equals(CHANGE_SIGN))
+					{
+						int t = operatorStack.pop();
+						operatorStack.push(lastOperatorValue);
+						lastOperatorValue = t;
+						commaPos = commaStack.pop();
+						String temp = "";
+						if(commaPos == 0)
+							temp = historyValue.substring(commaPos);
+						else
+							temp = historyValue.substring(commaPos + 2);
+						if(commaPos == 0)
+							historyValue.replace(commaPos, historyValue.length(), lastExpr);
+						else
+							historyValue.replace(commaPos + 2, historyValue.length(), lastExpr);
+						lastExpr = temp;
+						commaStack.push(commaPos);
+					}
+					else
+					{
+						commaPos = commaStack.pop();
+						if(commaPos == 0)
+						{
+							lastExpr = historyValue.substring(commaPos);
+							if(historyValue.charAt(commaPos) == '-')
+								historyValue.deleteCharAt(commaPos);
+							else
+								historyValue.insert(commaPos, "-");
+						}
+						else
+						{
+							lastExpr = historyValue.substring(commaPos + 2);
+							if(historyValue.charAt(commaPos + 2) == '-')
+								historyValue.deleteCharAt(commaPos + 2);
+							else
+								historyValue.insert(commaPos + 2, "-");
+						}
+						commaStack.push(commaPos);
+					}
 				}
 				else
 				{	
