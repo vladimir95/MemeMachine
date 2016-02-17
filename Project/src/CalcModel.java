@@ -12,7 +12,7 @@ public class CalcModel
 	private final String INITIAL_DISPLAYED_VALUE = "0";
 	private final String INITIAL_DISPLAYED_HISTORY = "start new calculation";
 	
-	private final String BINARY = "+- */";	//The space in the middle is important for checking operator precedence
+	private final String BINARY = "+- ×÷";	//The space in the middle is important for checking operator precedence
 	private final String UNARY  = "sincos!";
 	private final String FACT	= "!";
 	private final String PI 	= "π";
@@ -119,7 +119,7 @@ public class CalcModel
 		calcStack.push(result);
 		preStack.push(secondTop);
 		preStack.push(top);
-		historyStack.push("*");
+		historyStack.push("×");
 		printHistory();
 		updateOperationValue(result);
 	}
@@ -148,7 +148,7 @@ public class CalcModel
 			calcStack.push(result);
 			preStack.push(secondTop);
 			preStack.push(top);
-			historyStack.push("/");
+			historyStack.push("÷");
 			printHistory();
 			updateOperationValue(result);
 		}
