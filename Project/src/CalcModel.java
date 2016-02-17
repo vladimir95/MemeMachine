@@ -197,10 +197,20 @@ public class CalcModel
 	 */
 	public void changeSign()
 	{
-		double value;
-		value = Double.parseDouble(getInputValue());
-		value *= -1;
-		updateOperationValue(value);
+		String value;
+		
+		value = getInputValue();
+		if(!value.isEmpty())
+		{
+			if((value.length() != 1) || (value.charAt(0) != '-'))
+			{
+				if(value.charAt(0) == '-')
+					value = value.substring(1);
+				else
+					value = "-" + value;
+				updateOperationValue(Double.parseDouble(value));
+			}
+		}
 	}
 	
 	/**
@@ -308,16 +318,16 @@ public class CalcModel
 			if(inputValue.length() == 0)
 				valueResetFlag = true;
 		}
+		else if(historyStack.empty())
+				clear();
 		else if(inputValue.length() == 0)
 		{
 			printHistory();
-			if(calcStack.empty())
+			/*if(calcStack.empty())
 				updateOperationValue(Double.parseDouble(INITIAL_DISPLAYED_VALUE));
-			else
+			else*/
 				updateOperationValue(calcStack.peek());
 		}
-		else if(historyStack.empty())
-				clear();
 		else
 		{
 			calcStack.pop();
@@ -336,7 +346,7 @@ public class CalcModel
 			}
 			printHistory();
 			if(calcStack.empty())
-				updateOperationValue(Double.parseDouble(INITIAL_DISPLAYED_VALUE));
+				clear();
 			else
 				updateOperationValue(calcStack.peek());
 		}

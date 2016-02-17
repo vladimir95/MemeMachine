@@ -8,17 +8,9 @@ public class CalcMain {
 		CalcController controller = new CalcController(); 
 	
 		controller.numericButton("2");
-		controller.factorial();
-		controller.numericButton(".");
-		controller.numericButton("5");
-		controller.numericButton(".");
-		controller.numericButton("5");
-		controller.pi();
-		controller.sine();
-		controller.cosine();
-		controller.numericButton("3");
-		controller.multiply();
-		controller.numericButton("3");
-		controller.sum();
+		controller.enter();
+		controller.undo();
+		controller.undo();
+		controller.undo();
 	}
 }
