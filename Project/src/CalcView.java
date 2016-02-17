@@ -38,8 +38,8 @@ public class CalcView extends JFrame {
 		b9 = new JButton("9");
 		bdot = new JButton(".");
 		bclear = new JButton("CLEAR");
-		bmultiply = new JButton("*"); // must be a "*" to not to look like "x" in TextField. 
-		bdivide = new JButton("/");
+		bmultiply = new JButton("×"); //**The new × is not actually an x, its a different character**
+		bdivide = new JButton("÷"); //**Andrew made a valid point that in the specs its a × and not a * and ÷ and not a /**
 		badd = new JButton("+");
 		bsubtract = new JButton("-");
 		benter = new JButton("ENTER");

@@ -12,7 +12,7 @@ public class CalcModel
 	private final String INITIAL_DISPLAYED_VALUE = "0";
 	private final String INITIAL_DISPLAYED_HISTORY = "start new calculation";
 	
-	private final String BINARY = "+- */";	//The space in the middle is important for checking operator precedence
+	private final String BINARY = "+- ×÷";	//The space in the middle is important for checking operator precedence
 	private final String UNARY  = "sincos!";
 	private final String FACT	= "!";
 	private final String PI 	= "π";
@@ -77,7 +77,7 @@ public class CalcModel
 		calcStack.push(sum);
 		preStack.push(secondTop);
 		preStack.push(top);
-		historyStack.push("+");
+		historyStack.push(BINARY.charAt(0) + "");
 		printHistory();
 		updateOperationValue(sum);
 	}
@@ -98,7 +98,7 @@ public class CalcModel
 		calcStack.push(diff);
 		preStack.push(secondTop);
 		preStack.push(top);
-		historyStack.push("-");
+		historyStack.push(BINARY.charAt(1) + "");
 		printHistory();
 		updateOperationValue(diff);
 	}
@@ -119,7 +119,7 @@ public class CalcModel
 		calcStack.push(result);
 		preStack.push(secondTop);
 		preStack.push(top);
-		historyStack.push("*");
+		historyStack.push(BINARY.charAt(3) + "");
 		printHistory();
 		updateOperationValue(result);
 	}
@@ -148,7 +148,7 @@ public class CalcModel
 			calcStack.push(result);
 			preStack.push(secondTop);
 			preStack.push(top);
-			historyStack.push("/");
+			historyStack.push(BINARY.charAt(4) + "");
 			printHistory();
 			updateOperationValue(result);
 		}
@@ -168,7 +168,7 @@ public class CalcModel
 		result = Math.sin(top);
 		calcStack.push(result);
 		preStack.push(top);
-		historyStack.push("sin");
+		historyStack.push(UNARY.substring(0, 3));
 		printHistory();
 		updateOperationValue(result);
 	}
@@ -187,7 +187,7 @@ public class CalcModel
 		result = Math.cos(top);
 		calcStack.push(result);
 		preStack.push(top);
-		historyStack.push("cos");
+		historyStack.push(UNARY.substring(3, 6));
 		printHistory();
 		updateOperationValue(result);
 	}
@@ -252,7 +252,7 @@ public class CalcModel
 					result *= i;
 			calcStack.push(result);
 			preStack.push(top);
-			historyStack.push("!");
+			historyStack.push(FACT);
 			printHistory();
 			updateOperationValue(result);
 		}
