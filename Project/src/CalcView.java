@@ -1,10 +1,12 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GridLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +25,7 @@ public class CalcView extends JFrame {
 	
 	JPanel numbers, buttons, operators, panel, panel2, mainpanel, left, right, bottom;
 	
+	Color mainColor, numberColor, operatorColor, functionColor, enterColor, buttonTextColor;
 	
 	public CalcView(final CalcController theController) throws MalformedURLException {
 		
@@ -73,15 +76,15 @@ public class CalcView extends JFrame {
 		b8 = new JButton("8");
 		b9 = new JButton("9");
 		bdot = new JButton(".");
-		bclear = new JButton("CLEAR");
+		bclear = new JButton("Clear");
 		bmultiply = new JButton("×"); 
 		bdivide = new JButton("÷"); 
 		badd = new JButton("+");
 		bsubtract = new JButton("-");
-		benter = new JButton("ENTER");
+		benter = new JButton("Enter");
 		bpi = new JButton("\u03C0");  
 		bfact = new JButton("n!");
-		bundo = new JButton("UNDO");
+		bundo = new JButton("Undo");
 		bsin = new JButton("sin"); 
 		bcos = new JButton("cos"); 
 		bx = new JButton("X"); 
@@ -89,7 +92,7 @@ public class CalcView extends JFrame {
 		bsign = new JButton("+/-"); 
 		
 		//Sample Test Button
-		btest = new JButton("SAMPLE TEST");
+		btest = new JButton("Sample Test");
 		
 		
 		//Increase specific buttons' fonts
@@ -109,8 +112,11 @@ public class CalcView extends JFrame {
 		display.setPreferredSize(s); 
 		
 		//TextFields Fonts
-		display.setFont(display.getFont().deriveFont(15f));
-		historyDisplay.setFont(display.getFont().deriveFont(15f));
+		//display.setFont(display.getFont().deriveFont(15f));
+		display.setFont(new Font("Arial Rounded", Font.BOLD,18));
+		//historyDisplay.setFont(display.getFont().deriveFont(15f));
+		historyDisplay.setFont(new Font("Arial Rounded", Font.BOLD,18));
+		
 		
 		//Panels 
 		numbers = new JPanel();
@@ -146,10 +152,11 @@ public class CalcView extends JFrame {
 	    numbers.add(b0);
 	    numbers.add(bpi);
 	    
-	    buttons.add(benter);
+	    
 	    buttons.add(bclear);
 	    buttons.add(bundo);
 	    buttons.add(btest); // Adding Test Button
+	    buttons.add(benter);
 	    //buttons.add(bx); 
 	    //buttons.add(bgraph);
 	    
@@ -260,6 +267,7 @@ public class CalcView extends JFrame {
 	
 	    frame.add(mainpanel);
 	    ViewDesign();
+	    buttonColor();
 	    frame.setResizable(false);
 	    frame.setVisible(true);
 		
@@ -283,6 +291,28 @@ public class CalcView extends JFrame {
 	 * 
 	 */
 	public void ViewDesign(){
+		mainColor = new Color(24,29,33); //Color of the panels with buttons and side spaces
+		
+		//UPPER PART WITH DISPLAYS
+		panel2.setBackground(Color.BLACK);  //sets the gap between the textfields black.
+		historyDisplay.setBackground(Color.BLACK); //sets the Background to black
+		historyDisplay.setForeground(Color.WHITE); //sets font to white
+		display.setBackground(Color.BLACK); //sets the Background to black
+		display.setForeground(Color.WHITE);	//sets font to white	
+		display.setBorder(null); //deletes the borders of the Fields
+		historyDisplay.setBorder(null); //same for historyDisplay.
+		
+		
+		//LOWER PART WITH BUTTONS
+		
+		//Set the panels to the color first
+		mainpanel.setBackground(mainColor); //sidespaces
+		panel.setBackground(mainColor);
+		numbers.setBackground(mainColor);
+		buttons.setBackground(mainColor);
+		operators.setBackground(mainColor);
+		
+		
 		
 	}
 	
@@ -294,5 +324,86 @@ public class CalcView extends JFrame {
 	public void setHistoryText(String historyValue) {
 		historyDisplay.setText(historyValue);
 		
+	}
+	
+	public void buttonColor(){
+		
+		numberColor = new Color(97,107,116);
+		buttonTextColor = new Color(250,251,255);
+		operatorColor = new Color(57,61,70);
+		functionColor = new Color(55,107,155);
+		enterColor = new Color(218,100,2);
+		
+		//DIGITS COLOR AND FORMATTING
+		ArrayList<JButton> digits = new ArrayList<JButton>();
+		digits.add(b0);
+		digits.add(b1);
+		digits.add(b2);
+		digits.add(b3);
+		digits.add(b4);
+		digits.add(b5);
+		digits.add(b6);
+		digits.add(b7);
+		digits.add(b8);
+		digits.add(b9);
+		digits.add(bdot);
+		digits.add(bpi);
+		
+		//for all numbers:
+		for (JButton b: digits){
+			b.setBackground(numberColor);
+			b.setForeground(buttonTextColor);
+			b.setFocusable(false); // The text of the button is not surrounded with a box
+			b.setBorder(null); // no surrounding border of the button
+			b.setFont(b.getFont().deriveFont(20f)); //Increase the font of the text of the buttons
+		}
+		
+		
+		//SIGNS COLOR AND FORMATTING -- BIGGER FONT THAN OTHERS BY 2 UNITS
+		ArrayList<JButton> signs = new ArrayList<JButton>();
+		signs.add(badd);
+		signs.add(bsubtract);
+		signs.add(bmultiply);
+		signs.add(bdivide);
+		
+		
+		//for all signs:
+		for (JButton b: signs){
+			b.setBackground(operatorColor);
+			b.setForeground(buttonTextColor);
+			b.setFocusable(false); // The text of the button is not surrounded with a box
+			b.setBorder(null); // no surrounding border of the button
+			b.setFont(b.getFont().deriveFont(22f)); //Increase the font of the text of the buttons
+			
+		}
+		
+		
+		//FUNCTIONS COLOR AND FORMATTING
+		ArrayList<JButton> functions = new ArrayList<JButton>();
+		functions.add(bclear);
+		functions.add(bundo);
+		functions.add(bsin);
+		functions.add(bcos);
+		functions.add(bfact);
+		functions.add(bsign);
+		functions.add(btest);
+				
+				
+		//for all functions:
+		for (JButton b: functions){
+			b.setBackground(functionColor);
+			b.setForeground(buttonTextColor);
+			b.setFocusable(false); // The text of the button is not surrounded with a box
+			b.setBorder(null); // no surrounding border of the button
+			b.setFont(b.getFont().deriveFont(20f)); //Increase the font of the text of the buttons
+	    }		
+		
+		
+		//ENTER BUTTON AND FORMATTING
+		benter.setBackground(enterColor);
+		benter.setForeground(buttonTextColor);
+		benter.setFocusable(false);
+		benter.setBorder(null);
+		benter.setFont(benter.getFont().deriveFont(20f));
 	}
 }
