@@ -64,7 +64,16 @@ public class CalcView extends JFrame {
 		bx = new JButton("X"); 
 		bgraph = new JButton("GRAPH");
 		bsign = new JButton("+/-"); //<-- ChangeSign Button!!!
-	
+		
+		
+		//Increase specific buttons' fonts
+		badd.setFont(new Font("Dialog", Font.PLAIN, 17));
+		bsubtract.setFont(new Font("Dialog", Font.PLAIN, 18));
+		bdivide.setFont(new Font("Dialog", Font.PLAIN, 18));
+		bmultiply.setFont(new Font("Dialog", Font.PLAIN, 18));
+		bsign.setFont(new Font("Dialog", Font.PLAIN, 17));
+		
+		
 		//TextAreas 
 		display = new JTextField("0",20); 
 		historyDisplay = new JTextField("xyn",20);
