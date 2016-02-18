@@ -102,7 +102,19 @@ public class CalcController {
 	
 	
 	public void sampleTest(){
-		//implement a sample test 
+		model.numericButton("5");
+		model.numericButton(".");
+		model.numericButton("2");
+		model.numericButton("5");
+		model.changeSign();
+		model.enter();
+		model.numericButton("6");
+		model.numericButton(".");
+		model.numericButton("4");
+		model.numericButton("7");
+		model.enter();
+		model.sum();
+		updateView();
 	}
 	
 	
