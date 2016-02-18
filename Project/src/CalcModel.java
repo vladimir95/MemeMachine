@@ -248,6 +248,11 @@ public class CalcModel
 			historyStack.push(PI);
 			printHistory();
 			updateOperationValue(Math.PI);
+			if (historyResetFlag)
+			{
+				historyValue = new StringBuilder();
+				historyResetFlag = false;
+			}
 		}
 	}
 	
