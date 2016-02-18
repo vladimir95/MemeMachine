@@ -1,6 +1,6 @@
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,15 +13,13 @@ public class CalcView extends JFrame {
 	JTextField display,historyDisplay;
 	//JTextField historyDisplay; <-- Should we use JTextArea, which allows multiple lines of
 												//text for history??
-	JPanel pad, commands, operators, operators2, mainpanel, buttonspanel, signs, graph;
-	
+	JPanel numbers, buttons, operators, panel, panel2, mainpanel, left, right, bottom;
 	
 	//Implement Controller first and then use it. 
 	//public CalcView (CalcController theController) {
 	
 	public CalcView() {
-		super("pizdec :)");
-		//setSize(480, 640);
+		super("Blyat!");
 		setSize(720, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -39,7 +37,7 @@ public class CalcView extends JFrame {
 		bdot = new JButton(".");
 		bclear = new JButton("CLEAR");
 		bmultiply = new JButton("×"); //**The new × is not actually an x, its a different character**
-		bdivide = new JButton("÷"); //**Andrew made a valid point that in the specs its a × and not a * and ÷ and not a /**
+		bdivide = new JButton("÷"); //**Andrew made a valid point that in the specs its a × and not a * and ÷ and not a /. Ball out Andrew!**
 		badd = new JButton("+");
 		bsubtract = new JButton("-");
 		benter = new JButton("ENTER");
@@ -54,76 +52,69 @@ public class CalcView extends JFrame {
 		
 		//TextAreas 
 		display = new JTextField("0",20); 
-		historyDisplay = new JTextField("xyu",20);
-		display.setSize(25,0);
-		//display.setEditable(false);    
-		historyDisplay.setSize(25,0);
-		//historyDisplay.setEditable(false); 
+		historyDisplay = new JTextField("xyn",20);
+		Dimension s = new Dimension(600,50);
+		display.setPreferredSize(s); 
 		
 		//Panels 
-		graph = new JPanel();
-		pad = new JPanel();
-		commands = new JPanel();
+		numbers = new JPanel();
+		buttons = new JPanel();
 		operators = new JPanel();
-		operators2 = new JPanel();
-		buttonspanel = new JPanel();
-	    mainpanel = new JPanel();
-	    signs = new JPanel();
-	  
-	    pad.setLayout(new GridLayout(2,2,10,10));
-	    pad.add(buttonspanel);
-	    pad.add(operators);
-	    pad.add(operators2);
-	    pad.add(commands);
-	    graph.add(bgraph);
-	    BoxLayout axis =new BoxLayout(mainpanel, BoxLayout.Y_AXIS) ;
+		panel = new JPanel();
+		panel2 = new JPanel();
+		mainpanel = new JPanel();
+		left = new JPanel();
+		right = new JPanel();
+		bottom = new JPanel();
+		
+	    numbers.setLayout(new GridLayout(4,3,3,3));
+	    operators.setLayout(new GridLayout(4,2,3,3));
+	    buttons.setLayout(new GridLayout(4,1,3,3));
+	    panel.setLayout(new GridLayout(3,1,10,10));
+	    panel2.setLayout(new GridLayout(2,1,10,10));
+	    mainpanel.setLayout(new BorderLayout(20,20));
+	    left.setLayout(new GridLayout(1,1,0,0));
+	    right.setLayout(new GridLayout(1,1,0,0));
+	    bottom.setLayout(new GridLayout(1,1,0,0));
 	    
-	    mainpanel.setLayout(axis);
-	    mainpanel.add(historyDisplay);
-	    mainpanel.add(display);
-	    mainpanel.add(pad);
-	    mainpanel.add(graph);
-	 
-	   
-	    buttonspanel.setLayout(new GridLayout(4,3,10,10));
-	    buttonspanel.add(b1);
-	    buttonspanel.add(b2);
-	    buttonspanel.add(b3);
-	    buttonspanel.add(b4);
-	    buttonspanel.add(b5);
-	    buttonspanel.add(b6);
-	    buttonspanel.add(b7);
-	    buttonspanel.add(b8);
-	    buttonspanel.add(b9);
-	    buttonspanel.add(bdot);
-	    buttonspanel.add(b0);
-	    buttonspanel.add(bpi);
+	    numbers.add(b1);
+	    numbers.add(b2);
+	    numbers.add(b3);
+	    numbers.add(b4);
+	    numbers.add(b5);
+	    numbers.add(b6);
+	    numbers.add(b7);
+	    numbers.add(b8);
+	    numbers.add(b9);
+	    numbers.add(b0);
+	    numbers.add(bdot);
+	    numbers.add(bpi);
 	    
-	    graph.setLayout(new GridLayout(2,2,10,10));
-	   
-	    operators.setLayout(new GridLayout(2,2,10,10));
-	    operators2.add(bclear);
-	    operators2.add(bundo);
-	    operators.add(signs);
-	    operators2.setLayout(new GridLayout(2,2,10,10));
-	    signs.setLayout(new GridLayout(2,2,10,10));
-	    signs.add(badd);
-	    signs.add(bsubtract);
-	    signs.add(bmultiply);
-	    signs.add(bdivide);
-	    operators.add(benter);
-	    bclear.setMaximumSize(signs.getMaximumSize());
-	    bclear.setMinimumSize(signs.getMaximumSize());
-	    bundo.setMaximumSize(signs.getMaximumSize());
-	    bundo.setMinimumSize(signs.getMaximumSize());
-	    benter.setMaximumSize(signs.getMaximumSize());
-	    benter.setMinimumSize(signs.getMaximumSize());
-	    commands.setLayout(new GridLayout(2,2,10,10));
-	  
-	    commands.add(bsin);
-	    commands.add(bcos);
-	    commands.add(bfact);
-	    commands.add(bx);
+	    buttons.add(benter);
+	    buttons.add(bclear);
+	    buttons.add(bundo);
+	    buttons.add(bgraph);
+	    
+	    operators.add(badd);
+	    operators.add(bsubtract);
+	    operators.add(bmultiply);
+	    operators.add(bdivide);
+	    operators.add(bsin);
+	    operators.add(bcos);
+	    operators.add(bfact);
+	    operators.add(bx);
+	    
+	    panel2.add(display);
+	    panel2.add(historyDisplay);
+	    panel.add(numbers);
+	    panel.add(operators);
+	    panel.add(buttons);
+	    mainpanel.add(panel2 , BorderLayout.NORTH);
+	    mainpanel.add(panel, BorderLayout.CENTER);
+	    mainpanel.add(left, BorderLayout.EAST);
+	    mainpanel.add(right, BorderLayout.WEST);
+	    mainpanel.add(bottom, BorderLayout.SOUTH);
+	    
 	    this.setResizable(false);
 	    this.add(mainpanel);
 	    MyButtonAdapter(); //<-- Runs the Button Adapter thing.
@@ -224,6 +215,8 @@ public class CalcView extends JFrame {
 		       public void pressed(){ theController.numericButton(b9.getName());}});
 		
 	}
+	
+	
 	
 	/*
 	 * Check if these work properly!
