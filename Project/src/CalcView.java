@@ -22,7 +22,7 @@ public class CalcView extends JFrame {
 	public CalcView(final CalcController theController) {
 		JFrame frame = new JFrame();
 		String title = "Blyat!";
-		frame.setSize(720, 720);
+		frame.setSize(640, 720);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		frame.setFont(new Font("System", Font.PLAIN, 14));
