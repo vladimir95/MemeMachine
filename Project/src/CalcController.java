@@ -5,14 +5,11 @@ public class CalcController {
 	
 	public CalcController()
 	{
-		//view = new CalcView(this); --> after we're done with View
 		view = new CalcView(this);
 		model = new CalcModel();
 		model.clear();
 		updateView();
-		//view.setVisible(true); --> Option of launching the view from Controller. 
-		// I guess we could do it this way, but only when the View is fully implemented. 
-	}
+	}	
 	
 	public void updateView()
 	{

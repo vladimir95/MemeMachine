@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,9 +20,23 @@ public class CalcView extends JFrame {
 	//Implement Controller first and then use it. 
 	@SuppressWarnings("serial") 
 	public CalcView(final CalcController theController) {
-		super("Blyat!");
-		setSize(720, 720);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		JFrame frame = new JFrame();
+		String title = "Blyat!";
+		frame.setSize(720, 720);
+		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		frame.setFont(new Font("System", Font.PLAIN, 14));
+		Font font = frame.getFont();
+		FontMetrics fm = frame.getFontMetrics(font);
+		int x = fm.stringWidth(title);
+		int y = fm.stringWidth(" ");
+		int z = frame.getWidth()/2 - (x/2);
+		int w = z/y;
+		String name ="";
+		name = String.format("%"+w+"s", name);
+		frame.setTitle(name+title);
+		
+
 		
 		//Buttons
 		b0 = new JButton("0");
@@ -48,10 +64,12 @@ public class CalcView extends JFrame {
 		bx = new JButton("x"); 
 		bgraph = new JButton("GRAPH");
 		bsign = new JButton("+/-"); //<-- ChangeSign Button!!!
-		
+	
 		//TextAreas 
 		display = new JTextField("0",20); 
 		historyDisplay = new JTextField("xyn",20);
+		display.setEditable(false);
+		historyDisplay.setEditable(false);
 		Dimension s = new Dimension(600,50);
 		display.setPreferredSize(s); 
 		
@@ -161,65 +179,49 @@ public class CalcView extends JFrame {
 		       public void pressed(){ theController.x();}});
 		
 		add(new ButtonAdapter(bdot) { 
-		       public void pressed(){ theController.numericButton(bdot.getName());}});
+		       public void pressed(){ theController.numericButton(bdot.getText());}});
 		
 		add(new ButtonAdapter(b0) {
-		       public void pressed(){ theController.numericButton(b0.getName());}});
+		       public void pressed(){ theController.numericButton(b0.getText());}});
 		
 		add(new ButtonAdapter(b1) {
-		       public void pressed(){ theController.numericButton(b1.getName());}});
+		       public void pressed(){ theController.numericButton(b1.getText());}});
 		
 		add(new ButtonAdapter(b2) {
-		       public void pressed(){ theController.numericButton(b2.getName());}});
+		       public void pressed(){ theController.numericButton(b2.getText());}});
 		
 		add(new ButtonAdapter(b3) {
-		       public void pressed(){ theController.numericButton(b3.getName());}});
+		       public void pressed(){ theController.numericButton(b3.getText());}});
 		
 		add(new ButtonAdapter(b4) {
-		       public void pressed(){ theController.numericButton(b4.getName());}});
+		       public void pressed(){ theController.numericButton(b4.getText());}});
 		
 		add(new ButtonAdapter(b5) {
-		       public void pressed(){ theController.numericButton(b5.getName());}});
+		       public void pressed(){ theController.numericButton(b5.getText());}});
 		
 		add(new ButtonAdapter(b6) {
-		       public void pressed(){ theController.numericButton(b6.getName());}});
+		       public void pressed(){ theController.numericButton(b6.getText());}});
 		
 		add(new ButtonAdapter(b7) {
-		       public void pressed(){ theController.numericButton(b7.getName());}});
+		       public void pressed(){ theController.numericButton(b7.getText());}});
 		
 		add(new ButtonAdapter(b8) {
-		       public void pressed(){ theController.numericButton(b8.getName());}});
+		       public void pressed(){ theController.numericButton(b8.getText());}});
 		
 		add(new ButtonAdapter(b9) {
-		       public void pressed(){ theController.numericButton(b9.getName());}});	    
+		       public void pressed(){ theController.numericButton(b9.getText());}});	    
 	    
 	    
 	    
 	    
-	    this.setResizable(false);
-	    this.add(mainpanel);
-	    //MyButtonAdapter(theController); //<-- Runs the Button Adapter thing.
-	    this.setVisible(true);
+	    frame.setResizable(false);
+	    frame.add(mainpanel);
+	    frame.setVisible(true);
 		
 	}
-	/**
-	 * We will not need this method eventually, as the View will be launched from Controller
-	 * @param args
-	 */
-	/*
-	 * @Suppress warnings shit allows us to not to create some final long ID for 
-	 * every single buttonAdapter
-	 */
+
 	
 	
-		
-	
-	
-	
-	/*
-	 * Check if these work properly!
-	 * @param inputValue
-	 */
 	public void setDisplayText(String inputValue) {
 		display.setText(inputValue);
 		
