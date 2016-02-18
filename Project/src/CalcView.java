@@ -16,9 +16,8 @@ public class CalcView extends JFrame {
 	JPanel numbers, buttons, operators, panel, panel2, mainpanel, left, right, bottom;
 	
 	//Implement Controller first and then use it. 
-	//public CalcView (CalcController theController) {
-	
-	public CalcView() {
+	@SuppressWarnings("serial") 
+	public CalcView(final CalcController theController) {
 		super("Blyat!");
 		setSize(720, 720);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -115,30 +114,9 @@ public class CalcView extends JFrame {
 	    mainpanel.add(right, BorderLayout.WEST);
 	    mainpanel.add(bottom, BorderLayout.SOUTH);
 	    
-	    this.setResizable(false);
-	    this.add(mainpanel);
-	    //MyButtonAdapter(); //<-- Runs the Button Adapter thing.
-	    this.setVisible(true);
-		
-	}
-	/**
-	 * We will not need this method eventually, as the View will be launched from Controller
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		CalcView c = new CalcView();
-	}
-
-	/*
-	 * @Suppress warnings shit allows us to not to create some final long ID for 
-	 * every single buttonAdapter
-	 */
-	/*
-	@SuppressWarnings("serial") 
-	public void MyButtonAdapter() {
-		
-		add(new ButtonAdapter(badd) {
+	    
+	    
+	    add(new ButtonAdapter(badd) {
 		       public void pressed(){ theController.sum();}});
 		
 		add(new ButtonAdapter(bsubtract) {
@@ -213,10 +191,29 @@ public class CalcView extends JFrame {
 		       public void pressed(){ theController.numericButton(b8.getName());}});
 		
 		add(new ButtonAdapter(b9) {
-		       public void pressed(){ theController.numericButton(b9.getName());}});
+		       public void pressed(){ theController.numericButton(b9.getName());}});	    
+	    
+	    
+	    
+	    
+	    this.setResizable(false);
+	    this.add(mainpanel);
+	    //MyButtonAdapter(theController); //<-- Runs the Button Adapter thing.
+	    this.setVisible(true);
 		
 	}
-	*/
+	/**
+	 * We will not need this method eventually, as the View will be launched from Controller
+	 * @param args
+	 */
+	/*
+	 * @Suppress warnings shit allows us to not to create some final long ID for 
+	 * every single buttonAdapter
+	 */
+	
+	
+		
+	
 	
 	
 	/*

@@ -6,7 +6,7 @@ public class CalcController {
 	public CalcController()
 	{
 		//view = new CalcView(this); --> after we're done with View
-		view = new CalcView();
+		view = new CalcView(this);
 		model = new CalcModel();
 		model.clear();
 		updateView();
