@@ -3,6 +3,8 @@ public class CalcController {
 	private CalcView view;
 	private CalcModel model; 
 	
+	//Implement Sample Test method!
+	
 	public CalcController()
 	{
 		view = new CalcView(this);
@@ -96,7 +98,13 @@ public class CalcController {
 		updateView();
 	}
 	
-	public void x()
+	
+	public void sampleTest(){
+		//implement a sample test 
+	}
+	
+	
+	public void x() 
 	{ 		
 		//Not specified yet
 	}
