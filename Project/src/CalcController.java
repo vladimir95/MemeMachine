@@ -14,7 +14,7 @@ public class CalcController {
 		// I guess we could do it this way, but only when the View is fully implemented. 
 	}
 	
-	public void updateView()
+	private void updateView()
 	{
 		//view.setHistoryText(model.getHistoryValue()); 
 		//view.setDisplayText(model.getInputValue());  
