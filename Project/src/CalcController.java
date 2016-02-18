@@ -1,3 +1,5 @@
+import java.net.MalformedURLException;
+
 public class CalcController {
 
 	private CalcView view;
@@ -5,7 +7,7 @@ public class CalcController {
 	
 	//Implement Sample Test method!
 	
-	public CalcController()
+	public CalcController() throws MalformedURLException
 	{
 		view = new CalcView(this);
 		model = new CalcModel();

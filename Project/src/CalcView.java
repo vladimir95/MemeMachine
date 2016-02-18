@@ -3,6 +3,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GridLayout;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,7 +24,7 @@ public class CalcView extends JFrame {
 	JPanel numbers, buttons, operators, panel, panel2, mainpanel, left, right, bottom;
 	
 	
-	public CalcView(final CalcController theController) {
+	public CalcView(final CalcController theController) throws MalformedURLException {
 		
 		//Initialize the Frame
 		JFrame frame = new JFrame();
@@ -42,7 +45,21 @@ public class CalcView extends JFrame {
 		name = String.format("%"+w+"s", name);
 		frame.setTitle(name+title);
 		
-
+		//Icon of the Frame
+		
+		//Link to Icon on Vlad's computer, just in case.
+		String path = "C:\\Users\\Vlad\\Desktop\\Vova`s homework\\Uni\\EECS2311\\icon.png";
+		path.replace("\\", "/");
+		
+		//Link to the GitHub Icon
+		String link = "https://github.com/vladimir95/MemeMachine/"
+				+ "blob/d85ca81f90875211d3c33dbba35bf143b91ea5e0/icon.png?raw=true";
+		URL url = new URL(link);
+		
+		ImageIcon ic = new ImageIcon(url);
+		frame.setIconImage(ic.getImage());
+		
+		
 		
 		//Buttons
 		b0 = new JButton("0");
