@@ -115,7 +115,7 @@ public class CalcView extends JFrame {
 	    mainpanel.add(bottom, BorderLayout.SOUTH);
 	    
 	    
-	    
+	    //ButtonAdapters
 	    add(new ButtonAdapter(badd) {
 		       public void pressed(){ theController.sum();}});
 		

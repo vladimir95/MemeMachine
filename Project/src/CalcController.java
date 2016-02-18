@@ -16,9 +16,9 @@ public class CalcController {
 	
 	public void updateView()
 	{
-		//view.setHistoryText(model.getHistoryValue()); 
-		//view.setDisplayText(model.getInputValue());  
-		System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue()); // temporary output to console for testing purposes
+		view.setHistoryText(model.getHistoryValue()); 
+		view.setDisplayText(model.getInputValue());  
+		//System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue()); // temporary output to console for testing purposes
 	}
 
 	public void sum()
