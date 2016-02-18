@@ -4,7 +4,6 @@ public class CalcMain {
 	{
 		//Main app in which the controller will be instantiated
 		CalcController controller = new CalcController(); 
-	
 		/*controller.numericButton("2");
 		controller.enter();
 		controller.numericButton("3");

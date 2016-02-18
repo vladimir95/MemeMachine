@@ -10,7 +10,7 @@ public class CalcModel
 	private Stack<Double> preStack;		//stack that holds the numeric value of previous calculations and input
 	
 	private final String INITIAL_DISPLAYED_VALUE = "0";
-	private final String INITIAL_DISPLAYED_HISTORY = "start new calculation";
+	private final String INITIAL_DISPLAYED_HISTORY = "Start New Calculation";
 	
 	private final String BINARY = "+- × ÷";	//The space in the middle is important for checking operator precedence
 	private final String UNARY  = "sincos!CS";
