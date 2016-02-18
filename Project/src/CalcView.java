@@ -134,6 +134,7 @@ public class CalcView extends JFrame {
 	 * @Suppress warnings shit allows us to not to create some final long ID for 
 	 * every single buttonAdapter
 	 */
+	/*
 	@SuppressWarnings("serial") 
 	public void MyButtonAdapter() {
 		
@@ -215,7 +216,7 @@ public class CalcView extends JFrame {
 		       public void pressed(){ theController.numericButton(b9.getName());}});
 		
 	}
-	
+	*/
 	
 	
 	/*
