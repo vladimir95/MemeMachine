@@ -244,6 +244,17 @@ public class CalcView extends JFrame {
 		
 	}
 	
+	/**
+	 *
+	 * Vince, implement this method
+	 * 
+	 */
+	
+	public void changeButtonTextColour(){
+		
+		
+	}
+	
 	
 	/**
 	 * 
