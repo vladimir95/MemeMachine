@@ -104,7 +104,7 @@ public class CalcView extends JFrame {
 		
 	    numbers.setLayout(new GridLayout(4,3,3,3));
 	    operators.setLayout(new GridLayout(4,2,3,3));
-	    buttons.setLayout(new GridLayout(4,1,3,3)); //Grid Layout was changed accordingly
+	    buttons.setLayout(new GridLayout(4,1,3,3)); //Grid Layout was changed accordingly for the Test button
 	    panel.setLayout(new GridLayout(3,1,10,10));
 	    panel2.setLayout(new GridLayout(2,1,10,10));
 	    mainpanel.setLayout(new BorderLayout(20,20));
@@ -243,7 +243,13 @@ public class CalcView extends JFrame {
 	    frame.setVisible(true);
 		
 	}
-
+	
+	
+	/**
+	 * 
+	 * Method for making it look good. Will implement later. 
+	 * 
+	 */
 	public void ViewDesign(){
 		
 	}
