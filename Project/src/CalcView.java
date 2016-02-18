@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial") 
 public class CalcView extends JFrame {
 	JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bdot,bclear,bmultiply,bdivide,badd,bsubtract,benter,
-									bpi,bfact, bundo, bsin, bcos, bx, bgraph, bsign;
+									bpi,bfact, bundo, bsin, bcos, bx, bgraph, bsign, btest;
 	JTextField display,historyDisplay;
 	
 	JPanel numbers, buttons, operators, panel, panel2, mainpanel, left, right, bottom;
@@ -21,7 +21,7 @@ public class CalcView extends JFrame {
 		
 		//Initialize the Frame
 		JFrame frame = new JFrame();
-		String title = "Blyat!";
+		String title = "RektBox 360";
 		frame.setSize(640, 720);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -53,8 +53,8 @@ public class CalcView extends JFrame {
 		b9 = new JButton("9");
 		bdot = new JButton(".");
 		bclear = new JButton("CLEAR");
-		bmultiply = new JButton("×"); //**The new × is not actually an x, its a different character**
-		bdivide = new JButton("÷"); //**Andrew made a valid point that in the specs its a × and not a * and ÷ and not a /. Ball out Andrew!**
+		bmultiply = new JButton("×"); 
+		bdivide = new JButton("÷"); 
 		badd = new JButton("+");
 		bsubtract = new JButton("-");
 		benter = new JButton("ENTER");
@@ -65,7 +65,10 @@ public class CalcView extends JFrame {
 		bcos = new JButton("cos"); 
 		bx = new JButton("X"); 
 		bgraph = new JButton("GRAPH");
-		bsign = new JButton("+/-"); //<-- ChangeSign Button!!!
+		bsign = new JButton("+/-"); 
+		
+		//Sample Test Button
+		btest = new JButton("SAMPLE TEST");
 		
 		
 		//Increase specific buttons' fonts
@@ -101,7 +104,7 @@ public class CalcView extends JFrame {
 		
 	    numbers.setLayout(new GridLayout(4,3,3,3));
 	    operators.setLayout(new GridLayout(4,2,3,3));
-	    buttons.setLayout(new GridLayout(5,1,3,3));
+	    buttons.setLayout(new GridLayout(4,1,3,3)); //Grid Layout was changed accordingly
 	    panel.setLayout(new GridLayout(3,1,10,10));
 	    panel2.setLayout(new GridLayout(2,1,10,10));
 	    mainpanel.setLayout(new BorderLayout(20,20));
@@ -125,8 +128,9 @@ public class CalcView extends JFrame {
 	    buttons.add(benter);
 	    buttons.add(bclear);
 	    buttons.add(bundo);
-	    buttons.add(bx);
-	    buttons.add(bgraph);
+	    buttons.add(btest); // Adding Test Button
+	    //buttons.add(bx); 
+	    //buttons.add(bgraph);
 	    
 	    operators.add(badd);
 	    operators.add(bsubtract);
@@ -171,7 +175,7 @@ public class CalcView extends JFrame {
 		add(new ButtonAdapter(benter) {
 		       public void pressed(){ theController.enter();}});
 		
-		//Leave it as blank method in Controller/Model?
+		//Leave it as blank method in Controller/Model
 		add(new ButtonAdapter(bgraph) { 
 		       public void pressed(){ theController.graph();}});
 		
@@ -190,7 +194,7 @@ public class CalcView extends JFrame {
 		add(new ButtonAdapter(bsign) {
 		       public void pressed(){ theController.changeSign();}});
 		
-		//Leave it as blank method in Controller/Model?
+		//Leave it as blank method in Controller/Model
 		add(new ButtonAdapter(bx) { 
 		       public void pressed(){ theController.x();}});
 		
@@ -227,7 +231,9 @@ public class CalcView extends JFrame {
 		add(new ButtonAdapter(b9) {
 		       public void pressed(){ theController.numericButton(b9.getText());}});	    
 	    
-	    
+		//SampleTest Button ButtonAdapter  
+		add(new ButtonAdapter(btest) {
+		       public void pressed(){ theController.sampleTest();}});
 	    
 	    
 	
