@@ -152,7 +152,7 @@ public class CalcView extends JFrame {
 	    numbers.add(b0);
 	    numbers.add(bpi);
 	    
-	    
+	    //SWITCHED ALIGNMENT OF ENTER BUTTONS
 	    buttons.add(bclear);
 	    buttons.add(bundo);
 	    buttons.add(btest); // Adding Test Button
@@ -387,6 +387,8 @@ public class CalcView extends JFrame {
 		functions.add(bfact);
 		functions.add(bsign);
 		functions.add(btest);
+		functions.add(bgraph); //Will be same color as other function buttons
+		functions.add(bx); //Will be same color as other function buttons
 				
 				
 		//for all functions:
