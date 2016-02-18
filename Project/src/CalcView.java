@@ -61,7 +61,7 @@ public class CalcView extends JFrame {
 		bundo = new JButton("UNDO");
 		bsin = new JButton("sin"); 
 		bcos = new JButton("cos"); 
-		bx = new JButton("x"); 
+		bx = new JButton("X"); 
 		bgraph = new JButton("GRAPH");
 		bsign = new JButton("+/-"); //<-- ChangeSign Button!!!
 	
