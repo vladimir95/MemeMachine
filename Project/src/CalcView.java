@@ -117,7 +117,7 @@ public class CalcView extends JFrame {
 	    
 	    this.setResizable(false);
 	    this.add(mainpanel);
-	    MyButtonAdapter(); //<-- Runs the Button Adapter thing.
+	    //MyButtonAdapter(); //<-- Runs the Button Adapter thing.
 	    this.setVisible(true);
 		
 	}
