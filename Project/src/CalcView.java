@@ -86,8 +86,8 @@ public class CalcView extends JFrame {
 	    numbers.add(b7);
 	    numbers.add(b8);
 	    numbers.add(b9);
-	    numbers.add(b0);
 	    numbers.add(bdot);
+	    numbers.add(b0);
 	    numbers.add(bpi);
 	    
 	    buttons.add(benter);
