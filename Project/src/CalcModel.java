@@ -604,6 +604,11 @@ public class CalcModel
 				calcStack.push(top);
 			}
 		}
+		if (historyResetFlag)
+		{
+			historyValue = new StringBuilder();
+			historyResetFlag = false;
+		}
 	}
 	
 	/**
@@ -617,6 +622,11 @@ public class CalcModel
 			calcStack.push(0.0);
 			historyStack.push("0");
 		}
+		if (historyResetFlag)
+		{
+			historyValue = new StringBuilder();
+			historyResetFlag = false;
+		}
 	}
 	
 	/**
@@ -625,7 +635,7 @@ public class CalcModel
 	 */
 	private void updateOperationValue(double result)
 	{
-		if(result == Math.floor(result))
+		if(result == Math.floor(result) && !(result > Integer.MAX_VALUE) && !(result < Integer.MIN_VALUE))
 			inputValue = new StringBuilder(Integer.toString((int)result));
 		else
 			inputValue = new StringBuilder(Double.toString(result));
