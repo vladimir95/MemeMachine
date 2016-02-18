@@ -145,8 +145,8 @@ public class CalcView extends JFrame {
 	    operators.add(bfact);
 	    operators.add(bsign);
 	    
-	    panel2.add(display);
 	    panel2.add(historyDisplay);
+	    panel2.add(display);
 	    panel.add(numbers);
 	    panel.add(operators);
 	    panel.add(buttons);

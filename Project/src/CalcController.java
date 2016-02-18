@@ -13,7 +13,7 @@ public class CalcController {
 		updateView();
 	}	
 	
-	public void updateView()
+	private void updateView()
 	{
 		view.setHistoryText(model.getHistoryValue()); 
 		view.setDisplayText(model.getInputValue());  

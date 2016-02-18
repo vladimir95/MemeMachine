@@ -139,8 +139,10 @@ public class CalcModel
 		top = calcStack.pop();
 		if(top == 0)
 		{
-			clear();
 			inputValue = new StringBuilder("MATH ERROR");
+			historyStack.push(BINARY.charAt(5) + "");
+			printHistory();
+			clear();
 		}
 		else
 		{
@@ -248,6 +250,11 @@ public class CalcModel
 			historyStack.push(PI);
 			printHistory();
 			updateOperationValue(Math.PI);
+			if (historyResetFlag)
+			{
+				historyValue = new StringBuilder();
+				historyResetFlag = false;
+			}
 		}
 	}
 	
@@ -265,8 +272,10 @@ public class CalcModel
 		top = calcStack.pop();
 		if(top < 0 || top != Math.floor(top))
 		{
-			clear();
 			inputValue = new StringBuilder("MATH ERROR");
+			historyStack.push(FACT);
+			printHistory();
+			clear();
 		}
 		else
 		{
@@ -307,15 +316,28 @@ public class CalcModel
 	 */
 	public void clear()
 	{
-		inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
-		historyValue = new StringBuilder(INITIAL_DISPLAYED_HISTORY);
-		calcStack = new Stack<Double>();
-		historyStack = new Stack<String>();
-		printStack = new Stack<String>();
-		preStack = new Stack<Double>();
-		commaStack = new Stack<Integer>();
-		valueResetFlag = true;
-		historyResetFlag = true;
+		if(inputValue.toString().equals("MATH ERROR"))
+		{
+			calcStack = new Stack<Double>();
+			historyStack = new Stack<String>();
+			printStack = new Stack<String>();
+			preStack = new Stack<Double>();
+			commaStack = new Stack<Integer>();
+			valueResetFlag = true;
+			historyResetFlag = true;
+		}
+		else
+		{
+			inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
+			historyValue = new StringBuilder(INITIAL_DISPLAYED_HISTORY);
+			calcStack = new Stack<Double>();
+			historyStack = new Stack<String>();
+			printStack = new Stack<String>();
+			preStack = new Stack<Double>();
+			commaStack = new Stack<Integer>();
+			valueResetFlag = true;
+			historyResetFlag = true;
+		}
 	}
 	
 	/**
@@ -599,6 +621,11 @@ public class CalcModel
 				calcStack.push(top);
 			}
 		}
+		if (historyResetFlag)
+		{
+			historyValue = new StringBuilder();
+			historyResetFlag = false;
+		}
 	}
 	
 	/**
@@ -612,6 +639,11 @@ public class CalcModel
 			calcStack.push(0.0);
 			historyStack.push("0");
 		}
+		if (historyResetFlag)
+		{
+			historyValue = new StringBuilder();
+			historyResetFlag = false;
+		}
 	}
 	
 	/**
@@ -620,7 +652,7 @@ public class CalcModel
 	 */
 	private void updateOperationValue(double result)
 	{
-		if(result == Math.floor(result))
+		if(result == Math.floor(result) && !(result > Integer.MAX_VALUE) && !(result < Integer.MIN_VALUE))
 			inputValue = new StringBuilder(Integer.toString((int)result));
 		else
 			inputValue = new StringBuilder(Double.toString(result));
