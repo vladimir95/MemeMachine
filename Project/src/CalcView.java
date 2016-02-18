@@ -8,23 +8,25 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
+@SuppressWarnings("serial") 
 public class CalcView extends JFrame {
 	JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bdot,bclear,bmultiply,bdivide,badd,bsubtract,benter,
 									bpi,bfact, bundo, bsin, bcos, bx, bgraph, bsign;
 	JTextField display,historyDisplay;
-	//JTextField historyDisplay; <-- Should we use JTextArea, which allows multiple lines of
-												//text for history??
+	
 	JPanel numbers, buttons, operators, panel, panel2, mainpanel, left, right, bottom;
 	
-	//Implement Controller first and then use it. 
-	@SuppressWarnings("serial") 
+	
 	public CalcView(final CalcController theController) {
+		
+		//Initialize the Frame
 		JFrame frame = new JFrame();
 		String title = "Blyat!";
-		frame.setSize(720, 720);
+		frame.setSize(640, 720);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		
+		//Put the name of the Frame in the middle
 		frame.setFont(new Font("System", Font.PLAIN, 14));
 		Font font = frame.getFont();
 		FontMetrics fm = frame.getFontMetrics(font);
@@ -74,13 +76,17 @@ public class CalcView extends JFrame {
 		bsign.setFont(new Font("Dialog", Font.PLAIN, 17));
 		
 		
-		//TextAreas 
-		display = new JTextField("0",20); 
-		historyDisplay = new JTextField("xyn",20);
+		//TextFields 
+		display = new JTextField("",30); 
+		historyDisplay = new JTextField("",30);
 		display.setEditable(false);
 		historyDisplay.setEditable(false);
 		Dimension s = new Dimension(600,50);
 		display.setPreferredSize(s); 
+		
+		//TextFields Fonts
+		display.setFont(display.getFont().deriveFont(15f));
+		historyDisplay.setFont(display.getFont().deriveFont(15f));
 		
 		//Panels 
 		numbers = new JPanel();
@@ -224,13 +230,17 @@ public class CalcView extends JFrame {
 	    
 	    
 	    
-	    frame.setResizable(false);
+	
 	    frame.add(mainpanel);
+	    ViewDesign();
+	    frame.setResizable(false);
 	    frame.setVisible(true);
 		
 	}
 
-	
+	public void ViewDesign(){
+		
+	}
 	
 	public void setDisplayText(String inputValue) {
 		display.setText(inputValue);
