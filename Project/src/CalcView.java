@@ -19,8 +19,10 @@ import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial") 
 public class CalcView extends JFrame {
+	
 	JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bdot,bclear,bmultiply,bdivide,badd,bsubtract,benter,
 									bpi,bfact, bundo, bsin, bcos, bx, bgraph, bsign, btest;
+	
 	JTextField display,historyDisplay;
 	
 	JPanel numbers, buttons, operators, panel, panel2, mainpanel, left, right, bottom;
@@ -50,7 +52,7 @@ public class CalcView extends JFrame {
 		
 		//Icon of the Frame
 		
-		//Link to Icon on Vlad's computer, just in case.
+		//Link to Icon on Vlad's computer, just in case. We will use it in case if we dont have wifi or smth...
 		String path = "C:\\Users\\Vlad\\Desktop\\Vova`s homework\\Uni\\EECS2311\\icon.png";
 		path.replace("\\", "/");
 		
@@ -112,9 +114,7 @@ public class CalcView extends JFrame {
 		display.setPreferredSize(s); 
 		
 		//TextFields Fonts
-		//display.setFont(display.getFont().deriveFont(15f));
 		display.setFont(new Font("Arial Rounded", Font.BOLD,18));
-		//historyDisplay.setFont(display.getFont().deriveFont(15f));
 		historyDisplay.setFont(new Font("Arial Rounded", Font.BOLD,18));
 		
 		
@@ -266,31 +266,27 @@ public class CalcView extends JFrame {
 	    
 	
 	    frame.add(mainpanel);
-	    ViewDesign();
+	    betterViewDesign();
 	    buttonColor();
 	    frame.setResizable(false);
 	    frame.setVisible(true);
 		
 	}
 	
-	/**
-	 *
-	 * Vince, implement this method
-	 * 
-	 */
-	
-	public void changeButtonTextColour(){
+
+	public void setDisplayText(String inputValue) {
+		display.setText(inputValue);
 		
+	}
+	
+	public void setHistoryText(String historyValue) {
+		historyDisplay.setText(historyValue);
 		
 	}
 	
 	
-	/**
-	 * 
-	 * Method for making it look good. Will implement later. 
-	 * 
-	 */
-	public void ViewDesign(){
+
+	public void betterViewDesign(){
 		mainColor = new Color(24,29,33); //Color of the panels with buttons and side spaces
 		
 		//UPPER PART WITH DISPLAYS
@@ -316,15 +312,6 @@ public class CalcView extends JFrame {
 		
 	}
 	
-	public void setDisplayText(String inputValue) {
-		display.setText(inputValue);
-		
-	}
-	
-	public void setHistoryText(String historyValue) {
-		historyDisplay.setText(historyValue);
-		
-	}
 	
 	public void buttonColor(){
 		
