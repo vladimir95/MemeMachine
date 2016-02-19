@@ -152,11 +152,12 @@ public class CalcView extends JFrame {
 	    numbers.add(b0);
 	    numbers.add(bpi);
 	    
-	    //SWITCHED ALIGNMENT OF ENTER BUTTONS
-	    buttons.add(bclear);
-	    buttons.add(bundo);
-	    buttons.add(btest); // Adding Test Button
+	    //SWITCHED ALIGNMENT OF BUTTONS
 	    buttons.add(benter);
+	    buttons.add(bundo);
+	    buttons.add(bclear);
+	    buttons.add(btest); // Adding Test Button
+	   
 	    //buttons.add(bx); 
 	    //buttons.add(bgraph);
 	    
