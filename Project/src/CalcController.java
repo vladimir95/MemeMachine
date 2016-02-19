@@ -5,7 +5,6 @@ public class CalcController {
 	private CalcView view;
 	private CalcModel model; 
 	
-	//Implement Sample Test method!
 	
 	public CalcController() throws MalformedURLException
 	{
@@ -19,7 +18,6 @@ public class CalcController {
 	{
 		view.setHistoryText(model.getHistoryValue()); 
 		view.setDisplayText(model.getInputValue());  
-		//System.out.println("History: " + model.getHistoryValue() + "\t" +  "Value: " + model.getInputValue()); // temporary output to console for testing purposes
 	}
 
 	public void sum()
