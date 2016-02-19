@@ -20,6 +20,7 @@ public class CalcModel
 	
 	private boolean valueResetFlag;		//true if inputValue needs to be reset, false if inputValue needs to be appended.
 	private boolean historyResetFlag; 	//true if historyValue needs to be reset, false if historyValue needs to be appended.
+	private boolean mathErrorFlag;		//true if a mathematical error was made
 	
 	private Stack<Integer> commaStack;	//tracks the location of the right most comma in the historyValue.
 	
@@ -37,6 +38,7 @@ public class CalcModel
 		commaStack = new Stack<Integer>();
 		valueResetFlag = true;
 		historyResetFlag = true;
+		mathErrorFlag = false;
 	}
 	
 	/**
@@ -139,7 +141,7 @@ public class CalcModel
 		top = calcStack.pop();
 		if(top == 0)
 		{
-			inputValue = new StringBuilder("MATH ERROR");
+			mathErrorFlag = true;
 			historyStack.push(BINARY.charAt(5) + "");
 			printHistory();
 			clear();
@@ -272,7 +274,7 @@ public class CalcModel
 		top = calcStack.pop();
 		if(top < 0 || top != Math.floor(top))
 		{
-			inputValue = new StringBuilder("MATH ERROR");
+			mathErrorFlag = true;
 			historyStack.push(FACT);
 			printHistory();
 			clear();
@@ -316,8 +318,9 @@ public class CalcModel
 	 */
 	public void clear()
 	{
-		if(inputValue.toString().equals("MATH ERROR"))
+		if(mathErrorFlag)
 		{
+			inputValue = new StringBuilder("MATH ERROR");
 			calcStack = new Stack<Double>();
 			historyStack = new Stack<String>();
 			printStack = new Stack<String>();
@@ -325,6 +328,7 @@ public class CalcModel
 			commaStack = new Stack<Integer>();
 			valueResetFlag = true;
 			historyResetFlag = true;
+			mathErrorFlag = false;
 		}
 		else
 		{
