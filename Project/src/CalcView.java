@@ -33,7 +33,7 @@ public class CalcView extends JFrame {
 		
 		//Initialize the Frame
 		JFrame frame = new JFrame();
-		String title = "RektBox 360";
+		String title = "PostFix Calculator";
 		frame.setSize(640, 720);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
