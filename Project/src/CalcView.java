@@ -85,7 +85,7 @@ public class CalcView extends JFrame {
 		bsubtract = new JButton("-");
 		benter = new JButton("Enter");
 		bpi = new JButton("\u03C0");  
-		bfact = new JButton("n!");
+		bfact = new JButton("!"); //Must be ! according to requirements
 		bundo = new JButton("Undo");
 		bsin = new JButton("sin"); 
 		bcos = new JButton("cos"); 
