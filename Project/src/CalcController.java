@@ -103,13 +103,13 @@ public class CalcController {
 		model.numericButton("5");
 		model.numericButton(".");
 		model.numericButton("2");
-		model.numericButton("5");
+		//model.numericButton("5");
 		model.changeSign();
 		model.enter();
 		model.numericButton("6");
 		model.numericButton(".");
 		model.numericButton("4");
-		model.numericButton("7");
+		//model.numericButton("7");
 		model.enter();
 		model.sum();
 		updateView();
