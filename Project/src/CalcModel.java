@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.Stack;
 
 public class CalcModel 
@@ -656,10 +657,17 @@ public class CalcModel
 	 */
 	private void updateOperationValue(double result)
 	{
+		DecimalFormat form = new DecimalFormat();
 		if(result == Math.floor(result) && !(result > Integer.MAX_VALUE) && !(result < Integer.MIN_VALUE))
 			inputValue = new StringBuilder(Integer.toString((int)result));
 		else
-			inputValue = new StringBuilder(Double.toString(result));
+		{
+			if(Math.abs(result) > 1E10 || Math.abs(result) < 1E-10)
+				form.applyPattern("#.###E0");
+			else
+				form.applyLocalizedPattern("#.#########");
+			inputValue = new StringBuilder(form.format(result));
+		}
 	}
 	
 	/**
