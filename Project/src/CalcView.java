@@ -205,9 +205,10 @@ public class CalcView extends JFrame {
 		       public void pressed(){ theController.enter();}});
 		
 		//Leave it as blank method in Controller/Model
+		/*
 		add(new ButtonAdapter(bgraph) { 
 		       public void pressed(){ theController.graph();}});
-		
+		*/
 		add(new ButtonAdapter(bsin) {
 		       public void pressed(){ theController.sine();}});
 		
@@ -224,9 +225,10 @@ public class CalcView extends JFrame {
 		       public void pressed(){ theController.changeSign();}});
 		
 		//Leave it as blank method in Controller/Model
+		/*
 		add(new ButtonAdapter(bx) { 
 		       public void pressed(){ theController.x();}});
-		
+		*/
 		add(new ButtonAdapter(bdot) { 
 		       public void pressed(){ theController.numericButton(bdot.getText());}});
 		

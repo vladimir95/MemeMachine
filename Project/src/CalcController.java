@@ -115,7 +115,7 @@ public class CalcController {
 		updateView();
 	}
 	
-	
+	/*
 	public void x() 
 	{ 		
 		//Not specified yet
@@ -125,4 +125,5 @@ public class CalcController {
 	{ 		
 		//Not specified yet
 	}
+	*/
 }
