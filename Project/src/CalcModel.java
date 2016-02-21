@@ -665,7 +665,7 @@ public class CalcModel
 			if(Math.abs(result) > 1E10 || Math.abs(result) < 1E-10)
 				form.applyPattern("#.###E0");
 			else
-				form.applyLocalizedPattern("#.#########");
+				form.applyLocalizedPattern("#.##########");
 			inputValue = new StringBuilder(form.format(result));
 		}
 	}
