@@ -10,6 +10,12 @@
        public void pressed(){ mandel.stop(); dispose();}});
 */
 
+/*
+ * 
+ * This Button Adapter has been adapted from Prof. Gunnar Gotshalks' Calculator System 3.
+ * 
+ */
+
 import java.awt.event.*;
 import javax.swing.JButton;
 
