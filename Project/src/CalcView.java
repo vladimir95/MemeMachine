@@ -53,12 +53,13 @@ public class CalcView extends JFrame {
 		//Icon of the Frame
 		
 		//Link to Icon on Vlad's computer, just in case. We will use it in case if we dont have wifi or smth...
-		String path = "C:\\Users\\Vlad\\Desktop\\Vova`s homework\\Uni\\EECS2311\\icon.png";
+		String path = "C:\\Users\\Vlad\\Desktop\\Vova`s homework\\Uni\\EECS2311\\icon1.png";
 		path.replace("\\", "/");
 		
 		//Link to the GitHub Icon
-		String link = "https://github.com/vladimir95/MemeMachine/"
-				+ "blob/d85ca81f90875211d3c33dbba35bf143b91ea5e0/icon.png?raw=true";
+		String link = "https://github.com/vladimir95/MemeMachine/blob/master/icon1.png?raw=true";
+		
+		
 		URL url = new URL(link);
 		
 		ImageIcon ic = new ImageIcon(url);
