@@ -249,15 +249,16 @@ public class CalcModel
 		}
 		else
 		{
-			calcStack.push(Math.PI);
-			historyStack.push(PI);
-			printHistory();
-			updateOperationValue(Math.PI);
 			if (historyResetFlag)
 			{
 				historyValue = new StringBuilder();
 				historyResetFlag = false;
 			}
+			calcStack.push(Math.PI);
+			historyStack.push(PI);
+			printHistory();
+			updateOperationValue(Math.PI);
+			
 		}
 	}
 	
