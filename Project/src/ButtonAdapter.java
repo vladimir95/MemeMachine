@@ -22,7 +22,6 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public abstract class ButtonAdapter extends JButton implements ActionListener {
   public ButtonAdapter (JButton button) {
-    //super (button.getName());
     button.addActionListener(this);
   }
  

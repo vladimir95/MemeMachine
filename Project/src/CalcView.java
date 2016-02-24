@@ -38,7 +38,7 @@ public class CalcView extends JFrame {
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		
-		//Put the name of the Frame in the middle
+		//Put the name of the Frame in the middle of the NameField of the Frame. 
 		frame.setFont(new Font("System", Font.PLAIN, 14));
 		Font font = frame.getFont();
 		FontMetrics fm = frame.getFontMetrics(font);
@@ -62,6 +62,7 @@ public class CalcView extends JFrame {
 		
 		URL url = new URL(link);
 		
+		//Sets the icon to this frame from the URL above. 
 		ImageIcon ic = new ImageIcon(url);
 		frame.setIconImage(ic.getImage());
 		
@@ -86,7 +87,7 @@ public class CalcView extends JFrame {
 		bsubtract = new JButton("-");
 		benter = new JButton("Enter");
 		bpi = new JButton("\u03C0");  
-		bfact = new JButton("!"); //Must be ! according to requirements
+		bfact = new JButton("!"); 
 		bundo = new JButton("Undo");
 		bsin = new JButton("sin"); 
 		bcos = new JButton("cos"); 
@@ -130,6 +131,7 @@ public class CalcView extends JFrame {
 		right = new JPanel();
 		bottom = new JPanel();
 		
+		//Set panels' layouts
 	    numbers.setLayout(new GridLayout(4,3,3,3));
 	    operators.setLayout(new GridLayout(4,2,3,3));
 	    buttons.setLayout(new GridLayout(4,1,3,3)); //Grid Layout was changed accordingly for the Test button
@@ -277,19 +279,19 @@ public class CalcView extends JFrame {
 		
 	}
 	
-
+	//Modifies the inputDisplay
 	public void setDisplayText(String inputValue) {
 		display.setText(inputValue);
 		
 	}
-	
+	//Modifies the historyDisplay
 	public void setHistoryText(String historyValue) {
 		historyDisplay.setText(historyValue);
 		
 	}
 	
 	
-
+	//Assigns the certain colours to the panels, textFields' backgrounds and their texts(foreGround)
 	public void betterViewDesign(){
 		mainColor = new Color(24,29,33); //Color of the panels with buttons and side spaces
 		
@@ -306,7 +308,7 @@ public class CalcView extends JFrame {
 		//LOWER PART WITH BUTTONS
 		
 		//Set the panels to the color first
-		mainpanel.setBackground(mainColor); //sidespaces
+		mainpanel.setBackground(mainColor); //spaces between the buttons and the main window borders
 		panel.setBackground(mainColor);
 		numbers.setBackground(mainColor);
 		buttons.setBackground(mainColor);
@@ -316,7 +318,7 @@ public class CalcView extends JFrame {
 		
 	}
 	
-	
+	//Assigns certain colours to the buttons based on their functionality 
 	public void buttonColor(){
 		
 		numberColor = new Color(97,107,116);
