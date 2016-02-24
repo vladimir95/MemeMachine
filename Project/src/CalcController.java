@@ -2,7 +2,7 @@ import java.net.MalformedURLException;
 
 public class CalcController {
 
-	public CalcView view;
+	private CalcView view;
 	private CalcModel model; 
 	
 	
@@ -115,7 +115,26 @@ public class CalcController {
 		updateView();
 	}
 	
-	/*
+	public String getHistoryText()
+	{
+		return view.historyDisplay.getText();
+	}
+	
+	public String getDisplayText()
+	{
+		return view.display.getText();
+	}
+	
+	public String getHistoryValue()
+	{
+		return model.getHistoryValue();
+	}
+	
+	public String getInputValue()
+	{
+		return model.getInputValue();
+	}
+	
 	public void x() 
 	{ 		
 		//Not specified yet
@@ -125,5 +144,4 @@ public class CalcController {
 	{ 		
 		//Not specified yet
 	}
-	*/
 }
