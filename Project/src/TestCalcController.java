@@ -1,3 +1,9 @@
+/*
+ * This class only has one test - testUpdateView(). The other methods are identical to the methods in CalcModel which
+ * is already tested in TestCalcModel. So the only test needed for CalcController is one that makes sure the view
+ * gets updated properly with each method.
+ */
+
 import static org.junit.Assert.*;
 
 import org.junit.*;
@@ -5,11 +11,6 @@ import org.junit.*;
 public class TestCalcController 
 {
 	private CalcController controller;
-	/*
-	 * This class only has one test - testUpdateView(). The other methods are identical to the methods in CalcModel which
-	 * is already tested in TestCalcModel. So the only test needed for CalcController is one that makes sure the view
-	 * gets updated properly with each method.
-	 */
 	
 	/**
 	 * Creates new instance of controller before every test.
