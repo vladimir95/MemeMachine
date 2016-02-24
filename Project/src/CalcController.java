@@ -125,16 +125,6 @@ public class CalcController {
 		return view.display.getText();
 	}
 	
-	public String getHistoryValue()
-	{
-		return model.getHistoryValue();
-	}
-	
-	public String getInputValue()
-	{
-		return model.getInputValue();
-	}
-	
 	public void x() 
 	{ 		
 		//Not specified yet
