@@ -2,7 +2,7 @@ import java.net.MalformedURLException;
 
 public class CalcController {
 
-	private CalcView view;
+	public CalcView view;
 	private CalcModel model; 
 	
 	
