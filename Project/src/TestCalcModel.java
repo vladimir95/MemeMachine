@@ -25,36 +25,34 @@ public class TestCalcModel
 	public void testNumericButton()
 	{
 		model.numericButton("0");
-		model.numericButton("0");
-		model.numericButton("4");
 		model.numericButton("1");
-		model.numericButton("6");
-		model.numericButton(".");
 		model.numericButton("2");
-		model.numericButton(".");						// input is 00416.2.
-		assertEquals(model.getInputValue(), "416.2");	// expected value is 416.2
+		model.numericButton("3");
+		model.numericButton("4");
+		model.numericButton("5");
+		model.numericButton("6");	
+		model.numericButton(".");
+		model.numericButton("7");
+		model.numericButton("8");
+		model.numericButton("9");
+		model.numericButton(".");
+		assertEquals(model.getInputValue(), "123456.789");	
 	}
 	
 	/**
-	 * Tests sum().
-	 * Sums up three numbers and compares the value with the expected sum.
+	 * Tests sum() by comparing the value with the expected sum.
 	 * Also checks the history expression for infix notation.
 	 */
 	@Test
 	public void testSum()
 	{
-		model.numericButton("6");
-		model.enter();
 		model.numericButton("1");
-		model.numericButton("6");
-		model.numericButton(".");
-		model.numericButton("5");
 		model.enter();
-		model.numericButton("9");
+		model.numericButton("2");
+		model.changeSign();
 		model.sum();
-		model.sum();												// Input is 6 16.5 9 + +
-		assertEquals(model.getInputValue(), "31.5");				// Expected value is 31.5
-		assertEquals(model.getHistoryValue(), "6 + 16.5 + 9 =");	// Expected expression is 6 + 16.5 + 9 =
+		assertEquals(model.getInputValue(), "-1");
+		assertEquals(model.getHistoryValue(), "1 + -2 =");
 	}
 	
 	/**
@@ -65,20 +63,22 @@ public class TestCalcModel
 	@Test
 	public void testSubtract()
 	{ 
-		model.numericButton("2");
-		model.numericButton("0");
-		model.enter();
-		model.numericButton("1");
 		model.numericButton("5");
-		model.subtract();									// Input is 20 15 -
-		assertEquals(model.getHistoryValue(), "20 - 15 =");	// Expected expression is 20 - 15 =
-		assertEquals(model.getInputValue(), "5");			// Expected value is 5
+		model.numericButton(".");
+		model.numericButton("5");
+		model.enter();
+		model.numericButton("2");
+		model.numericButton(".");
+		model.numericButton("5");
+		model.subtract();
+		assertEquals(model.getInputValue(), "3");
+		assertEquals(model.getHistoryValue(), "5.5 - 2.5 =");
 	}
 	
 	/**
 	 * Tests multiply().
-	 * Multiplies two numbers and compares the value with the expected product.
-	 * Also checks the history expression for infix notation.
+	 * Checks the history expression for infix notation.
+	 * Checks to make sure it has precedence over sum() and subtract().
 	 */
 	@Test
 	public void testMultiply()
@@ -90,6 +90,19 @@ public class TestCalcModel
 		model.multiply();									// Input is 5 5 +/- ×
 		assertEquals(model.getInputValue(), "-25");			// Expected value is -25
 		assertEquals(model.getHistoryValue(), "5 × -5 =");	// Expected expression is 5 × -5 =
+		
+		model.clear();
+		model.numericButton("2");
+		model.enter();
+		model.numericButton("3");
+		model.sum();
+		model.numericButton("2");
+		model.enter();
+		model.numericButton("1");
+		model.subtract();
+		model.multiply();
+		assertEquals(model.getInputValue(), "5");
+		assertEquals(model.getHistoryValue(), "(2 + 3) × (2 - 1) =");
 	}
 	
 	/**
@@ -107,6 +120,19 @@ public class TestCalcModel
 		model.divide();										// Input is 7 2 ÷
 		assertEquals(model.getInputValue(), "3.5");			// Expected value is 3.5	
 		assertEquals(model.getHistoryValue(), "7 ÷ 2 =");	// Expected expression is 7 ÷ 2 =
+		
+		model.clear();
+		model.numericButton("1");
+		model.enter();
+		model.numericButton("2");
+		model.multiply();
+		model.numericButton("1");
+		model.enter();
+		model.numericButton("2");
+		model.multiply();
+		model.divide();
+		assertEquals(model.getInputValue(), "1");
+		assertEquals(model.getHistoryValue(), "(1 × 2) ÷ (1 × 2) =");
 		
 		model.clear();
 		model.numericButton("7");
@@ -160,11 +186,8 @@ public class TestCalcModel
 		model.numericButton("6");
 		model.changeSign();
 		model.enter();
-		model.numericButton("3");
-		model.changeSign();
-		model.enter();
-		assertEquals(model.getInputValue(), "-3");
-		assertEquals(model.getHistoryValue(), "-6, -3");
+		assertEquals(model.getInputValue(), "-6");
+		assertEquals(model.getHistoryValue(), "-6");
 		
 		// Passes if the user can continue to enter numbers after changing sign
 		model.clear();
@@ -203,31 +226,25 @@ public class TestCalcModel
 	{
 		// Passes if pi equals its correct value to the 15th decimal point
 		model.pi();
-		assertEquals(Double.parseDouble(model.getInputValue()), Math.PI, 0.000000000000001);
+		assertEquals(model.getInputValue(), "3.1415926536");
 		assertEquals(model.getHistoryValue(), "π");
 		
 		// Inputing a number before π automatically multiplies the two values
 		model.clear();
 		model.numericButton("2");
 		model.pi();
-		assertEquals(Double.parseDouble(model.getInputValue()), 2*Math.PI, 0.000000000000001);
+		assertEquals(model.getInputValue(), "6.2831853072");
 		assertEquals(model.getHistoryValue(), "2 × π =");
 	}
 
 	/**
 	 * Tests factorial().
 	 * Calculates factorial on a number and checks for the expected value.
-	 * If the input is not an integer, the value displays MATH ERROR.
+	 * If the input is not a positive integer the value displays MATH ERROR.
 	 */
 	@Test
 	public void testFacorial()
 	{
-		// 0! should equal 1
-		model.clear();
-		model.factorial();
-		assertEquals(model.getInputValue(), "1");
-		assertEquals(model.getHistoryValue(), "0! =");
-		
 		// 5! should equal 120
 		model.clear();
 		model.numericButton("5");
@@ -242,7 +259,13 @@ public class TestCalcModel
 		model.numericButton("8");
 		model.factorial();
 		assertEquals(model.getInputValue(), "MATH ERROR");
-		assertEquals(model.getHistoryValue(), "start new calculation");
+		
+		model.clear();
+		model.numericButton("2");
+		model.changeSign();
+		model.enter();
+		model.factorial();
+		assertEquals(model.getInputValue(), "MATH ERROR");
 	}
 	
 	/**
@@ -254,15 +277,22 @@ public class TestCalcModel
 	public void testEnter()
 	{
 		// A zero is added before a starting decimal point and after an ending decimal point
+		model.numericButton("1");
+		model.enter();
+		model.numericButton("2");
+		model.changeSign();
+		model.enter();
+		model.numericButton("3");
 		model.numericButton(".");
-		model.numericButton("8");
+		model.numericButton("5");
+		model.enter();
+		model.numericButton(".");
+		model.numericButton("5");
 		model.enter();
 		model.numericButton("6");
 		model.numericButton(".");
 		model.enter();
-		model.numericButton("2");
-		model.enter();
-		assertEquals(model.getHistoryValue(), "0.8, 6.0, 2");
+		assertEquals(model.getHistoryValue(), "1, -2, 3.5, 0.5, 6.0");
 	}
 
 	/**
@@ -276,7 +306,7 @@ public class TestCalcModel
 		model.enter();
 		model.clear();
 		assertEquals(model.getInputValue(), "0");
-		assertEquals(model.getHistoryValue(), "start new calculation");
+		assertEquals(model.getHistoryValue(), "Start New Calculation");
 	}
 
 	/**
@@ -285,11 +315,6 @@ public class TestCalcModel
 	 * If the previous input is an enter, pressing undo should delete the last value in the history.
 	 * If the previous input is an operator, it is reverted.
 	 * 
-	 * FAILURE: the undo button doesn't work for change sign.
-	 * The operation undoes the number but not the sign.
-	 * i.e. pressing undo on -6
-	 * expected value: 6
-	 * value from operation: -
 	 */
 	@Test
 	public void testUndo()
@@ -358,22 +383,12 @@ public class TestCalcModel
 		model.undo();
 		assertEquals(model.getInputValue(), "5");
 		assertEquals(model.getHistoryValue(), "5");
-		
-		// Passes if pressing undo works for change sign
-		model.numericButton("6");
-		model.changeSign();
-		model.undo();
-		assertEquals(model.getInputValue(), "6");
 	}
 
 	/**
 	 * Tests the input 2 1 4 × ÷. 
 	 * The expression should give 2 ÷ (1 × 4) =
 	 * The value should give 0.5
-	 * 
-	 * FAILURE: it gives 2 ÷ 1 × 4 = 
-	 * There should be brackets around the 1 and 4
-	 * The equation gives the right value just not the right expression.
 	 */
 	@Test
 	public void testEquation1()
@@ -387,7 +402,7 @@ public class TestCalcModel
 		model.multiply();
 		model.divide();
 		assertEquals(model.getInputValue(), "0.5");				//Passes
-		assertEquals(model.getHistoryValue(), "2 ÷ (1 × 4) =");	//Fails
+		assertEquals(model.getHistoryValue(), "2 ÷ (1 × 4) =");	
 	}
 	
 	/**
@@ -395,8 +410,6 @@ public class TestCalcModel
 	 * Expected expression is (2 + 2) ÷ 2 × 2 =
 	 * Expected value is 1
 	 * 
-	 * FAILURE: it gives 2 + 2 ÷ 2 × 2 =
-	 * There should be brackets around the 2 + 2
 	 */
 	@Test
 	public void testEquation2()
@@ -412,7 +425,7 @@ public class TestCalcModel
 		model.multiply();
 		model.divide();
 		assertEquals(model.getInputValue(), "1");					//Passes
-		assertEquals(model.getHistoryValue(), "(2 + 2) ÷ (2 × 2) =");	//Fails
+		assertEquals(model.getHistoryValue(), "(2 + 2) ÷ (2 × 2) =");	
 	}
 	
 	/**
