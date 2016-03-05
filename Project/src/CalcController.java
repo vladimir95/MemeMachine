@@ -22,26 +22,46 @@ public class CalcController {
 
 	public void sum()
 	{ 		
-		model.sum();
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.sum();
+			updateView();
+		}
 	}
 	
 	public void subtract()
 	{ 		
-		model.subtract();
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.subtract();
+			updateView();
+		}
 	}
 	
 	public void multiply()
 	{ 		
-		model.multiply();
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.multiply();
+			updateView();
+		}
 	}
 	
 	public void divide()
 	{ 		
-		model.divide();
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.divide();
+			updateView();
+		}
 	}
 	
 	public void clear()
@@ -58,48 +78,84 @@ public class CalcController {
 	
 	public void enter()
 	{ 		
-		model.enter();
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.enter();
+			updateView();
+		}
 	}
 	
 	public void sine()
 	{ 		
-		model.sine();
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.sine();
+			updateView();
+		}
 	}
 	
 	public void cosine()
 	{ 		
-		model.cosine();
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.cosine();
+			updateView();
+		}
 	}
 	
 	public void pi()
 	{ 		
-		model.pi();
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.pi();
+			updateView();
+		}
 	}
 	
 	public void factorial()
 	{ 		
-		model.factorial();
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.factorial();
+			updateView();
+		}
 	}
 	
 	public void changeSign()
 	{ 		
-		model.changeSign();
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.changeSign();
+			updateView();
+		}
 	}
 	
 	public void numericButton(String buttonName)
 	{ 		
-		model.numericButton(buttonName);
-		updateView();
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.numericButton(buttonName);
+			updateView();
+		}
 	}
 	
 	
 	public void sampleTest(){
+		model.clear();
 		model.numericButton("5");
 		model.numericButton(".");
 		model.numericButton("2");

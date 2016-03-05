@@ -51,10 +51,19 @@ public class CalcModel
 	{
 		if(valueResetFlag)
 		{
-				inputValue = new StringBuilder(buttonName);
-				checkEqualSign();
-				if(!buttonName.equals(INITIAL_DISPLAYED_VALUE))
+				if(buttonName.equals("."))
+				{
+					inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
+					inputValue.append(buttonName);
 					valueResetFlag = false;
+				}
+				else
+				{
+					inputValue = new StringBuilder(buttonName);
+					checkEqualSign();
+					if(!buttonName.equals(INITIAL_DISPLAYED_VALUE))
+						valueResetFlag = false;
+				}
 		}
 		else if(inputValue.indexOf(".") == -1 || !buttonName.equals("."))
 			inputValue.append(buttonName);
@@ -144,8 +153,9 @@ public class CalcModel
 		{
 			mathErrorFlag = true;
 			historyStack.push(BINARY.charAt(5) + "");
+			calcStack.push(top);
+			inputValue = new StringBuilder("MATH ERROR");
 			printHistory();
-			clear();
 		}
 		else
 		{
@@ -278,8 +288,16 @@ public class CalcModel
 		{
 			mathErrorFlag = true;
 			historyStack.push(FACT);
+			calcStack.push(top);
+			inputValue = new StringBuilder("MATH ERROR");
 			printHistory();
-			clear();
+		}
+		else if(top > 170)
+		{
+			calcStack.push(Double.POSITIVE_INFINITY);
+			historyStack.push(FACT);
+			printHistory();
+			updateOperationValue(Double.POSITIVE_INFINITY);
 		}
 		else
 		{
@@ -313,6 +331,7 @@ public class CalcModel
 		historyStack.push(inputValue.toString());
 		printHistory();
 		historyResetFlag = false;
+		
 	}
 	
 	/**
@@ -320,30 +339,16 @@ public class CalcModel
 	 */
 	public void clear()
 	{
-		if(mathErrorFlag)
-		{
-			inputValue = new StringBuilder("MATH ERROR");
-			calcStack = new Stack<Double>();
-			historyStack = new Stack<String>();
-			printStack = new Stack<String>();
-			preStack = new Stack<Double>();
-			commaStack = new Stack<Integer>();
-			valueResetFlag = true;
-			historyResetFlag = true;
-			mathErrorFlag = false;
-		}
-		else
-		{
-			inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
-			historyValue = new StringBuilder(INITIAL_DISPLAYED_HISTORY);
-			calcStack = new Stack<Double>();
-			historyStack = new Stack<String>();
-			printStack = new Stack<String>();
-			preStack = new Stack<Double>();
-			commaStack = new Stack<Integer>();
-			valueResetFlag = true;
-			historyResetFlag = true;
-		}
+		inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
+		historyValue = new StringBuilder(INITIAL_DISPLAYED_HISTORY);
+		calcStack = new Stack<Double>();
+		historyStack = new Stack<String>();
+		printStack = new Stack<String>();
+		preStack = new Stack<Double>();
+		commaStack = new Stack<Integer>();
+		valueResetFlag = true;
+		historyResetFlag = true;
+		mathErrorFlag = false;
 	}
 	
 	/**
@@ -359,18 +364,37 @@ public class CalcModel
 		if(!valueResetFlag)
 		{
 			inputValue.deleteCharAt(inputValue.length() - 1);
-			if(inputValue.length() == 0)
+			if(inputValue.length() == 1 && inputValue.charAt(0) == '-')
+				inputValue.deleteCharAt(inputValue.length() - 1);
+			if(inputValue.length() == 1 && inputValue.charAt(0) == '0')
 				valueResetFlag = true;
+			if(inputValue.length() == 0)
+			{
+				updateOperationValue(Double.parseDouble(INITIAL_DISPLAYED_VALUE));
+				valueResetFlag = true;
+			}
 		}
 		else if(historyStack.empty())
 				clear();
-		else if(inputValue.length() == 0)
+		/*else if(inputValue.length() == 0)
 		{
 			printHistory();
-			/*if(calcStack.empty())
+			if(calcStack.empty())
 				updateOperationValue(Double.parseDouble(INITIAL_DISPLAYED_VALUE));
-			else*/
+			else
 				updateOperationValue(calcStack.peek());
+		}*/
+		else if(mathError())
+		{
+			historyStack.pop();
+			printHistory();
+			checkEqualSign();
+			historyValue.append(" =");
+			if(calcStack.empty())
+				clear();
+			else
+				updateOperationValue(calcStack.peek());
+			mathErrorFlag = false;
 		}
 		else
 		{
@@ -389,6 +413,8 @@ public class CalcModel
 				calcStack.push(top);
 			}
 			printHistory();
+			checkEqualSign();
+			historyValue.append(" =");
 			if(calcStack.empty())
 				clear();
 			else
@@ -412,6 +438,15 @@ public class CalcModel
 	public String getHistoryValue()
 	{
 		return historyValue.toString();
+	}
+	
+	/**
+	 * Checks if a math error has occurred.
+	 * @return - True if math error occurred and false otherwise.
+	 */
+	public boolean mathError()
+	{
+		return mathErrorFlag;
 	}
 	
 	/**
@@ -697,11 +732,15 @@ public class CalcModel
 		{
 			precedence = 1;
 		}
-		if(leftExp + 1 == operatorValue && rightExp + 1 > operatorValue)
+		if(leftExp == 10 && rightExp > operatorValue && rightExp != 10)
 		{
 			precedence = 2;
 		}
-		if(leftExp + 1 > operatorValue && rightExp + 1 < operatorValue)
+		if(rightExp == operatorValue && (operatorValue == 1 || operatorValue == 5))
+		{
+			precedence = 2;
+		}
+		if(leftExp + 1 > operatorValue && rightExp < operatorValue)
 		{
 			precedence = 2;
 		}
