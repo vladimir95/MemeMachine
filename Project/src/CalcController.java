@@ -1,4 +1,5 @@
 import java.net.MalformedURLException;
+import java.util.EmptyStackException;
 
 public class CalcController {
 
@@ -10,7 +11,6 @@ public class CalcController {
 	{
 		view = new CalcView(this);
 		model = new CalcModel();
-		model.clear();
 		updateView();
 	}	
 	
@@ -183,7 +183,13 @@ public class CalcController {
 	
 	public void x() 
 	{ 		
-		//Not specified yet
+		if(model.mathError())
+			clear();
+		else
+		{
+			model.x();
+			updateView();
+		}
 	}
 	
 	public void graph()

@@ -7,8 +7,8 @@ public class CalcModel
 	private StringBuilder historyValue; //string representation of historyStack
 	private Stack<String> historyStack; //history stored when user completes input or performs arithmetic operation
 	private Stack<String> printStack;	//temp. stack used to print the contents of the historyStack
-	private Stack<Double> calcStack;	//user input is stored in a stack data type
-	private Stack<Double> preStack;		//stack that holds the numeric value of previous calculations and input
+	private Stack<MathValue> calcStack;	//user input is stored in a stack data type
+	private Stack<MathValue> preStack;		//stack that holds the numeric value of previous calculations and input
 	
 	private final String INITIAL_DISPLAYED_VALUE = "0";
 	private final String INITIAL_DISPLAYED_HISTORY = "Start New Calculation";
@@ -18,6 +18,7 @@ public class CalcModel
 	private final String FACT	= "!";
 	private final String PI 	= "π";
 	private final String CHANGE_SIGN = "CS";
+	private final String X = "x";
 	
 	private boolean valueResetFlag;		//true if inputValue needs to be reset, false if inputValue needs to be appended.
 	private boolean historyResetFlag; 	//true if historyValue needs to be reset, false if historyValue needs to be appended.
@@ -32,10 +33,10 @@ public class CalcModel
 	{
 		inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
 		historyValue = new StringBuilder(INITIAL_DISPLAYED_HISTORY);
-		calcStack = new Stack<Double>();
+		calcStack = new Stack<MathValue>();
 		historyStack = new Stack<String>();
 		printStack = new Stack<String>();
-		preStack = new Stack<Double>();
+		preStack = new Stack<MathValue>();
 		commaStack = new Stack<Integer>();
 		valueResetFlag = true;
 		historyResetFlag = true;
@@ -79,20 +80,22 @@ public class CalcModel
 	 */
 	public void sum()
 	{
-		double top, secondTop, sum;
-		
+		MathValue top, secondTop;
+		double[] resultArray = new double[MathValue.NUMBER_OF_POINTS];
 		if(!valueResetFlag)
 			enter();
 		enoughOperandsBinary();
 		top = calcStack.pop();
 		secondTop = calcStack.pop();
-		sum = secondTop + top;
-		calcStack.push(sum);
+		for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
+			resultArray[i] =secondTop.getValue()[i] + top.getValue()[i];
+		MathValue result = new MathValue(resultArray, top.isVariable() || secondTop.isVariable());
+		calcStack.push(result);
 		preStack.push(secondTop);
 		preStack.push(top);
 		historyStack.push(BINARY.charAt(0) + "");
 		printHistory();
-		updateOperationValue(sum);
+		updateOperationValue(result);
 	}
 	
 	/**
@@ -100,20 +103,22 @@ public class CalcModel
 	 */
 	public void subtract()
 	{
-		double top, secondTop, diff;
-		
+		MathValue top, secondTop;
+		double[] resultArray = new double[MathValue.NUMBER_OF_POINTS];
 		if(!valueResetFlag)
 			enter();
 		enoughOperandsBinary();
 		top = calcStack.pop();
 		secondTop = calcStack.pop();
-		diff = secondTop - top;
-		calcStack.push(diff);
+		for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
+			resultArray[i] =secondTop.getValue()[i] - top.getValue()[i];
+		MathValue result = new MathValue(resultArray, top.isVariable() || secondTop.isVariable());
+		calcStack.push(result);
 		preStack.push(secondTop);
 		preStack.push(top);
 		historyStack.push(BINARY.charAt(1) + "");
 		printHistory();
-		updateOperationValue(diff);
+		updateOperationValue(result);
 	}
 	
 	/**
@@ -121,14 +126,16 @@ public class CalcModel
 	 */
 	public void multiply()
 	{
-		double top, secondTop, result;
-		
+		MathValue top, secondTop;
+		double[] resultArray = new double[MathValue.NUMBER_OF_POINTS];
 		if(!valueResetFlag)
 			enter();
 		enoughOperandsBinary();
 		top = calcStack.pop();
 		secondTop = calcStack.pop();
-		result = secondTop * top;
+		for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
+			resultArray[i] =secondTop.getValue()[i] * top.getValue()[i];
+		MathValue result = new MathValue(resultArray, top.isVariable() || secondTop.isVariable());
 		calcStack.push(result);
 		preStack.push(secondTop);
 		preStack.push(top);
@@ -143,28 +150,39 @@ public class CalcModel
 	 */
 	public void divide()
 	{
-		double top, secondTop, result;
+		MathValue top, secondTop;
+		double[] resultArray = new double[MathValue.NUMBER_OF_POINTS];
+		boolean divisionByZero = false;
 		
 		if(!valueResetFlag)
 			enter();
 		enoughOperandsBinary();
 		top = calcStack.pop();
-		if(top == 0)
+		secondTop = calcStack.pop();
+		for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
+			if(top.getValue()[i] == 0)
+			{
+				resultArray[i] = Double.POSITIVE_INFINITY;
+				divisionByZero = true;
+			}
+			else
+				resultArray[i] =secondTop.getValue()[i] / top.getValue()[i];
+		if(!top.isVariable() && !secondTop.isVariable() && divisionByZero)
 		{
 			mathErrorFlag = true;
 			historyStack.push(BINARY.charAt(5) + "");
+			calcStack.push(secondTop);
 			calcStack.push(top);
 			inputValue = new StringBuilder("MATH ERROR");
 			printHistory();
 		}
 		else
 		{
-			secondTop = calcStack.pop();
-			result = secondTop / top;
+			MathValue result = new MathValue(resultArray, top.isVariable() || secondTop.isVariable());
 			calcStack.push(result);
 			preStack.push(secondTop);
 			preStack.push(top);
-			historyStack.push(BINARY.charAt(5) + "");
+			historyStack.push(BINARY.charAt(0) + "");
 			printHistory();
 			updateOperationValue(result);
 		}
@@ -175,13 +193,16 @@ public class CalcModel
 	 */
 	public void sine()
 	{
-		double top, result;
+		MathValue top;
+		double[] resultArray = new double[MathValue.NUMBER_OF_POINTS];
 		
 		if(!valueResetFlag)
 			enter();
 		enoughOperandsUnary();
 		top = calcStack.pop();
-		result = Math.sin(top);
+		for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
+			resultArray[i] = Math.sin(top.getValue()[i]);
+		MathValue result = new MathValue(resultArray, top.isVariable());
 		calcStack.push(result);
 		preStack.push(top);
 		historyStack.push(UNARY.substring(0, 3));
@@ -194,16 +215,19 @@ public class CalcModel
 	 */
 	public void cosine()
 	{
-		double top, result;
+		MathValue top;
+		double[] resultArray = new double[MathValue.NUMBER_OF_POINTS];
 		
 		if(!valueResetFlag)
 			enter();
 		enoughOperandsUnary();
 		top = calcStack.pop();
-		result = Math.cos(top);
+		for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
+			resultArray[i] = Math.cos(top.getValue()[i]);
+		MathValue result = new MathValue(resultArray, top.isVariable());
 		calcStack.push(result);
 		preStack.push(top);
-		historyStack.push(UNARY.substring(3, 6));
+		historyStack.push(UNARY.substring(0, 3));
 		printHistory();
 		updateOperationValue(result);
 	}
@@ -214,7 +238,8 @@ public class CalcModel
 	public void changeSign()
 	{
 		String value;
-		double top, result;
+		MathValue top;
+		double[] resultArray = new double[MathValue.NUMBER_OF_POINTS];
 		
 		if(!valueResetFlag)
 		{
@@ -227,14 +252,16 @@ public class CalcModel
 						value = value.substring(1);
 					else
 						value = "-" + value;
-					updateOperationValue(Double.parseDouble(value));
+					updateOperationValue(new MathValue(Double.parseDouble(value)));
 				}
 			}
 		}
 		else
 		{
 			top = calcStack.pop();
-			result = -1 * top;
+			for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
+				resultArray[i] = -1 * top.getValue()[i];
+			MathValue result = new MathValue(resultArray, top.isVariable());
 			calcStack.push(result);
 			preStack.push(top);
 			historyStack.push(CHANGE_SIGN);
@@ -253,7 +280,7 @@ public class CalcModel
 		if(!valueResetFlag)
 		{
 			enter();
-			calcStack.push(Math.PI);
+			calcStack.push(new MathValue(Math.PI));
 			historyStack.push(PI);
 			multiply();
 		}
@@ -264,12 +291,27 @@ public class CalcModel
 				historyValue = new StringBuilder();
 				historyResetFlag = false;
 			}
-			calcStack.push(Math.PI);
+			calcStack.push(new MathValue(Math.PI));
 			historyStack.push(PI);
 			printHistory();
-			updateOperationValue(Math.PI);
+			updateOperationValue(new MathValue(Math.PI));
 			
 		}
+	}
+	
+	public void x()
+	{
+		MathValue x = new MathValue();
+		
+		if (historyResetFlag)
+		{
+			historyValue = new StringBuilder();
+			historyResetFlag = false;
+		}
+		calcStack.push(x);
+		historyStack.push(X);
+		printHistory();
+		updateOperationValue(x);
 	}
 	
 	/**
@@ -278,13 +320,31 @@ public class CalcModel
 	 */
 	public void factorial()
 	{
-		double top, result;
+		MathValue top;
+		MathValue result = new MathValue(1);
+		boolean undefinedValueCalculated = false;
 		
 		if(!valueResetFlag)
 			enter();
 		enoughOperandsUnary();
 		top = calcStack.pop();
-		if(top < 0 || top != Math.floor(top))
+		for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
+			if(top.getValue()[i] < 0 || top.getValue()[i] != Math.floor(top.getValue()[i]))
+			{
+				result.getValue()[i] = Double.NaN;
+				undefinedValueCalculated = true;
+			}
+			else
+			{
+				if(top.getValue()[i] > 170)
+					result.getValue()[i] = Double.POSITIVE_INFINITY;
+				else
+				{
+					for(int j = 1; j <= (int)top.getValue()[i]; j++)
+						result.getValue()[i] *= j;
+				}
+			}
+		if(!top.isVariable() && undefinedValueCalculated)
 		{
 			mathErrorFlag = true;
 			historyStack.push(FACT);
@@ -292,28 +352,14 @@ public class CalcModel
 			inputValue = new StringBuilder("MATH ERROR");
 			printHistory();
 		}
-		else if(top > 170)
-		{
-			calcStack.push(Double.POSITIVE_INFINITY);
-			historyStack.push(FACT);
-			printHistory();
-			updateOperationValue(Double.POSITIVE_INFINITY);
-		}
 		else
 		{
-			result = 1;
-			if((int)top == 0)
-				result = 1;
-			else
-				for(int i = 1; i <= (int)top; i++)
-					result *= i;
 			calcStack.push(result);
 			preStack.push(top);
 			historyStack.push(FACT);
 			printHistory();
 			updateOperationValue(result);
 		}
-		
 	}
 	
 	/**
@@ -322,7 +368,7 @@ public class CalcModel
 	 */
 	public void enter()
 	{
-		calcStack.push(Double.parseDouble(inputValue.toString()));
+		calcStack.push(new MathValue(Double.parseDouble(inputValue.toString())));
 		valueResetFlag = true;
 		if(inputValue.charAt(0) == '.')
 			inputValue.insert(0, '0');
@@ -341,10 +387,10 @@ public class CalcModel
 	{
 		inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
 		historyValue = new StringBuilder(INITIAL_DISPLAYED_HISTORY);
-		calcStack = new Stack<Double>();
+		calcStack = new Stack<MathValue>();
 		historyStack = new Stack<String>();
 		printStack = new Stack<String>();
-		preStack = new Stack<Double>();
+		preStack = new Stack<MathValue>();
 		commaStack = new Stack<Integer>();
 		valueResetFlag = true;
 		historyResetFlag = true;
@@ -359,7 +405,7 @@ public class CalcModel
 	public void undo()
 	{
 		String value;
-		double top, secondTop;
+		MathValue top, secondTop;
 		
 		if(!valueResetFlag)
 		{
@@ -370,7 +416,7 @@ public class CalcModel
 				valueResetFlag = true;
 			if(inputValue.length() == 0)
 			{
-				updateOperationValue(Double.parseDouble(INITIAL_DISPLAYED_VALUE));
+				updateOperationValue(new MathValue(Double.parseDouble(INITIAL_DISPLAYED_VALUE)));
 				valueResetFlag = true;
 			}
 		}
@@ -438,6 +484,11 @@ public class CalcModel
 	public String getHistoryValue()
 	{
 		return historyValue.toString();
+	}
+	
+	public double[] getFunction()
+	{
+		return calcStack.peek().getValue();
 	}
 	
 	/**
@@ -639,12 +690,12 @@ public class CalcModel
 	 */
 	private void enoughOperandsBinary()
 	{
-		double top;
+		MathValue top;
 		
 		if(calcStack.empty())
 		{
-			calcStack.push(0.0);
-			calcStack.push(0.0);
+			calcStack.push(new MathValue(0.0));
+			calcStack.push(new MathValue(0.0));
 			historyStack.push("0");
 			historyStack.push("0");
 		}
@@ -654,7 +705,7 @@ public class CalcModel
 			if(calcStack.empty())
 			{
 				calcStack.push(top);
-				calcStack.push(0.0);
+				calcStack.push(new MathValue(0.0));
 				historyStack.push("0");
 			}
 			else
@@ -677,7 +728,7 @@ public class CalcModel
 	{
 		if(calcStack.empty())
 		{
-			calcStack.push(0.0);
+			calcStack.push(new MathValue(0.0));
 			historyStack.push("0");
 		}
 		if (historyResetFlag)
@@ -691,18 +742,24 @@ public class CalcModel
 	 * Updates the Value with the result of an arithmetic operation with the correct format type.
 	 * @param result - the result of the arithmetic operation.
 	 */
-	private void updateOperationValue(double result)
+	private void updateOperationValue(MathValue result)
 	{
 		DecimalFormat form = new DecimalFormat();
-		if(result == Math.floor(result) && !(result > Integer.MAX_VALUE) && !(result < Integer.MIN_VALUE))
-			inputValue = new StringBuilder(Integer.toString((int)result));
+		if(result.isVariable())
+			inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
 		else
 		{
-			if(Math.abs(result) > 1E10 || Math.abs(result) < 1E-10)
-				form.applyPattern("#.###E0");
+			if(result.getValue()[0] == Math.floor(result.getValue()[0]) && !(result.getValue()[0] > Integer.MAX_VALUE) && 
+					!(result.getValue()[0] < Integer.MIN_VALUE))
+				inputValue = new StringBuilder(Integer.toString((int)result.getValue()[0]));
 			else
-				form.applyLocalizedPattern("#.##########");
-			inputValue = new StringBuilder(form.format(result));
+			{
+				if(Math.abs(result.getValue()[0]) > 1E10 || Math.abs(result.getValue()[0]) < 1E-10)
+					form.applyPattern("#.###E0");
+				else
+					form.applyLocalizedPattern("#.##########");
+				inputValue = new StringBuilder(form.format(result.getValue()[0]));
+			}
 		}
 	}
 	

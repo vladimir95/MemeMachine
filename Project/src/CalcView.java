@@ -161,7 +161,7 @@ public class CalcView extends JFrame {
 	    buttons.add(bclear);
 	    buttons.add(btest); // Adding Test Button
 	   
-	    //buttons.add(bx); 
+	    buttons.add(bx); 
 	    //buttons.add(bgraph);
 	    
 	    operators.add(badd);
@@ -227,11 +227,9 @@ public class CalcView extends JFrame {
 		add(new ButtonAdapter(bsign) {
 		       public void pressed(){ theController.changeSign();}});
 		
-		//Leave it as blank method in Controller/Model
-		/*
 		add(new ButtonAdapter(bx) { 
 		       public void pressed(){ theController.x();}});
-		*/
+		
 		add(new ButtonAdapter(bdot) { 
 		       public void pressed(){ theController.numericButton(bdot.getText());}});
 		
