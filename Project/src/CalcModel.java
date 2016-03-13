@@ -162,7 +162,8 @@ public class CalcModel
 		for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
 			if(top.getValue()[i] == 0)
 			{
-				resultArray[i] = Double.POSITIVE_INFINITY;
+				resultArray[i] = 1E6;
+				resultArray[i-1] = -1E6;
 				divisionByZero = true;
 			}
 			else
