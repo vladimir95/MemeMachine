@@ -26,10 +26,11 @@ public class DrawFunction extends JPanel
 		Polygon p = new Polygon();
 		double scale = 10;
 		int offSetX = (MathValue.NUMBER_OF_POINTS - w) / 2;
-		for(int i = offSetX; i <MathValue.NUMBER_OF_POINTS - offSetX; i++)
+		for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++)
 		{
-				p.addPoint(i - offSetX, (h / 2 - (int)(scale * yPoints[i])));
+				p.addPoint(i - offSetX, (int)Math.round(h / 2.0 - (scale * yPoints[i])));
 		}
+		System.out.println((h / 2.0) + " " + (h / 2.0 - (scale * yPoints[0])));
 		setYAxis(w, h, g);
 		setXAxis(w, h, g);
 		g.setColor(Color.blue);
@@ -38,18 +39,18 @@ public class DrawFunction extends JPanel
 
 	private void setYAxis(int w, int h, Graphics g)
 	{
-		int factor = 48;
+		int factor = 50;
 		
-		for(int i = 1; i < 8; i++)
+		for(int i = 1; i < 7; i++)
 		{
-			g.drawString("" + i * 5, w / 2 + 5, (h / 2) - (factor * i)); 
-			g.drawLine(w / 2 - 5, h / 2 - factor * i - 4, w / 2 + 5, h / 2 - factor * i - 4);
+			g.drawString("" + i * 5, w / 2 + 5, (h / 2) - (factor * i) + 4); 
+			g.drawLine(w / 2 - 5, h / 2 - factor * i, w / 2 + 5, h / 2 - factor * i);
 		}
 		
-		for(int i = 1; i < 8; i++)
+		for(int i = 1; i < 7; i++)
 		{
-			g.drawString("-" + i * 5, w / 2 + 8, (h / 2) + (factor * i)); 
-			g.drawLine(w / 2 - 5, h / 2 + factor * i - 4, w / 2 + 5, h / 2 + factor * i - 4);
+			g.drawString("-" + i * 5, w / 2 + 8, (h / 2) + (factor * i) + 4); 
+			g.drawLine(w / 2 - 5, h / 2 + factor * i, w / 2 + 5, h / 2 + factor * i);
 		}
 	}
 
