@@ -14,12 +14,24 @@ public class CalcController {
 		updateView();
 	}	
 	
+	/**
+	 * updates the CalcView with the information of CalcModel
+	 * @post. view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	private void updateView()
 	{
 		view.setHistoryText(model.getHistoryValue()); 
 		view.setDisplayText(model.getInputValue());  
 	}
 
+	/**
+	 * invokes the sum() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.sum() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void sum()
 	{ 		
 		if(model.mathError())
@@ -31,6 +43,13 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the subtract() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.subtract() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void subtract()
 	{ 		
 		if(model.mathError())
@@ -42,6 +61,13 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the multiply() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.multiply() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void multiply()
 	{ 		
 		if(model.mathError())
@@ -53,6 +79,13 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the divide() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.divide() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void divide()
 	{ 		
 		if(model.mathError())
@@ -64,18 +97,39 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the clear() method of CalcModel
+	 * updates CalcView with the result
+	 * @post. model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void clear()
 	{ 		
 		model.clear();
 		updateView();
 	}
 	
+	/**
+	 * invokes the undo() method of CalcModel
+	 * updates CalcView with the result
+	 * @post. model.undo() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void undo()
 	{ 		
 		model.undo();
 		updateView();
 	}
 	
+	/**
+	 * invokes the enter() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.enter() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void enter()
 	{ 		
 		if(model.mathError())
@@ -87,6 +141,13 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the sine() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.sine() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void sine()
 	{ 		
 		if(model.mathError())
@@ -98,6 +159,13 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the cosine() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.cosine() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void cosine()
 	{ 		
 		if(model.mathError())
@@ -109,6 +177,13 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the pi() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.pi() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void pi()
 	{ 		
 		if(model.mathError())
@@ -120,6 +195,13 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the factorial() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.factorial() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void factorial()
 	{ 		
 		if(model.mathError())
@@ -131,6 +213,13 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the changeSign() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.changeSign() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void changeSign()
 	{ 		
 		if(model.mathError())
@@ -142,6 +231,14 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the numericButton(String buttonName) method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @param buttonName - The name of the button as seen in CalcView.
+	 * @post. model.numericButton(String buttonName) OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void numericButton(String buttonName)
 	{ 		
 		if(model.mathError())
@@ -153,7 +250,13 @@ public class CalcController {
 		}
 	}
 	
-	
+	/**
+	 * demonstrates the calculator work by executing a sequence of operations of CaclModel.
+	 * updates CalcView with the result
+	 * @post. a sequence of CalcModel are executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void sampleTest(){
 		model.clear();
 		model.numericButton("5");
@@ -171,16 +274,31 @@ public class CalcController {
 		updateView();
 	}
 	
+	/**
+	 * Returns the string of the historyText in CalcView
+	 * @return - the historyText string
+	 */
 	public String getHistoryText()
 	{
 		return view.historyDisplay.getText();
 	}
 	
+	/**
+	 * Returns the string of the displayText in CalcView
+	 * @return - the displayText string
+	 */
 	public String getDisplayText()
 	{
 		return view.display.getText();
 	}
 	
+	/**
+	 * invokes the x() method of CalcModel or clear() method if MATH ERROR has occurred
+	 * updates CalcView with the result
+	 * @post. model.x() OR model.clear() is executed
+	 * 		  view.historyText = model.historyValue
+	 *        view.displayText = model.inputValue
+	 */
 	public void x() 
 	{ 		
 		if(model.mathError())

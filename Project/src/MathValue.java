@@ -8,6 +8,10 @@ public class MathValue
 	private boolean isVariable;
 	private double[] value = new double[NUMBER_OF_POINTS];
 	
+	/**
+	 * Creates a constant value
+	 * @param constatnt - the constant value to be added to each point in the array
+	 */
 	MathValue(double constatnt)
 	{
 		for(int i = 0; i < NUMBER_OF_POINTS; i++)
@@ -15,6 +19,9 @@ public class MathValue
 		isVariable = false;
 	}
 	
+	/**
+	 * Creates a variable value corresponding to y=x function
+	 */
 	MathValue()
 	{
 		for(int i = 0; i < NUMBER_OF_POINTS; i++)
@@ -22,17 +29,30 @@ public class MathValue
 		isVariable = true;
 	}
 	
+	/**
+	 * Creates a value that is the result of an operation, the value is either a variable or a constant
+	 * @param result - the array resulting from an operation
+	 * @param variable - defines the resulting value as either a constant or a variable
+	 */
 	MathValue(double[] result, boolean variable)
 	{
 		value = result;
 		isVariable = variable;
 	}
 	
+	/**
+	 * Returns the double array of this value
+	 * @return - double array of points of this value
+	 */
 	public double[] getValue()
 	{
 		return value;
 	}
 	
+	/**
+	 * Tells if this value is a variable or not
+	 * @return - true if value is variable, false if not
+	 */
 	public boolean isVariable()
 	{
 		return isVariable;
