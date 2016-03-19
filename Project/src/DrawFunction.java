@@ -9,69 +9,87 @@ public class DrawFunction extends JPanel
 {
 	private double[] yPoints;
 	
+	/**
+	 * Creates a function to be graphed
+	 * @param data - the y-axis points of a function
+	 */
 	DrawFunction(double[] data)
 	{
 		yPoints = data;
 	}
 	
+	/**
+	 * Sets the JPanel with the appropriate scale and plots the function graph.
+	 */
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 		int w = getWidth();
 		int h = getHeight();
 		
-		g.drawLine(0, h / 2, w, h / 2);
-		g.drawLine(w / 2, 0, w / 2, h);
+		g.drawLine(0, h / 2, w, h / 2); //draws the horizontal x - axis
+		g.drawLine(w / 2, 0, w / 2, h); //draws the vertical y - axis
 		
 		Polygon p = new Polygon();
-		double scale = 10;
-		int offSetX = (MathValue.NUMBER_OF_POINTS - w) / 2;
-		for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++)
+		double scale = 10; 				//scale the y - axis up
+		int offSetX = (MathValue.NUMBER_OF_POINTS - w) / 2; //sets the pixel offset from the left side of the graph based on the width of the JPanel
+		for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++) //adds the points to the polygon
 		{
 				p.addPoint(i - offSetX, (int)Math.round(h / 2.0 - (scale * yPoints[i])));
 		}
-		System.out.println((h / 2.0) + " " + (h / 2.0 - (scale * yPoints[0])));
 		setYAxis(w, h, g);
 		setXAxis(w, h, g);
 		g.setColor(Color.blue);
 		g.drawPolyline(p.xpoints, p.ypoints, p.npoints);
 	}
 
+	/**
+	 * Sets the y-axis of the graph with the correct scale and intervals.
+	 * @param w - width of the JPanel
+	 * @param h - height of the JPanel
+	 * @param g - the Graphics object use to draw
+	 */
 	private void setYAxis(int w, int h, Graphics g)
 	{
 		int factor = 50;
 		
 		for(int i = 1; i < 7; i++)
 		{
-			g.drawString("" + i * 5, w / 2 + 5, (h / 2) - (factor * i) + 4); 
-			g.drawLine(w / 2 - 5, h / 2 - factor * i, w / 2 + 5, h / 2 - factor * i);
+			g.drawString("" + i * 5, w / 2 + 5, (h / 2) - (factor * i) + 4); //draws the interval numbers
+			g.drawLine(w / 2 - 5, h / 2 - factor * i, w / 2 + 5, h / 2 - factor * i); //draws the interval lines
 		}
 		
 		for(int i = 1; i < 7; i++)
 		{
-			g.drawString("-" + i * 5, w / 2 + 8, (h / 2) + (factor * i) + 4); 
-			g.drawLine(w / 2 - 5, h / 2 + factor * i, w / 2 + 5, h / 2 + factor * i);
+			g.drawString("-" + i * 5, w / 2 + 8, (h / 2) + (factor * i) + 4); //draws the interval numbers
+			g.drawLine(w / 2 - 5, h / 2 + factor * i, w / 2 + 5, h / 2 + factor * i); //draws the interval lines
 		}
 	}
 
+	/**
+	 * Sets the x-axis of the graph with the correct scale and intervals.
+	 * @param w - width of the JPanel
+	 * @param h - height of the JPanel
+	 * @param g - the Graphics object use to draw
+	 */
 	private void setXAxis(int w, int h, Graphics g)
 	{
 		int factor = 50;
 		
-		g.drawString("-5", (w / 2) - (factor * 1) - 5, h / 2 + 18); 
-		g.drawLine(w / 2 - factor * 1, h / 2 - 5, w / 2 - factor * 1, h / 2 + 5);
+		g.drawString("-5", (w / 2) - (factor * 1) - 5, h / 2 + 18); //draws the interval numbers
+		g.drawLine(w / 2 - factor * 1, h / 2 - 5, w / 2 - factor * 1, h / 2 + 5); //draws the interval lines
 		for(int i = 2; i < 8; i++)
 		{
-			g.drawString("-" + i * 5, (w / 2) - (factor * i) - 10, h / 2 + 18); 
-			g.drawLine(w / 2 - factor * i, h / 2 - 5, w / 2 - factor * i, h / 2 + 5);
+			g.drawString("-" + i * 5, (w / 2) - (factor * i) - 10, h / 2 + 18); //draws the interval numbers
+			g.drawLine(w / 2 - factor * i, h / 2 - 5, w / 2 - factor * i, h / 2 + 5); //draws the interval lines
 		}
 		
-		g.drawString("5", (w / 2) + (factor * 1) - 3, h / 2 + 18);
-		g.drawLine(w / 2 + factor * 1, h / 2 - 5, w / 2 + factor * 1, h / 2 + 5);
+		g.drawString("5", (w / 2) + (factor * 1) - 3, h / 2 + 18); //draws the interval numbers
+		g.drawLine(w / 2 + factor * 1, h / 2 - 5, w / 2 + factor * 1, h / 2 + 5); //draws the interval lines
 		for(int i = 2; i < 8; i++)
 		{
-			g.drawString("" + i * 5, (w / 2) + (factor * i) - 7, h / 2 + 18); 
-			g.drawLine(w / 2 + factor * i, h / 2 - 5, w / 2 + factor * i, h / 2 + 5);
+			g.drawString("" + i * 5, (w / 2) + (factor * i) - 7, h / 2 + 18); //draws the interval numbers
+			g.drawLine(w / 2 + factor * i, h / 2 - 5, w / 2 + factor * i, h / 2 + 5); //draws the interval lines
 		}
 	}
 	
