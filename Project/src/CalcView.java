@@ -29,10 +29,11 @@ public class CalcView extends JFrame {
 	
 	Color mainColor, numberColor, operatorColor, functionColor, enterColor, buttonTextColor;
 	
-	public CalcView(final CalcController theController) throws MalformedURLException {
+	public CalcView(final CalcController theController, final GraphController graphController)
+			throws MalformedURLException {
 		
 		//Initialize the Frame
-		JFrame frame = new JFrame();
+		final JFrame frame = new JFrame();
 		String title = "PostFix Calculator";
 		frame.setSize(640, 720);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -265,7 +266,11 @@ public class CalcView extends JFrame {
 	    
 		//SampleTest Button ButtonAdapter  
 		add(new ButtonAdapter(btest) {
-		       public void pressed(){ theController.sampleTest();}});
+		       public void pressed(){ 
+		    	   //theController.sampleTest();
+		    	   JPanel a = graphController.graph();
+		    	   frame.add(a);
+		       }});
 	    
 	    
 	

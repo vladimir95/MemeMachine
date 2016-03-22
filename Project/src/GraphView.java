@@ -6,15 +6,20 @@ public class GraphView extends JFrame
 {
 	DrawFunction functionPlotter;
 	
-	public GraphView()
+	public GraphView(final GraphController graphController)
 	{
 		setLayout(new BorderLayout());
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//f.add(new DrawFunction(model.getFunction())); 		need to add a way to get the function from the model throught the controller
+		f.add(graphController.graph()); 		//need to add a way to get the function from the model through the controller
 		f.setSize(640, 720);
 		f.setLocationRelativeTo(null);
 		f.setVisible(true);
 		f.setResizable(false);
 	}
+	
+	/*public static void main (String args[]){
+		GraphController gc = new GraphController(c);
+		GraphView g = new GraphView(gc);
+	}*/
 }

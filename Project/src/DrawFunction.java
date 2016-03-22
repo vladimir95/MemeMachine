@@ -93,7 +93,7 @@ public class DrawFunction extends JPanel
 		}
 	}
 	
-	public static void main(String[] args) //will be removed once this class (JPanel) is properly put into the GraphView
+	/*public static void main(String[] args) //will be removed once this class (JPanel) is properly put into the GraphView
 	{
 		CalcModel model = new CalcModel();
 		boolean trig = true;
@@ -118,5 +118,5 @@ public class DrawFunction extends JPanel
 		f.setLocationRelativeTo(null);
 		f.setVisible(true);
 		f.setResizable(false);
-	}
+	}*/
 }

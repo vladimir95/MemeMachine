@@ -5,13 +5,17 @@ public class CalcController {
 
 	private CalcView view;
 	private CalcModel model; 
+	private GraphController graphController;
 	
 	
 	public CalcController() throws MalformedURLException
 	{
-		view = new CalcView(this);
 		model = new CalcModel();
-		updateView();
+		view = new CalcView(this,graphController);
+		graphController = new GraphController(this);
+		
+		
+		//updateView();
 	}	
 	
 	/**
@@ -19,7 +23,7 @@ public class CalcController {
 	 * @post. view.historyText = model.historyValue
 	 *        view.displayText = model.inputValue
 	 */
-	private void updateView()
+	public void updateView()
 	{
 		view.setHistoryText(model.getHistoryValue()); 
 		view.setDisplayText(model.getInputValue());  
@@ -258,7 +262,7 @@ public class CalcController {
 	 *        view.displayText = model.inputValue
 	 */
 	public void sampleTest(){
-		model.clear();
+		/*model.clear();
 		model.numericButton("5");
 		model.numericButton(".");
 		model.numericButton("2");
@@ -270,7 +274,11 @@ public class CalcController {
 		model.numericButton("4");
 		model.numericButton("7");
 		model.enter();
-		model.sum();
+		model.sum();*/
+		model.x();
+		model.cosine();
+		model.x();
+		model.multiply();
 		updateView();
 	}
 	
