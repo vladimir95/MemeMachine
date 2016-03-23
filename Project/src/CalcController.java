@@ -1,6 +1,8 @@
 import java.net.MalformedURLException;
 import java.util.EmptyStackException;
 
+import javax.swing.JPanel;
+
 public class CalcController {
 
 	private CalcView view;
@@ -11,11 +13,9 @@ public class CalcController {
 	public CalcController() throws MalformedURLException
 	{
 		model = new CalcModel();
-		view = new CalcView(this,graphController);
+		view = new CalcView(this);
 		graphController = new GraphController(this);
-		
-		
-		//updateView();
+		updateView();
 	}	
 	
 	/**
@@ -23,7 +23,7 @@ public class CalcController {
 	 * @post. view.historyText = model.historyValue
 	 *        view.displayText = model.inputValue
 	 */
-	public void updateView()
+	private void updateView()
 	{
 		view.setHistoryText(model.getHistoryValue()); 
 		view.setDisplayText(model.getInputValue());  
@@ -318,8 +318,14 @@ public class CalcController {
 		}
 	}
 	
-	public void graph()
+	public JPanel graph()
 	{ 		
-		//Not specified yet
+		return graphController.graph();
 	}
+	
+	public CalcModel getModel()
+	{
+		return model;
+	}
+	
 }

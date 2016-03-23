@@ -270,7 +270,7 @@ public class CalcModel
 		MathValue result = new MathValue(resultArray, top.isVariable());//The result is variable if the top operand is a variable
 		calcStack.push(result);										    //and a constant otherwise
 		preStack.push(top);
-		historyStack.push(UNARY.substring(0, 3));
+		historyStack.push(UNARY.substring(3, 6));
 		printHistory();
 		updateOperationValue(result);
 	}
@@ -587,7 +587,10 @@ public class CalcModel
 	 */
 	public double[] getFunction()
 	{
-		return calcStack.peek().getValue();
+		if(calcStack.empty())
+			return new MathValue(0).getValue();
+		else
+			return calcStack.peek().getValue();
 	}
 	
 	/**

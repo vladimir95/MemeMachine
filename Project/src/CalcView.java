@@ -29,7 +29,7 @@ public class CalcView extends JFrame {
 	
 	Color mainColor, numberColor, operatorColor, functionColor, enterColor, buttonTextColor;
 	
-	public CalcView(final CalcController theController, final GraphController graphController)
+	public CalcView(final CalcController theController)
 			throws MalformedURLException {
 		
 		//Initialize the Frame
@@ -163,7 +163,7 @@ public class CalcView extends JFrame {
 	    buttons.add(btest); // Adding Test Button
 	   
 	    buttons.add(bx); 
-	    //buttons.add(bgraph);
+	    buttons.add(bgraph);
 	    
 	    operators.add(badd);
 	    operators.add(bsubtract);
@@ -208,11 +208,12 @@ public class CalcView extends JFrame {
 		add(new ButtonAdapter(benter) {
 		       public void pressed(){ theController.enter();}});
 		
-		//Leave it as blank method in Controller/Model
-		/*
 		add(new ButtonAdapter(bgraph) { 
-		       public void pressed(){ theController.graph();}});
-		*/
+		       public void pressed(){ 
+		    	   JPanel a = theController.graph();
+		    	   frame.setContentPane(a);
+		    	   frame.revalidate();}});
+		
 		add(new ButtonAdapter(bsin) {
 		       public void pressed(){ theController.sine();}});
 		
@@ -266,11 +267,7 @@ public class CalcView extends JFrame {
 	    
 		//SampleTest Button ButtonAdapter  
 		add(new ButtonAdapter(btest) {
-		       public void pressed(){ 
-		    	   //theController.sampleTest();
-		    	   JPanel a = graphController.graph();
-		    	   frame.add(a);
-		       }});
+		       public void pressed(){ theController.sampleTest();}});
 	    
 	    
 	
