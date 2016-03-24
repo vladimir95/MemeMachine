@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 public class DrawFunction extends JPanel
 {
+	private Color numberColor = new Color(97,107,116);
 	private double[] yPoints;
 	
 	/**
@@ -27,6 +28,7 @@ public class DrawFunction extends JPanel
 		int w = getWidth();
 		int h = getHeight();
 		
+		g.setColor(numberColor);
 		g.drawLine(0, h / 2, w, h / 2); //draws the horizontal x - axis
 		g.drawLine(w / 2, 0, w / 2, h); //draws the vertical y - axis
 		
@@ -55,15 +57,18 @@ public class DrawFunction extends JPanel
 		
 		for(int i = 1; i < 7; i++)
 		{
+			g.setColor(Color.WHITE);
 			g.drawString("" + i * 5, w / 2 + 5, (h / 2) - (factor * i) + 4); //draws the interval numbers
 			g.drawLine(w / 2 - 5, h / 2 - factor * i, w / 2 + 5, h / 2 - factor * i); //draws the interval lines
 		}
 		
 		for(int i = 1; i < 7; i++)
 		{
+			g.setColor(Color.WHITE);
 			g.drawString("-" + i * 5, w / 2 + 8, (h / 2) + (factor * i) + 4); //draws the interval numbers
 			g.drawLine(w / 2 - 5, h / 2 + factor * i, w / 2 + 5, h / 2 + factor * i); //draws the interval lines
 		}
+		
 	}
 
 	/**
@@ -76,18 +81,22 @@ public class DrawFunction extends JPanel
 	{
 		int factor = 50;
 		
+		g.setColor(Color.WHITE);
 		g.drawString("-5", (w / 2) - (factor * 1) - 5, h / 2 + 18); //draws the interval numbers
 		g.drawLine(w / 2 - factor * 1, h / 2 - 5, w / 2 - factor * 1, h / 2 + 5); //draws the interval lines
 		for(int i = 2; i < 8; i++)
 		{
+			g.setColor(Color.WHITE);
 			g.drawString("-" + i * 5, (w / 2) - (factor * i) - 10, h / 2 + 18); //draws the interval numbers
 			g.drawLine(w / 2 - factor * i, h / 2 - 5, w / 2 - factor * i, h / 2 + 5); //draws the interval lines
 		}
 		
+		g.setColor(Color.WHITE);
 		g.drawString("5", (w / 2) + (factor * 1) - 3, h / 2 + 18); //draws the interval numbers
 		g.drawLine(w / 2 + factor * 1, h / 2 - 5, w / 2 + factor * 1, h / 2 + 5); //draws the interval lines
 		for(int i = 2; i < 8; i++)
 		{
+			g.setColor(Color.WHITE);
 			g.drawString("" + i * 5, (w / 2) + (factor * i) - 7, h / 2 + 18); //draws the interval numbers
 			g.drawLine(w / 2 + factor * i, h / 2 - 5, w / 2 + factor * i, h / 2 + 5); //draws the interval lines
 		}

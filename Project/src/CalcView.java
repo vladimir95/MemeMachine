@@ -211,6 +211,7 @@ public class CalcView extends JFrame {
 		add(new ButtonAdapter(bgraph) { 
 		       public void pressed(){ 
 		    	   JPanel a = theController.graph();
+		    	   a.setBackground(Color.BLACK);
 		    	   frame.setContentPane(a);
 		    	   frame.revalidate();}});
 		
