@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 public class DrawFunction extends JPanel
 {
-	private Color numberColor = new Color(97,107,116);
+	private Color axisColor = new Color(97,107,116);
 	private double[] yPoints;
 	
 	/**
@@ -28,7 +28,7 @@ public class DrawFunction extends JPanel
 		int w = getWidth();
 		int h = getHeight();
 		
-		g.setColor(numberColor);
+		g.setColor(axisColor);
 		g.drawLine(0, h / 2, w, h / 2); //draws the horizontal x - axis
 		g.drawLine(w / 2, 0, w / 2, h); //draws the vertical y - axis
 		
