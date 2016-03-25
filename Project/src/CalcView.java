@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GridLayout;
@@ -12,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 
 
@@ -20,8 +23,12 @@ import javax.swing.ImageIcon;
 @SuppressWarnings("serial") 
 public class CalcView extends JFrame {
 	
+	//Main Panel's Buttons
 	JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bdot,bclear,bmultiply,bdivide,badd,bsubtract,benter,
-									bpi,bfact, bundo, bsin, bcos, bx, bgraph, bsign, btest;
+									bpi,bfact, bundo, bsin, bcos, bx, bgraph, bsign, btest, btest2;
+	
+	//Graph Panel's Buttons
+	
 	
 	JTextField display,historyDisplay;
 	
@@ -95,11 +102,16 @@ public class CalcView extends JFrame {
 		bsin = new JButton("sin"); 
 		bcos = new JButton("cos"); 
 		bx = new JButton("X"); 
-		bgraph = new JButton("GRAPH");
+		bgraph = new JButton("Graph");
 		bsign = new JButton("+/-"); 
 		
-		//Sample Test Button
-		btest = new JButton("Sample Test");
+		//Sample Tests Button
+		btest = new JButton("Sample Calculation");
+		btest2 = new JButton("Sample Graph");
+		
+		
+		
+		
 		
 		
 		//Increase specific buttons' fonts
@@ -136,51 +148,76 @@ public class CalcView extends JFrame {
 		
 		//Set panels' layouts
 	    numbers.setLayout(new GridLayout(4,3,3,3));
-	    operators.setLayout(new GridLayout(4,2,3,3));
-	    buttons.setLayout(new GridLayout(4,1,3,3)); //Grid Layout was changed accordingly for the Test button
-	    panel.setLayout(new GridLayout(3,1,10,10));
+	    operators.setLayout(new GridLayout(4,3,3,3)); //Changed the Layout for the signs to fit the buttons
+	    buttons.setLayout(new GridLayout(1,3,3,3)); //Grid Layout was changed accordingly for the Test button
+	    //panel.setLayout(new GridLayout(3,1,10,10));
+	    // Made Layout to be a boxLayout - allows to easily manage space between buttons and buttons size
+	    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); 
+	    
 	    panel2.setLayout(new GridLayout(2,1,10,10));
 	    mainpanel.setLayout(new BorderLayout(20,20));
 	    left.setLayout(new GridLayout(1,1,0,0));
 	    right.setLayout(new GridLayout(1,1,0,0));
-	    bottom.setLayout(new GridLayout(1,1,0,0));
+	    //bottom.setLayout(new GridLayout(65,1,0,0));
+	    //Same here: made the bottom plane a boxLayout and then added space on top of it, which pushed the buttons up(Line 153)
+	    bottom.setLayout(new BoxLayout(bottom, BoxLayout.Y_AXIS));
+	    bottom.setBackground(mainColor);
+	    bottom.add(Box.createRigidArea(new Dimension(0,25)));
 	    
-	    numbers.add(b1);
-	    numbers.add(b2);
-	    numbers.add(b3);
-	    numbers.add(b4);
-	    numbers.add(b5);
-	    numbers.add(b6);
+	    //Numbers are now aligned just like in calculator, not a phone lol
 	    numbers.add(b7);
 	    numbers.add(b8);
 	    numbers.add(b9);
+	    numbers.add(b4);
+	    numbers.add(b5);
+	    numbers.add(b6);
+	    numbers.add(b1);
+	    numbers.add(b2);
+	    numbers.add(b3);
 	    numbers.add(bdot);
 	    numbers.add(b0);
 	    numbers.add(bpi);
 	    
 	    //SWITCHED ALIGNMENT OF BUTTONS
-	    buttons.add(benter);
-	    buttons.add(bundo);
-	    buttons.add(bclear);
-	    buttons.add(btest); // Adding Test Button
-	   
-	    buttons.add(bx); 
-	    buttons.add(bgraph);
+	    //buttons.add(benter);
+	    //buttons.add(bundo);
+	    //buttons.add(bclear);
 	    
+	    //Yes, now enter and undo belong to Operators panel, for convenience: it's much more handy to have those up top.
+	    buttons.add(btest); // Adding Test Button
+	    buttons.add(bclear);
+	    //Added a sample graph button, as prof suggested
+	    buttons.add(btest2); 
+	    
+	    operators.add(bgraph);
+	    operators.add(benter);
+	    operators.add(bundo);
 	    operators.add(badd);
 	    operators.add(bsubtract);
+	    operators.add(bsign);
 	    operators.add(bmultiply);
 	    operators.add(bdivide);
+	    operators.add(bfact);
 	    operators.add(bsin);
 	    operators.add(bcos);
-	    operators.add(bfact);
-	    operators.add(bsign);
+	    operators.add(bx);
+	    
+	    //These three belong to the buttons pan now
+	    //operators.add(btest);
+	    //operators.add(btest);
+	    //operators.add(bclear);
 	    
 	    panel2.add(historyDisplay);
 	    panel2.add(display);
+	    //Creating spaces between panels in the panle that holds all the buttons
+	    panel.add(Box.createRigidArea(new Dimension(0,15)));
 	    panel.add(numbers);
+	    panel.add(Box.createRigidArea(new Dimension(0,15)));
 	    panel.add(operators);
+	    panel.add(Box.createRigidArea(new Dimension(0,15)));
 	    panel.add(buttons);
+	    
+	    //Adding everything to the main panel
 	    mainpanel.add(panel2 , BorderLayout.NORTH);
 	    mainpanel.add(panel, BorderLayout.CENTER);
 	    mainpanel.add(left, BorderLayout.EAST);
@@ -267,7 +304,7 @@ public class CalcView extends JFrame {
 		//SampleTest Button ButtonAdapter  
 		add(new ButtonAdapter(btest) {
 		       public void pressed(){ theController.sampleTest();}});
-	    
+		
 	    
 	
 	    frame.add(mainpanel);
@@ -373,14 +410,22 @@ public class CalcView extends JFrame {
 		//FUNCTIONS COLOR AND FORMATTING
 		ArrayList<JButton> functions = new ArrayList<JButton>();
 		functions.add(bclear);
-		functions.add(bundo);
+		
+		//To follow the design, made Undo to be same as Enter
+		//functions.add(bundo);
+		
 		functions.add(bsin);
 		functions.add(bcos);
 		functions.add(bfact);
 		functions.add(bsign);
 		functions.add(btest);
-		functions.add(bgraph); //Will be same color as other function buttons
+		//Sample graph is also like a function button
+		functions.add(btest2);
 		functions.add(bx); //Will be same color as other function buttons
+		
+		
+		//Nah... Made Graph same color as Enter Button. 
+		//functions.add(bgraph); //Will be same color as other function buttons
 				
 				
 		//for all functions:
@@ -393,11 +438,24 @@ public class CalcView extends JFrame {
 	    }		
 		
 		
-		//ENTER BUTTON AND FORMATTING
+		//ENTERING BUTTONS AND FORMATTING
+		ArrayList<JButton> enter = new ArrayList<JButton>();
+		enter.add(benter);
+		enter.add(bundo);
+		enter.add(bgraph);
+		
+		//for all "enters":
+		for (JButton benter: enter){
 		benter.setBackground(enterColor);
 		benter.setForeground(buttonTextColor);
 		benter.setFocusable(false);
 		benter.setBorder(null);
 		benter.setFont(benter.getFont().deriveFont(20f));
+		}
 	}
+	
+	
+		
+		
+	
 }
