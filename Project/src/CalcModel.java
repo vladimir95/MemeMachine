@@ -396,7 +396,7 @@ public class CalcModel
 	public void factorial()
 	{
 		MathValue top;
-		MathValue result = new MathValue(1);
+		MathValue resultCalc = new MathValue(1);
 		boolean undefinedValueCalculated = false;
 		
 		if(!valueResetFlag)      //If the user was typing input before pressing the operation button
@@ -406,20 +406,21 @@ public class CalcModel
 		for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
 			if(top.getValue()[i] < 0 || top.getValue()[i] != Math.floor(top.getValue()[i]))
 			{
-				result.getValue()[i] = Double.NaN;      //during the calculation of the factorial operation, if a factorial of a whole number occurs 
+				resultCalc.getValue()[i] = 0;      //during the calculation of the factorial operation, if a factorial of a whole number occurs 
 				undefinedValueCalculated = true;		//Double.NAN is substituted instead of throwing an error but a flag is set to indicate that an undefined
 			}											//value was calculated
 			else
 			{
 				if(top.getValue()[i] > 170)				//Factorial of integers larger than 170 will cause the double type to overflow, so instead of calculating
 														//the actual value which can take a long time, Double.POSITIVE_INFINITY is returned as the result
-					result.getValue()[i] = Double.POSITIVE_INFINITY;
+					resultCalc.getValue()[i] = Double.POSITIVE_INFINITY;
 				else
 				{
 					for(int j = 1; j <= (int)top.getValue()[i]; j++)
-						result.getValue()[i] *= j;
+						resultCalc.getValue()[i] *= j;
 				}
 			}
+		MathValue result = new MathValue(resultCalc.getValue(), top.isVariable());
 		if(!top.isVariable() && undefinedValueCalculated)//if factorial of undefined value occurred and both values are constants, MATH ERROR occurs
 		{								  				 //The user can undo the mathErrorFlag with the UNDO() method
 			mathErrorFlag = true;

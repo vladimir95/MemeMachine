@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -9,16 +10,34 @@ public class DrawFunction extends JPanel
 {
 	private Color axisColor = new Color(97,107,116);
 	private double[] yPoints;
+	private CalcView view;
 	
 	/**
 	 * Creates a function to be graphed
 	 * @param data - the y-axis points of a function
 	 */
-	DrawFunction(double[] data)
+	DrawFunction(double[] data, CalcView theView)
 	{
+		this.setBackground(Color.BLACK);
+		
 		yPoints = data;
+		view = theView;
+		
+		JButton back = new JButton("Back");
+		add(back);
+		new ButtonAdapter(back) {
+			public void pressed(){Back();}};
+		
+		view.frame.setContentPane(this);
+		view.frame.revalidate();
 	}
 	
+	protected void Back()
+	{
+		view.frame.setContentPane(view.mainpanel);
+		view.frame.revalidate();
+	}
+
 	/**
 	 * Sets the JPanel with the appropriate scale and plots the function graph.
 	 */
@@ -37,6 +56,9 @@ public class DrawFunction extends JPanel
 		int offSetX = (MathValue.NUMBER_OF_POINTS - w) / 2; //sets the pixel offset from the left side of the graph based on the width of the JPanel
 		for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++) //adds the points to the polygon
 		{
+			if(scale * yPoints[i] > h / 2.0)
+				p.addPoint(i - offSetX, -Integer.MAX_VALUE);
+			else
 				p.addPoint(i - offSetX, (int)Math.round(h / 2.0 - (scale * yPoints[i])));
 		}
 		setYAxis(w, h, g);
@@ -101,31 +123,6 @@ public class DrawFunction extends JPanel
 			g.drawLine(w / 2 + factor * i, h / 2 - 5, w / 2 + factor * i, h / 2 + 5); //draws the interval lines
 		}
 	}
+
 	
-	/*public static void main(String[] args) //will be removed once this class (JPanel) is properly put into the GraphView
-	{
-		CalcModel model = new CalcModel();
-		boolean trig = true;
-		if(trig)
-		{
-			model.x();
-			model.cosine();
-			model.x();
-			model.multiply();
-		}
-		if(!trig)
-		{
-			model.x();
-			model.x();
-			model.multiply();
-		}
-		
-		JFrame f = new JFrame();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.add(new DrawFunction(model.getFunction()));
-		f.setSize(640, 720);
-		f.setLocationRelativeTo(null);
-		f.setVisible(true);
-		f.setResizable(false);
-	}*/
 }

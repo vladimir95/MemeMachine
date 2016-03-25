@@ -318,9 +318,9 @@ public class CalcController {
 		}
 	}
 	
-	public JPanel graph()
+	public void graph()
 	{ 		
-		return graphController.graph();
+		graphController.graph(view);
 	}
 	
 	public CalcModel getModel()
