@@ -191,7 +191,7 @@ public class CalcModel
 		enoughOperandsBinary();
 		top = calcStack.pop();
 		secondTop = calcStack.pop();
-		for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
+		for(int i = 1; i < MathValue.NUMBER_OF_POINTS; i++)
 			if(top.getValue()[i] == 0)  //during the calculation of the division operation, if division by 0 occurs 
 			{							//a large number is substituted instead of throwing an error but a flag is set to indicate that division by 0 occurred
 				resultArray[i] = 1E6;
@@ -199,7 +199,7 @@ public class CalcModel
 				divisionByZero = true;
 			}
 			else
-				resultArray[i] =secondTop.getValue()[i] / top.getValue()[i];
+				resultArray[i] = secondTop.getValue()[i] / top.getValue()[i];
 		if(!top.isVariable() && !secondTop.isVariable() && divisionByZero) //if division by zero occurred and both values are constants, MATH ERROR occurs
 		{																   //The user can undo the mathErrorFlag with the UNDO() method
 			mathErrorFlag = true;
@@ -215,7 +215,7 @@ public class CalcModel
 			calcStack.push(result);																	   //and a constant otherwise
 			preStack.push(secondTop);
 			preStack.push(top);
-			historyStack.push(BINARY.charAt(0) + "");
+			historyStack.push(BINARY.charAt(5) + "");
 			printHistory();
 			updateOperationValue(result);
 		}
@@ -309,16 +309,18 @@ public class CalcModel
 		}
 		else		//If the user is NOT currently typing input, the sign of the top value in the calcStack will change and will be updated in the historyValue
 		{
-			top = calcStack.pop();
-			for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
-				resultArray[i] = -1 * top.getValue()[i];
-			MathValue result = new MathValue(resultArray, top.isVariable());
-			calcStack.push(result);
-			preStack.push(top);
-			historyStack.push(CHANGE_SIGN);
-			printHistory();
-			updateOperationValue(result);
-		
+			if(!calcStack.empty())
+			{
+				top = calcStack.pop();
+				for(int i = 0; i < MathValue.NUMBER_OF_POINTS; i++)
+					resultArray[i] = -1 * top.getValue()[i];
+				MathValue result = new MathValue(resultArray, top.isVariable());
+				calcStack.push(result);
+				preStack.push(top);
+				historyStack.push(CHANGE_SIGN);
+				printHistory();
+				updateOperationValue(result);
+			}
 		}
 	}
 	
@@ -858,16 +860,16 @@ public class CalcModel
 			inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE); //displays the initial 0 if the result is a variable
 		else
 		{ //if the result is whole and not bigger than absolute value of integer, displays the result as an integer
-			if(result.getValue()[0] == Math.floor(result.getValue()[0]) && !(result.getValue()[0] > Integer.MAX_VALUE) && 
-					!(result.getValue()[0] < Integer.MIN_VALUE))
-				inputValue = new StringBuilder(Integer.toString((int)result.getValue()[0])); 
+			if(result.getValue()[1] == Math.floor(result.getValue()[1]) && !(result.getValue()[1] > Integer.MAX_VALUE) && 
+					!(result.getValue()[1] < Integer.MIN_VALUE))
+				inputValue = new StringBuilder(Integer.toString((int)result.getValue()[1])); 
 			else //otherwise displays the results as a real, and in scientific notation if the value is bigger than 1E10 or smaller than 1E10
 			{
-				if(Math.abs(result.getValue()[0]) > 1E10 || Math.abs(result.getValue()[0]) < 1E-10)
+				if(Math.abs(result.getValue()[1]) > 1E10 || Math.abs(result.getValue()[1]) < 1E-10)
 					form.applyPattern("#.###E0");
 				else
 					form.applyLocalizedPattern("#.##########");
-				inputValue = new StringBuilder(form.format(result.getValue()[0]));
+				inputValue = new StringBuilder(form.format(result.getValue()[1]));
 			}
 		}
 	}
