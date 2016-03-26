@@ -14,7 +14,7 @@ public class CalcController {
 	{
 		model = new CalcModel();
 		view = new CalcView(this);
-		graphController = new GraphController(this);
+		graphController = new GraphController(this, view);
 		updateView();
 	}	
 	
@@ -320,7 +320,7 @@ public class CalcController {
 	
 	public void graph()
 	{ 		
-		graphController.graph(view);
+		graphController.graph();
 	}
 	
 	public CalcModel getModel()

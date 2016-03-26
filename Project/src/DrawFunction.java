@@ -16,8 +16,11 @@ import javax.swing.JTextField;
 public class DrawFunction extends JPanel
 {
 	private Color axisColor = new Color(97,107,116);
+	
 	private double[] yPoints;
 	private CalcView view;
+	private String equation;
+	private GraphController controller;
 	
 	//Graph's buttons
 	JButton bback, bfavourites, baddToFavourites;
@@ -26,12 +29,14 @@ public class DrawFunction extends JPanel
 	 * Creates a function to be graphed
 	 * @param data - the y-axis points of a function
 	 */
-	DrawFunction(double[] data, CalcView theView)
+	DrawFunction(double[] data, String functioName, CalcView theView, GraphController theController)
 	{
 		this.setBackground(Color.BLACK);
 		
 		yPoints = data;
 		view = theView;
+		equation = functioName;
+		controller = theController;
 		
 		
 		//Graph's Panel buttons
@@ -42,11 +47,14 @@ public class DrawFunction extends JPanel
 		
 		
 		
-		add(new ButtonAdapter(bfavourites) {
-		       public void pressed(){ openFavourites();}});
+		new ButtonAdapter(bfavourites) {
+		       public void pressed(){ openFavourites();}};
 		
 		new ButtonAdapter(bback) {
 			public void pressed(){Back();}};
+			
+		new ButtonAdapter(baddToFavourites) {
+				public void pressed(){addToFavourites();;}};
 		
 		view.frame.setContentPane(this);
 		view.frame.revalidate();
@@ -244,69 +252,18 @@ public class DrawFunction extends JPanel
 			
 		}
 		
-		public void openFavourites(){
-			JPanel favourites = new JPanel();
-			//favourites.setLayout(new GridLayout(1,10,5,5));
-			favourites.setLayout(new BoxLayout(favourites,BoxLayout.Y_AXIS));
-			favourites.setBackground(Color.BLACK);
-			JPanel button = new JPanel();
-			button.setOpaque(false);
-			button.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
-			JButton back = new JButton("< Back");
-			back.setPreferredSize(new Dimension(200,40));
-			back.setBackground(view.functionColor);
-			back.setForeground(view.buttonTextColor);
-			back.setFocusable(false);
-			back.setBorder(null);
-			back.setFont(bback.getFont().deriveFont(20f));
-			
-			button.add(back);
-			
-			
-			JPanel example = new JPanel();
-			example.setBackground(Color.BLUE);
-			JButton delete = new JButton("Delete");
-			JButton graph = new JButton("Graph");
-			
-			
-			graph.setPreferredSize(new Dimension(150,40));
-			graph.setBackground(view.functionColor);
-			graph.setForeground(view.buttonTextColor);
-			graph.setFocusable(false);
-			graph.setBorder(null);
-			graph.setFont(bback.getFont().deriveFont(20f));
-			
-			delete.setPreferredSize(new Dimension(150,40));
-			delete.setBackground(view.functionColor);
-			delete.setForeground(view.buttonTextColor);
-			delete.setFocusable(false);
-			delete.setBorder(null);
-			delete.setFont(bback.getFont().deriveFont(20f));
-			
-			
-			
-			JTextField graphName = new JTextField("",30);
-			example.setLayout(new GridLayout(1,3,5,0));
-			graphName.setBackground(Color.BLACK);
-			graphName.setForeground(Color.WHITE);
-			graphName.setSize(new Dimension(320,40));
-			graphName.setFont(new Font("Arial Rounded", Font.BOLD,18));
-			
-			example.add(graphName);
-			example.add(graph);
-			example.add(delete);
-			
-			favourites.add(button);
-			//favourites.add(Box.createRigidArea(new Dimension(0,5)));
-			favourites.add(example);
-			favourites.add(Box.createRigidArea(new Dimension(0,600)));
-			
-			
-			view.frame.setContentPane(favourites);
-	    	view.frame.revalidate();
-			/*for (int i = 0; i < 4; i++){
-				favourites.add(example);
-			}*/
+		public void openFavourites()
+		{
+			controller.openFavorites(this);
 		}
 	
+		public void addToFavourites()
+		{
+			controller.addToFavourites(this, equation, yPoints);
+		}
+		
+		public GraphController getGraphController()
+		{
+			return controller;
+		}
 }

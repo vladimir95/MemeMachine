@@ -597,6 +597,38 @@ public class CalcModel
 	}
 	
 	/**
+	 * returns the equation of the top value of calcStack.
+	 * @return - String representation of the function stored at the top of calcStack
+	 */
+	public String getEquation()
+	{
+		String equation;
+		if(historyValue.indexOf("=") != -1)
+		{
+			checkEqualSign();
+			if(historyStack.empty())
+				equation = "y = 0";
+			else
+				if(commaStack.peek() == 0)
+					equation = "y = " + historyValue.substring(commaStack.peek());
+				else
+					equation = "y = " + historyValue.substring(commaStack.peek() + 2);
+			historyValue.append(" =");
+		}
+		else
+		{
+			if(historyStack.empty())
+				equation = "y = 0";
+			else
+				if(commaStack.peek() == 0)
+					equation = "y = " + historyValue.substring(commaStack.peek());
+				else
+					equation = "y = " + historyValue.substring(commaStack.peek() + 2);
+		}
+		return equation;
+	}
+	
+	/**
 	 * Checks if a math error has occurred.
 	 * @return - True if math error occurred and false otherwise.
 	 */

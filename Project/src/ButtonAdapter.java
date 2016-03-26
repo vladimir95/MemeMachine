@@ -21,9 +21,15 @@ import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public abstract class ButtonAdapter extends JButton implements ActionListener {
+	int buttonIndex;
   public ButtonAdapter (JButton button) {
     button.addActionListener(this);
   }
+  
+  public ButtonAdapter (JButton button, int index) {
+	    button.addActionListener(this);
+	    buttonIndex = index;
+	  }
  
 
 public void actionPerformed (ActionEvent e) { pressed(); }
