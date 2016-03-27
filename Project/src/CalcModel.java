@@ -411,10 +411,10 @@ public class CalcModel
 			}											//value was calculated
 			else
 			{
-				if(top.getValue()[i] > 170)				//Factorial of integers larger than 170 will cause the double type to overflow, so instead of calculating
+				if(top.getValue()[i] > 170)				//Factorial of values larger than 170 will cause the double type to overflow, so instead of calculating
 														//the actual value which can take a long time, Double.POSITIVE_INFINITY is returned as the result
 					resultCalc.getValue()[i] = Double.POSITIVE_INFINITY;
-				else if (Double.isNaN(top.getValue()[i]))
+				else if (Double.isNaN(top.getValue()[i])) //Handles the factorial calculation of NaN.
 					resultCalc.getValue()[i] = Double.NaN;
 				else
 				{

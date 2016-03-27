@@ -318,11 +318,23 @@ public class CalcController {
 		}
 	}
 	
+	/**
+	 * invokes the graph() method of GraphController or model.clear() if MATH ERROR has occurred
+	 */
 	public void graph()
 	{ 		
-		graphController.graph();
+		if(model.mathError())
+			clear();
+		else
+		{
+			graphController.graph();
+		}
 	}
 	
+	/**
+	 * Helper method to allow passing the CalcModel to GraphController
+	 * @return - returns the instance of the current CalcModel
+	 */
 	public CalcModel getModel()
 	{
 		return model;

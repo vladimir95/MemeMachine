@@ -26,7 +26,7 @@ public abstract class ButtonAdapter extends JButton implements ActionListener {
     button.addActionListener(this);
   }
   
-  public ButtonAdapter (JButton button, int index) {
+  public ButtonAdapter (JButton button, int index) { //Allows the button to store an index identifying the entry it corresponds to in a collection
 	    button.addActionListener(this);
 	    buttonIndex = index;
 	  }

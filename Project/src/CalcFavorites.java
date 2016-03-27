@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 public class CalcFavorites extends JPanel
 {
 	final int MAX_LIST_SIZE = 10;
-	List<FavoriteValue> favorites = new ArrayList<FavoriteValue>();
+	List<FavoriteValue> favorites = new ArrayList<FavoriteValue>(); //The favorites list. Stores the favorites that were added from the graph
 	CalcView view;
 	DrawFunction graphPanel;
 	
@@ -25,7 +25,7 @@ public class CalcFavorites extends JPanel
 	{
 		view = theView;
 		
-		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS)); //Setting the layout of the graph view
         setBackground(Color.BLACK);
         JPanel button = new JPanel();
         favoritesPanel = new JPanel();
@@ -51,12 +51,19 @@ public class CalcFavorites extends JPanel
         add(favoritesPanel);
 	}
 	
+	/**
+	 * Sets the display to the graph view
+	 */
 	protected void back()
 	{
 		view.frame.setContentPane(graphPanel);
 		view.frame.revalidate();
 	}
 
+	/**
+	 * Sets the display to this favorites view
+	 * @param theGraph - graph panel is passed as the caller of the favorites view. Used to go back to this view from favorites view.
+	 */
 	public void displayFavorites(DrawFunction theGraph)
 	{
 		graphPanel = theGraph;
@@ -65,6 +72,12 @@ public class CalcFavorites extends JPanel
 		view.frame.revalidate();
 	}
 	
+	/**
+	 * Adds the current displayed graph to the favorites list.
+	 * @param theGraph - graph panel is passed as the caller of the favorites view. Used to go back to this view from favorites view.
+	 * @param name - String representation of the function name
+	 * @param yPoints - The y - axis data points, used to draw the graph
+	 */
 	public void addToFavourites(DrawFunction theGraph, String name, double[] yPoints)
 	{
 		if(favorites.size() < MAX_LIST_SIZE)
@@ -74,6 +87,9 @@ public class CalcFavorites extends JPanel
 		displayFavorites(theGraph);
 	}
 	
+	/**
+	 * Updates and displays the current favorite graphs in this view.
+	 */
 	public void showFavoritesList()
 	{
 		
@@ -122,6 +138,10 @@ public class CalcFavorites extends JPanel
 		}
 	}
 	
+	/**
+	 * Deletes the specific favorite entry from the favorites list
+	 * @param index - the index of the entry in the favorites list to be deleted
+	 */
 	public void delete(int index)
 	{
 		favorites.remove(index);
@@ -130,6 +150,10 @@ public class CalcFavorites extends JPanel
 		view.frame.revalidate();
 	}
 	
+	/**
+	 * graphs the specific favorite entry in the favorites list
+	 * @param index - the index of the entry in the favorites list to be graphed
+	 */
 	public void graph(int index)
 	{
 		view.frame.setContentPane(new DrawFunction(favorites.get(index).getPoints(), favorites.get(index).getEquation(), view, graphPanel.getGraphController()));
