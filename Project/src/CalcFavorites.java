@@ -73,7 +73,8 @@ public class CalcFavorites extends JPanel
 	}
 	
 	/**
-	 * Adds the current displayed graph to the favorites list.
+	 * Checks if the function of the current graph is already present in the favorites list.
+	 * The function will be added only if it is NOT already in the list, to avoid duplicate entries.
 	 * @param theGraph - graph panel is passed as the caller of the favorites view. Used to go back to this view from favorites view.
 	 * @param name - String representation of the function name
 	 * @param yPoints - The y - axis data points, used to draw the graph
