@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class DrawFunction extends JPanel
 {
@@ -25,6 +26,8 @@ public class DrawFunction extends JPanel
 	
 	//Graph's buttons
 	JButton bback, bfavourites, baddToFavourites;
+	//Graph's equation TextField
+	JTextField equationName;
 	
 	/**
 	 * Creates a function to be graphed
@@ -44,6 +47,8 @@ public class DrawFunction extends JPanel
 		bback = new JButton("< Back");
 		bfavourites = new JButton("Favourites");
 		baddToFavourites = new JButton("Add to Favourites");
+		equationName = new JTextField(equation);
+		
 		addButtonsToGraph(this);
 		
 		
@@ -86,7 +91,7 @@ public class DrawFunction extends JPanel
 		int offSetX = (MathValue.NUMBER_OF_POINTS - w) / 2; //sets the pixel offset from the left side of the graph based on the width of the JPanel
 		for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++) //adds the points to the polygon
 		{
-			if(Double.isNaN(yPoints[i]))
+			if(Double.isNaN(yPoints[i])) //checks if there are discontinuities in the graph
 			{
 				continousFunction = false;
 				break;
@@ -101,7 +106,7 @@ public class DrawFunction extends JPanel
 		g.setColor(Color.blue);
 		
 		if(!continousFunction)
-			for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++)
+			for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++) //draws discontinuous lines in case of a discontinuous function
 			{
 				if(!Double.isNaN(yPoints[i]))
 					if(scale * yPoints[i] > h / 2.0)
@@ -218,16 +223,24 @@ public class DrawFunction extends JPanel
 			//bback.setPreferredSize(new Dimension(70,40));
 			JPanel back = new JPanel();
 			JPanel fav = new JPanel();
+			JPanel functName = new JPanel();
 			back.setOpaque(false);
 			fav.setOpaque(false);
+			functName.setOpaque(false);
 			
 			back.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
+			functName.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			fav.setLayout(new FlowLayout(FlowLayout.RIGHT,5,5));
 			bback.setPreferredSize(new Dimension(200,40));
+			equationName.setPreferredSize(new Dimension(200, 40));
+			equationName.setEditable(false);
+			equationName.setHorizontalAlignment(SwingConstants.CENTER);
 			bfavourites.setPreferredSize(new Dimension(200,40));
 			back.add(bback);
 			fav.add(bfavourites);
+			functName.add(equationName);
 			b1.add(back);
+			b1.add(functName);
 			//graph.add(Box.createRigidArea(new Dimension(10,0)));
 			//b1.add(baddToFavourites);
 			b1.add(fav);
@@ -267,6 +280,12 @@ public class DrawFunction extends JPanel
 			bfavourites.setBorder(null);
 			bfavourites.setFont(bfavourites.getFont().deriveFont(20f));
 			
+			equationName.setOpaque(false);
+			equationName.setBackground(Color.BLACK);
+			equationName.setForeground(view.buttonTextColor);
+			equationName.setFocusable(false);
+			equationName.setBorder(null);
+			equationName.setFont(new Font("Arial Rounded", Font.BOLD,18));
 		}
 		
 		public void openFavourites()
