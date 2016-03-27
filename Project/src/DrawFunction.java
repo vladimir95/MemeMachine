@@ -21,6 +21,7 @@ public class DrawFunction extends JPanel
 	private CalcView view;
 	private String equation;
 	private GraphController controller;
+	private boolean continousFunction = true;
 	
 	//Graph's buttons
 	JButton bback, bfavourites, baddToFavourites;
@@ -85,6 +86,11 @@ public class DrawFunction extends JPanel
 		int offSetX = (MathValue.NUMBER_OF_POINTS - w) / 2; //sets the pixel offset from the left side of the graph based on the width of the JPanel
 		for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++) //adds the points to the polygon
 		{
+			if(Double.isNaN(yPoints[i]))
+			{
+				continousFunction = false;
+				break;
+			}
 			if(scale * yPoints[i] > h / 2.0)
 				p.addPoint(i - offSetX, -Integer.MAX_VALUE);
 			else
@@ -93,7 +99,18 @@ public class DrawFunction extends JPanel
 		setYAxis(w, h, g);
 		setXAxis(w, h, g);
 		g.setColor(Color.blue);
-		g.drawPolyline(p.xpoints, p.ypoints, p.npoints);
+		
+		if(!continousFunction)
+			for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++)
+			{
+				if(!Double.isNaN(yPoints[i]))
+					if(scale * yPoints[i] > h / 2.0)
+						g.drawLine(i - offSetX, h / 2, i - offSetX, -Integer.MAX_VALUE);
+					else
+						g.drawLine(i - offSetX, h / 2, i - offSetX, (int)Math.round(h / 2.0 - (scale * yPoints[i])));
+			}
+		else
+			g.drawPolyline(p.xpoints, p.ypoints, p.npoints);
 	}
 
 	/**
