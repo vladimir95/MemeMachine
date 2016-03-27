@@ -80,9 +80,16 @@ public class CalcFavorites extends JPanel
 	 */
 	public void addToFavourites(DrawFunction theGraph, String name, double[] yPoints)
 	{
+		boolean found = false;
 		if(favorites.size() < MAX_LIST_SIZE)
 		{
-			favorites.add(new FavoriteValue(name, yPoints));
+			for(int i = 0; i < favorites.size(); i++)
+			{
+				if(favorites.get(i).getEquation().equals(name))
+					found = true;
+			}
+			if(!found)
+				favorites.add(new FavoriteValue(name, yPoints));
 		}
 		displayFavorites(theGraph);
 	}
