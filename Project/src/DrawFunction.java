@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Polygon;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -39,7 +38,7 @@ public class DrawFunction extends JPanel
 		controller = theController;
 		
 		
-		//Graph's Panel buttons
+		//Graph's Panel buttons and graphName
 		bback = new JButton("< Back");
 		bfavourites = new JButton("Favourites");
 		baddToFavourites = new JButton("Add to Favourites");
@@ -48,11 +47,11 @@ public class DrawFunction extends JPanel
 		addButtonsToGraph(this);
 		
 		
-		
-		new ButtonAdapter(bfavourites) {		//Sets the button to switch to the favorites view
+		//Sets the button to switch to the favorites view
+		new ButtonAdapter(bfavourites) {		
 		       public void pressed(){ openFavourites();}};
-		
-		new ButtonAdapter(bback) {				//Sets the button to switch back to the calculator view
+		     //Sets the button to switch back to the calculator view
+		new ButtonAdapter(bback) {				
 			public void pressed(){Back();}};
 			
 		new ButtonAdapter(baddToFavourites) {	//Sets the button to add the current graph to the favorites and switch to the favorites view
@@ -179,74 +178,49 @@ public class DrawFunction extends JPanel
 	 */
 	public void addButtonsToGraph(JPanel graph){
 		graph.setBackground(Color.BLACK);
-		//graph.setLayout(new FlowLayout(FlowLayout.LEFT,30,5));
 		graph.setLayout(new BoxLayout(graph, BoxLayout.Y_AXIS));
-		//graph.add(Box.createRigidArea(new Dimension(0,3)));
+		
+		//Run a method that configures all the buttons
 		graphPanelButtonColor();
-		//graph.add(Box.createHorizontalStrut(10));
-		/*
-		graph.add(bback);
-		graph.add(baddToFavourites);
-		graph.add(bfavourites);
-		*/
-		/*
-		//Box b1 = new Box(BoxLayout.X_AXIS);
-		Box b1 = Box.createHorizontalBox();
 		
-		b1.add(bback);
-		b1.add(baddToFavourites);
-		b1.add(bfavourites);
-		*/
-		
-		
-		//Version 1
-		/*JPanel b1 = new JPanel();
-		b1.setBackground(Color.BLACK);
-		b1.setLayout(new GridLayout(1,3,50,10));
-		//b1.setLayout(new BoxLayout(b1, BoxLayout.X_AXIS));
-		//bback.setPreferredSize(new Dimension(70,40));
-		
-		b1.add(bback);
-		//graph.add(Box.createRigidArea(new Dimension(10,0)));
-		b1.add(baddToFavourites);
-		b1.add(bfavourites);
-		b1.setOpaque(false);
-		graph.add(b1);
-		graph.add(Box.createRigidArea(new Dimension(0,653)));
-		*/
-		
-		//Version 2
-		//graph.add(Box.createVerticalStrut(10));
+		//Create a panle for the two buttons and the graph name
 		JPanel b1 = new JPanel();
 		b1.setBackground(Color.WHITE);
-		//b1.setLayout(new GridLayout(1,2,380,0));
 		b1.setLayout(new BoxLayout(b1, BoxLayout.X_AXIS));
-		//bback.setPreferredSize(new Dimension(70,40));
+		
+		//Each button and the name will be stored in a panel, for convenience
 		JPanel back = new JPanel();
 		JPanel fav = new JPanel();
 		JPanel functName = new JPanel();
+		
+		
 		back.setOpaque(false);
 		fav.setOpaque(false);
 		functName.setOpaque(false);
 		
 		back.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
-		functName.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		functName.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
 		fav.setLayout(new FlowLayout(FlowLayout.RIGHT,5,5));
-		bback.setPreferredSize(new Dimension(200,40));
-		equationName.setPreferredSize(new Dimension(200, 40));
+		
+		//Set preferred sizes of the buttons and the text with equation
+		bback.setPreferredSize(new Dimension(130,40));
+		equationName.setPreferredSize(new Dimension(350, 40));
 		equationName.setEditable(false);
 		equationName.setHorizontalAlignment(SwingConstants.CENTER);
-		bfavourites.setPreferredSize(new Dimension(200,40));
+		bfavourites.setPreferredSize(new Dimension(130,40));
+		
+		//Add buttons and the name to the corresponding panels
 		back.add(bback);
 		fav.add(bfavourites);
 		functName.add(equationName);
+		
+		//Add those panels to the panel that contains all three of them
 		b1.add(back);
 		b1.add(functName);
-		//graph.add(Box.createRigidArea(new Dimension(10,0)));
-		//b1.add(baddToFavourites);
 		b1.add(fav);
 		b1.setOpaque(false);
 		
+		//Panel with addToFavourites Button 
 		JPanel b2 = new JPanel();
 		b2.setBackground(Color.WHITE);
 		b2.setLayout(new FlowLayout(FlowLayout.RIGHT,5,0));
@@ -254,12 +228,10 @@ public class DrawFunction extends JPanel
 		b2.add(baddToFavourites);
 		b2.setOpaque(false);
 		
-		//graph.add(Box.createRigidArea(new Dimension(5,0)));
+		//Add the two to the graph panel, and separate them by the rigid transparent area
 		graph.add(b1);
 		graph.add(Box.createRigidArea(new Dimension(0,592)));
-		//graph.add(Box.createVerticalStrut(590));
 		graph.add(b2);
-		//graph.add(Box.createRigidArea(new Dimension(10,5)));
 			
 	}
 	

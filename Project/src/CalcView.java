@@ -8,7 +8,6 @@ import java.awt.GridLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -184,10 +183,10 @@ public class CalcView extends JFrame {
 	    //buttons.add(bclear);
 	    
 	    //Yes, now enter and undo belong to Operators panel, for convenience: it's much more handy to have those up top.
-	    buttons.add(btest); // Adding Test Button
+	    //buttons.add(btest); // Adding Test Button
 	    buttons.add(bclear);
 	    //Added a sample graph button, as prof suggested
-	    buttons.add(btest2); 
+	    //buttons.add(btest2); 
 	    
 	    operators.add(bgraph);
 	    operators.add(benter);
