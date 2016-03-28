@@ -12,7 +12,7 @@ public class MathValue
 	 * Creates a constant value
 	 * @param constatnt - the constant value to be added to each point in the array
 	 */
-	MathValue(double constatnt)
+	public MathValue(double constatnt)
 	{
 		for(int i = 0; i < NUMBER_OF_POINTS; i++)
 			value[i] = constatnt;
@@ -22,7 +22,7 @@ public class MathValue
 	/**
 	 * Creates a variable value corresponding to y=x function
 	 */
-	MathValue()
+	public MathValue()
 	{
 		for(int i = 0; i < NUMBER_OF_POINTS; i++)
 			value[i] = ((MAX_RANGE - MIN_RANGE) / NUMBER_OF_POINTS) * i + MIN_RANGE;
@@ -34,7 +34,7 @@ public class MathValue
 	 * @param result - the array resulting from an operation
 	 * @param variable - defines the resulting value as either a constant or a variable
 	 */
-	MathValue(double[] result, boolean variable)
+	public MathValue(double[] result, boolean variable)
 	{
 		value = result;
 		isVariable = variable;

@@ -4,7 +4,12 @@ public class FavoriteValue
 	private String equation; //The name of the stored function
 	private double[] points; //The y - axis data points of the stored function
 	
-	FavoriteValue(String name, double[] yPoints)
+	/**
+	 * Creates a new favorite value
+	 * @param name - the function name
+	 * @param yPoints - the y - axis data points of the function
+	 */
+	public FavoriteValue(String name, double[] yPoints)
 	{
 		equation = name;
 		points = yPoints;

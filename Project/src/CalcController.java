@@ -9,7 +9,11 @@ public class CalcController {
 	private CalcModel model; 
 	private GraphController graphController;
 	
-	
+	/**
+	 * Creates the calculator controller
+	 * The controller mediates between the main view and the model
+	 * @throws MalformedURLException
+	 */
 	public CalcController() throws MalformedURLException
 	{
 		model = new CalcModel();

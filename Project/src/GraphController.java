@@ -5,7 +5,12 @@ public class GraphController {
 	private CalcView view;
 	private CalcFavorites favoritesView;
 	
-	
+	/**
+	 * Creates a new graph controller.
+	 * The graph controller is the mediator between the 3 views (main, graph and favorites).
+	 * @param calcController - the calculator controller. Used as a reference to get data from the model.
+	 * @param theView - the main view. Used as a referece that is passed to either graph view or favorites view.
+	 */
 	public GraphController(CalcController calcController, CalcView theView)
 	{
 		controller =  calcController;

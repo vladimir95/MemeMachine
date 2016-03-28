@@ -15,16 +15,21 @@ import javax.swing.SwingConstants;
 public class CalcFavorites extends JPanel
 {
 	final int MAX_LIST_SIZE = 15;
-	List<FavoriteValue> favorites = new ArrayList<FavoriteValue>(); //The favorites list. Stores the favorites that were added from the graph
-	CalcView view;
-	DrawFunction graphPanel;
+	private List<FavoriteValue> favorites = new ArrayList<FavoriteValue>(); //The favorites list. Stores the favorites that were added from the graph
+	private CalcView view;
+	private DrawFunction graphPanel;
 	
 	JPanel favoritesPanel;
 	JTextField message;
-	String full = "The Favorites List is Full";
-	String empty = "No Favorites Yet";
+	private String full = "The Favorites List is Full";
+	private String empty = "No Favorites Yet";
 	
-	CalcFavorites(CalcView theView)
+	/**
+	 * Creates a new favorites view
+	 * The favorites view displays the saved favorites in its own JPanel.
+	 * @param theView - a reference to the main view. Used to display this favorites view on the main frame.
+	 */
+	public CalcFavorites(CalcView theView)
 	{
 		view = theView;
 		

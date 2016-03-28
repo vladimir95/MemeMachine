@@ -29,7 +29,7 @@ public class CalcModel
 	/**
 	 * Creates a new model with initial user and history values, and initializes empty stacks.
 	 */
-	CalcModel()
+	public CalcModel()
 	{
 		inputValue = new StringBuilder(INITIAL_DISPLAYED_VALUE);
 		historyValue = new StringBuilder(INITIAL_DISPLAYED_HISTORY);

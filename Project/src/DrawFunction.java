@@ -28,7 +28,15 @@ public class DrawFunction extends JPanel
 	//Graph's equation TextField
 	JTextField equationName;
 	
-	DrawFunction(double[] data, String functioName, CalcView theView, GraphController theController)
+	/**
+	 * Creates a new graph view
+	 * The graph view draws the graph of the function passed to it.
+	 * @param data - the y - axis data points of the function
+	 * @param functioName - the String representation of the function
+	 * @param theView - the main view. Used as the caller reference to switch back to the main frame.
+	 * @param theController - the calculator controller
+	 */
+	public DrawFunction(double[] data, String functioName, CalcView theView, GraphController theController)
 	{
 		this.setBackground(Color.BLACK);
 		

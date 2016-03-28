@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 
 
 @SuppressWarnings("serial") 
+
 public class CalcView extends JFrame {
 	
 	//Main Panel's Buttons
@@ -37,6 +38,12 @@ public class CalcView extends JFrame {
 	
 	JFrame frame;
 	
+	/**
+	 * Creates a new main view.
+	 * The main view displays the main calculator panel which has all the calculator buttons and functions
+	 * @param theController - the controller of calculator
+	 * @throws MalformedURLException
+	 */
 	public CalcView(final CalcController theController)
 			throws MalformedURLException {
 		
