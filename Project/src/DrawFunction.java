@@ -108,7 +108,7 @@ public class DrawFunction extends JPanel
 		}
 		setYAxis(w, h, g);
 		setXAxis(w, h, g);
-		g.setColor(Color.orange);
+		g.setColor(Color.cyan);
 		
 		if(!continousFunction)
 			for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++) //draws discontinuous lines in case of a discontinuous function
