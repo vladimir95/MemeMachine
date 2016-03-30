@@ -607,6 +607,7 @@ public class TestCalcModel
 		model.x();
 		model.factorial();
 		assertTrue(model.getFunction()[500] == 1);
+		assertTrue(Double.isNaN(model.getFunction()[501]));
 		assertTrue(model.getFunction()[510] == 1);
 		assertTrue(model.getFunction()[530] == 6);
 		
