@@ -1,0 +1,150 @@
+import static org.junit.Assert.*;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
+import org.junit.*;
+
+public class TestCalcFavourites {
+
+		private CalcFavorites favorites;
+		private CalcView view;
+		private CalcController controller;
+		private GraphController graphController;
+		private DrawFunction drawFunction;
+		private BufferedImage bi;
+		private Graphics2D g;
+		
+		@Before
+		public void setUp() throws Exception
+		{
+			controller = new CalcController();
+			view = new CalcView(controller);
+			favorites = new CalcFavorites(view);
+			graphController = new GraphController(controller, view);
+			bi = null;
+			g = null;
+		}
+		
+		/**
+		 * Tests the initial layout of the favorites panel. The backround is checked to be black and a back button is checked to be 
+		 * on the upper left corner.
+		 */
+		@Test
+		public void testInitialLayout()
+		{
+			favorites.displayFavorites(drawFunction);
+			assertEquals(favorites.getBackground(), Color.BLACK);
+			
+			bi = new BufferedImage(favorites.getWidth(), favorites.getHeight(), BufferedImage.TYPE_INT_RGB);
+			g = bi.createGraphics();
+			favorites.paint(g);
+			Color c = new Color(bi.getRGB(20, 20));
+			assertEquals(c, view.functionColor);
+		}
+		
+		/**
+		 * Checks to make sure a function is added to favorites by looking at a pixel on the favorites panel. The pixel checked is part of the delete
+		 * button and the color should be 55,107,155. This test also checks for multiple favorites and ensures multiple favorites are denied.
+		 */
+		@Test
+		public void testAddToFavorites()
+		{
+			//Checks that the favorite is displayed on the favorite view
+			controller.x();
+			drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+			favorites.addToFavourites(drawFunction, controller.getModel().getEquation(), controller.getModel().getFunction());
+			favorites.displayFavorites(drawFunction);
+			bi = new BufferedImage(view.frame.getContentPane().getWidth(), view.frame.getContentPane().getHeight(), BufferedImage.TYPE_INT_RGB);
+			g = bi.createGraphics();
+			view.frame.getContentPane().paint(g);
+			Color c = new Color(bi.getRGB(bi.getWidth()-10, 80));
+			assertEquals(c, view.functionColor);
+
+			//Checks that two favorites are displayed
+			controller.clear();
+			controller.numericButton("5");
+			controller.enter();
+			drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+			favorites.addToFavourites(drawFunction, controller.getModel().getEquation(), controller.getModel().getFunction());
+			favorites.displayFavorites(drawFunction);
+			bi = new BufferedImage(view.frame.getContentPane().getWidth(), view.frame.getContentPane().getHeight(), BufferedImage.TYPE_INT_RGB);
+			g = bi.createGraphics();
+			view.frame.getContentPane().paint(g);
+			Color c2 = new Color(bi.getRGB(bi.getWidth()-10, 120));
+			assertEquals(c2, view.functionColor);
+			
+			//Verifies identical functions cannot be favorite
+			controller.clear();
+			controller.x();
+			drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+			favorites.addToFavourites(drawFunction, controller.getModel().getEquation(), controller.getModel().getFunction());
+			favorites.displayFavorites(drawFunction);
+			bi = new BufferedImage(view.frame.getContentPane().getWidth(), view.frame.getContentPane().getHeight(), BufferedImage.TYPE_INT_RGB);
+			g = bi.createGraphics();
+			view.frame.getContentPane().paint(g);
+			Color c3 = new Color(bi.getRGB(bi.getWidth()-10, 170));
+			assertFalse(c3.equals(view.functionColor));
+		}
+		
+		/**
+		 * Tests to make sure back returns the view to the graph panel.
+		 */
+		@Test
+		public void testBack()
+		{
+			drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+			Container a = view.frame.getContentPane();
+			favorites.displayFavorites(drawFunction);
+			favorites.back();
+			Container b = view.frame.getContentPane();
+			assertEquals(a, b);
+		}
+	
+		/**
+		 * Tests to make sure a favorite gets deleted. This is done by checking a specific pixel where the favorite used to be.
+		 */
+		@Test
+		public void testDelete()
+		{
+			//The pixel where a favorite lies is RGB 55,107,155
+			controller.x();
+			drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+			favorites.addToFavourites(drawFunction, controller.getModel().getEquation(), controller.getModel().getFunction());
+			favorites.displayFavorites(drawFunction);
+			bi = new BufferedImage(view.frame.getContentPane().getWidth(), view.frame.getContentPane().getHeight(), BufferedImage.TYPE_INT_RGB);
+			g = bi.createGraphics();
+			view.frame.getContentPane().paint(g);
+			Color c = new Color(bi.getRGB(bi.getWidth()-10, 60));
+			
+			//When deleted the pixel becomes RGB 0,0,0
+			favorites.delete(0);
+			favorites.displayFavorites(drawFunction);
+			bi = new BufferedImage(view.frame.getContentPane().getWidth(), view.frame.getContentPane().getHeight(), BufferedImage.TYPE_INT_RGB);
+			g = bi.createGraphics();
+			view.frame.getContentPane().paint(g);
+			Color c2 = new Color(bi.getRGB(bi.getWidth()-10, 60));
+			
+			assertTrue(!c.equals(c2));
+		}
+		
+		/**
+		 * Tests to ensure that a favorite can be graphed. Checks to make sure the view displays the graph and that the graph is accurate by 
+		 * checking a pixel where the graph lies to be cyan.
+		 */
+		@Test
+		public void testGraph()
+		{
+			controller.x();
+			drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+			favorites.addToFavourites(drawFunction, controller.getModel().getEquation(), controller.getModel().getFunction());
+			favorites.graph(0);
+			bi = new BufferedImage(view.frame.getContentPane().getWidth(), view.frame.getContentPane().getHeight(), BufferedImage.TYPE_INT_RGB);
+			g = bi.createGraphics();
+			view.frame.getContentPane().paint(g);
+			Color c = new Color(bi.getRGB(bi.getWidth()/2+10, (int)Math.round(bi.getHeight()/2.0-10)));
+			assertEquals(c, Color.CYAN);
+		}
+}
