@@ -1,7 +1,4 @@
 import java.net.MalformedURLException;
-import java.util.EmptyStackException;
-
-import javax.swing.JPanel;
 
 public class CalcController {
 

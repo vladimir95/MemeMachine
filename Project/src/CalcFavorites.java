@@ -5,20 +5,23 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class CalcFavorites extends JPanel
 {
+	//Set number of favorites to 15
 	final int MAX_LIST_SIZE = 15;
-	private List<FavoriteValue> favorites = new ArrayList<FavoriteValue>(); //The favorites list. Stores the favorites that were added from the graph
+	
+	//The favorites list. Stores the favorites that were added from the graph
+	private List<FavoriteValue> favorites = new ArrayList<FavoriteValue>(); 
+	
 	private CalcView view;
 	private DrawFunction graphPanel;
-	
 	JPanel favoritesPanel;
 	JTextField message;
 	private String full = "The Favorites List is Full";
@@ -36,17 +39,18 @@ public class CalcFavorites extends JPanel
 		setLayout(new BoxLayout(this,BoxLayout.Y_AXIS)); //Setting the layout of the favorites view
         setBackground(Color.BLACK);
         
+        //Main Panel of favorites
         JPanel board = new JPanel();
-        board.setLayout(new BoxLayout(board, BoxLayout.X_AXIS));
-        
+        board.setLayout(new BoxLayout(board, BoxLayout.X_AXIS)); 
         board.setBackground(Color.BLACK);
         
+        //Create a Panel for a message in case if Favorites are full/empty
         JPanel messagePanel = new JPanel();
         messagePanel.setLayout(new FlowLayout(FlowLayout.CENTER,5,5));
         messagePanel.setBackground(Color.BLACK);
         
+        //Format the message text itself and add it to the Panel
         message = new JTextField(full);
-        
         message.setPreferredSize(new Dimension(250, 40));
 		message.setEditable(false);
 		message.setHorizontalAlignment(SwingConstants.CENTER);
@@ -55,25 +59,25 @@ public class CalcFavorites extends JPanel
 		message.setForeground(view.buttonTextColor);
 		message.setFocusable(false);
 		message.setBorder(null);
-		
 		messagePanel.add(message);
-		
 		message.setVisible(false);
         
+		
+		
+		favoritesPanel = new JPanel();
+	    //set # of favorites to 15
+	    favoritesPanel.setLayout(new GridLayout(15,1,0,3));
+	    favoritesPanel.setBackground(Color.BLACK);
+	    
+	    //Add an extra Panel for the Back button
         JPanel button = new JPanel();
-        favoritesPanel = new JPanel();
-        //set # of favorites to 15
-        favoritesPanel.setLayout(new GridLayout(15,1,0,3));
-        favoritesPanel.setBackground(Color.BLACK);
         button.setBackground(Color.BLACK);
-        //button.setOpaque(false);
         button.setLayout(new FlowLayout(FlowLayout.LEFT,5,5));
         
+        //Create and configure and the button itself
         JButton back = new JButton("< Back");
-        
         new ButtonAdapter(back) {
 			public void pressed(){back();}};
-        
         back.setPreferredSize(new Dimension(130,40));
         back.setBackground(view.functionColor);
         back.setForeground(view.buttonTextColor);
@@ -81,9 +85,10 @@ public class CalcFavorites extends JPanel
         back.setBorder(null);
         back.setFont(back.getFont().deriveFont(20f));
         
-        
+        //Keep the same fonts on the button and the message
         message.setFont(back.getFont().deriveFont(20f));
        
+        //Add everything to the Panels
         button.add(back);
         board.add(button);
         board.add(messagePanel);
@@ -157,9 +162,11 @@ public class CalcFavorites extends JPanel
 		favoritesPanel.removeAll();
 		for(int i = 0; i < favorites.size(); i++)
 		{
+			//Generate the Panel with a favorite item
 			JPanel favoriteItem = new JPanel();
 			favoriteItem.setBackground(Color.BLACK);
 			
+			//Add graph and delete buttons and configure both buttons
 			JButton delete = new JButton("Delete");
 			JButton graph = new JButton("Graph");
 		
@@ -167,7 +174,7 @@ public class CalcFavorites extends JPanel
 				public void pressed(){delete(buttonIndex);}};
 			new ButtonAdapter(graph, i) {
 				public void pressed(){graph(buttonIndex);}};
-			
+		
 			graph.setPreferredSize(new Dimension(100,40));
 			graph.setBackground(view.enterColor);
 			graph.setForeground(view.buttonTextColor);
@@ -182,25 +189,22 @@ public class CalcFavorites extends JPanel
 			delete.setBorder(null);
 			delete.setFont(delete.getFont().deriveFont(20f));
 			
+			//Add a Text Field for the graph name to be stored in favorites
 			JTextField graphName = new JTextField(favorites.get(i).getEquation());
 			graphName.setEditable(false);
 			graphName.setBackground(Color.BLACK);
 			graphName.setForeground(Color.WHITE);
-			//graphName.setSize(new Dimension(320,40));
 			graphName.setPreferredSize(new Dimension(415,40));
 			graphName.setFont(new Font("Arial Rounded", Font.BOLD,18));
 			
 			
-			//favoriteItem.setLayout(new GridLayout(1,3,3,0));
-			//favoriteItem.setLayout(new BoxLayout(favoriteItem, BoxLayout.X_AXIS));
+			//Set Layout of the item and add elements to it
 			favoriteItem.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
 			favoriteItem.add(graphName);
 			favoriteItem.add(graph);
 			favoriteItem.add(delete);
-			//favourites.add(Box.createRigidArea(new Dimension(0,5)));
 			
 			
-			//favoritesPanel.add(Box.createRigidArea(new Dimension(0,600)));
 			favoritesPanel.add(favoriteItem);
 		}
 	}
@@ -223,7 +227,9 @@ public class CalcFavorites extends JPanel
 	 */
 	public void graph(int index)
 	{
-		view.frame.setContentPane(new DrawFunction(favorites.get(index).getPoints(), favorites.get(index).getEquation(), view, graphPanel.getGraphController()));
+		view.frame.setContentPane(new DrawFunction(favorites.get(index).getPoints(), 
+				favorites.get(index).getEquation(), view, graphPanel.getGraphController()));
+		
 		view.frame.revalidate();
 	}
 }

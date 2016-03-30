@@ -3,16 +3,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Polygon;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class DrawFunction extends JPanel
 {
 	private Color axisColor = new Color(97,107,116);
@@ -93,7 +92,10 @@ public class DrawFunction extends JPanel
 		
 		Polygon p = new Polygon();
 		double scale = 10; 				//scale the y - axis up
-		int offSetX = (MathValue.NUMBER_OF_POINTS - w) / 2; //sets the pixel offset from the left side of the graph based on the width of the JPanel
+		
+		//sets the pixel offset from the left side of the graph based on the width of the JPanel
+		int offSetX = (MathValue.NUMBER_OF_POINTS - w) / 2; 
+		
 		for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++) //adds the points to the polygon
 		{
 			if(Double.isNaN(yPoints[i])) //checks if there are discontinuities in the graph
@@ -111,7 +113,8 @@ public class DrawFunction extends JPanel
 		g.setColor(Color.cyan);
 		
 		if(!continousFunction)
-			for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++) //draws discontinuous lines in case of a discontinuous function
+			//draws discontinuous lines in case of a discontinuous function
+			for(int i = offSetX; i < MathValue.NUMBER_OF_POINTS - offSetX; i++) 
 			{
 				if(!Double.isNaN(yPoints[i]))
 					if(scale * yPoints[i] > h / 2.0)
@@ -191,7 +194,7 @@ public class DrawFunction extends JPanel
 		//Run a method that configures all the buttons
 		graphPanelButtonColor();
 		
-		//Create a panle for the two buttons and the graph name
+		//Create a panel for the two buttons and the graph name
 		JPanel b1 = new JPanel();
 		b1.setBackground(Color.WHITE);
 		b1.setLayout(new BoxLayout(b1, BoxLayout.X_AXIS));
@@ -244,7 +247,7 @@ public class DrawFunction extends JPanel
 	}
 	
 	/**
-	 * Setting the color of the buttons and textfield in this panel
+	 * Setting the color of the buttons and textfield with equation of the graph in this panel
 	 */
 	public void graphPanelButtonColor(){
 		bback.setBackground(view.functionColor);

@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GridLayout;
@@ -27,15 +26,17 @@ public class CalcView extends JFrame {
 	JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bdot,bclear,bmultiply,bdivide,badd,bsubtract,benter,
 									bpi,bfact, bundo, bsin, bcos, bx, bgraph, bsign, btest, btest2;
 	
-	//Graph Panel's Buttons
 	
-	
+	//Main Panel's TextFields 
 	JTextField display,historyDisplay;
 	
+	//Sub Panels of the Main panel
 	JPanel numbers, buttons, operators, panel, panel2, mainpanel, left, right, bottom;
 	
+	//Theme colors
 	Color mainColor, numberColor, operatorColor, functionColor, enterColor, buttonTextColor;
 	
+	//Main Frame
 	JFrame frame;
 	
 	/**
@@ -111,14 +112,6 @@ public class CalcView extends JFrame {
 		bgraph = new JButton("Graph");
 		bsign = new JButton("+/-"); 
 		
-		//Sample Tests Button
-		btest = new JButton("Sample Calculation");
-		btest2 = new JButton("Sample Graph");
-		
-		
-		
-		
-		
 		
 		//Increase specific buttons' fonts
 		badd.setFont(new Font("Dialog", Font.PLAIN, 17));
@@ -154,23 +147,20 @@ public class CalcView extends JFrame {
 		
 		//Set panels' layouts
 	    numbers.setLayout(new GridLayout(4,3,3,3));
-	    operators.setLayout(new GridLayout(4,3,3,3)); //Changed the Layout for the signs to fit the buttons
-	    buttons.setLayout(new GridLayout(1,3,3,3)); //Grid Layout was changed accordingly for the Test button
-	    //panel.setLayout(new GridLayout(3,1,10,10));
-	    // Made Layout to be a boxLayout - allows to easily manage space between buttons and buttons size
+	    operators.setLayout(new GridLayout(4,3,3,3)); 
+	    buttons.setLayout(new GridLayout(1,3,3,3)); 
 	    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); 
-	    
 	    panel2.setLayout(new GridLayout(2,1,10,10));
 	    mainpanel.setLayout(new BorderLayout(20,20));
+	    
+	    //Setup the helper panels. Adjust the bottom panel to "push" main Panel up
 	    left.setLayout(new GridLayout(1,1,0,0));
 	    right.setLayout(new GridLayout(1,1,0,0));
-	    //bottom.setLayout(new GridLayout(65,1,0,0));
-	    //Same here: made the bottom plane a boxLayout and then added space on top of it, which pushed the buttons up(Line 153)
 	    bottom.setLayout(new BoxLayout(bottom, BoxLayout.Y_AXIS));
 	    bottom.setBackground(mainColor);
 	    bottom.add(Box.createRigidArea(new Dimension(0,25)));
 	    
-	    //Numbers are now aligned just like in calculator, not a phone lol
+	    //Add the buttons to the number panel, in an order common for calculators
 	    numbers.add(b7);
 	    numbers.add(b8);
 	    numbers.add(b9);
@@ -184,17 +174,13 @@ public class CalcView extends JFrame {
 	    numbers.add(b0);
 	    numbers.add(bpi);
 	    
-	    //SWITCHED ALIGNMENT OF BUTTONS
-	    //buttons.add(benter);
-	    //buttons.add(bundo);
-	    //buttons.add(bclear);
 	    
-	    //Yes, now enter and undo belong to Operators panel, for convenience: it's much more handy to have those up top.
-	    //buttons.add(btest); // Adding Test Button
-	    buttons.add(bclear);
-	    //Added a sample graph button, as prof suggested
-	    //buttons.add(btest2); 
 	    
+	    //The lowest Panel will have only Clear Button.
+	    buttons.add(bclear); 
+	    
+	    
+	    //Add the buttons to operators panel
 	    operators.add(bgraph);
 	    operators.add(benter);
 	    operators.add(bundo);
@@ -208,14 +194,11 @@ public class CalcView extends JFrame {
 	    operators.add(bcos);
 	    operators.add(bx);
 	    
-	    //These three belong to the buttons pan now
-	    //operators.add(btest);
-	    //operators.add(btest);
-	    //operators.add(bclear);
-	    
+	    //Add the text displays
 	    panel2.add(historyDisplay);
 	    panel2.add(display);
-	    //Creating spaces between panels in the panle that holds all the buttons
+	    
+	    //Creating spaces between panels in the panel that holds all the buttons
 	    panel.add(Box.createRigidArea(new Dimension(0,15)));
 	    panel.add(numbers);
 	    panel.add(Box.createRigidArea(new Dimension(0,15)));
@@ -307,12 +290,7 @@ public class CalcView extends JFrame {
 		add(new ButtonAdapter(b9) {
 		       public void pressed(){ theController.numericButton(b9.getText());}});	    
 	    
-		//SampleTest Button ButtonAdapter  
-		add(new ButtonAdapter(btest) {
-		       public void pressed(){ theController.sampleTest();}});
-		
-	    
-	
+		//Add the Main Panel to the Frame, apply colors to panels and buttons; format buttons as well
 	    frame.add(mainpanel);
 	    betterViewDesign();
 	    buttonColor();
@@ -416,22 +394,12 @@ public class CalcView extends JFrame {
 		//FUNCTIONS COLOR AND FORMATTING
 		ArrayList<JButton> functions = new ArrayList<JButton>();
 		functions.add(bclear);
-		
-		//To follow the design, made Undo to be same as Enter
-		//functions.add(bundo);
-		
 		functions.add(bsin);
 		functions.add(bcos);
 		functions.add(bfact);
 		functions.add(bsign);
-		functions.add(btest);
-		//Sample graph is also like a function button
-		functions.add(btest2);
 		functions.add(bx); //Will be same color as other function buttons
 		
-		
-		//Nah... Made Graph same color as Enter Button. 
-		//functions.add(bgraph); //Will be same color as other function buttons
 				
 				
 		//for all functions:
