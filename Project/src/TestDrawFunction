@@ -1,0 +1,176 @@
+import static org.junit.Assert.*;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
+import org.junit.*;
+
+public class TestDrawFunction {
+	
+	private CalcController controller;
+	private CalcView view;
+	private GraphController graphController;
+	private DrawFunction drawFunction;
+	private CalcFavorites favorites;
+	private BufferedImage bi;
+	private Graphics2D g;
+
+	/**
+	 * Creates instances of controller, view, and graph controller before test cases.
+	 * @throws Exception
+	 */
+	@Before
+	public void setUp() throws Exception
+	{
+		controller = new CalcController();
+		view = new CalcView(controller);
+		graphController = new GraphController(controller, view);
+		bi = null;
+		g = null;
+	}
+	
+	/**
+	 * Tests the appearance of the axis on the view. This is done by creating a bufferedImage from the drawFunction JPanel and checking the color of a
+	 * specific pixel where the axis should be. The color should have the RGB 97,107,116.
+	 */
+	@Test
+	public void testAxis()
+	{	
+		drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+		bi = new BufferedImage(drawFunction.getWidth(), drawFunction.getHeight(), BufferedImage.TYPE_INT_RGB);
+		g = bi.createGraphics();
+		drawFunction.paintComponent(g);
+		Color axisColor = new Color(97,107,116);
+		Color c1 = new Color(bi.getRGB(0, bi.getHeight()/2), true);
+		Color c2 = new Color(bi.getRGB(bi.getWidth()-1, bi.getHeight()/2), true);
+		Color c3 = new Color(bi.getRGB(bi.getWidth()/2, 0), true);
+		Color c4 = new Color(bi.getRGB(bi.getWidth()/2, bi.getHeight()/2), true);
+		assertEquals(c1, axisColor);
+		assertEquals(c2, axisColor);
+		assertEquals(c3, axisColor);
+		assertEquals(c4, axisColor);
+	}
+	
+	/**
+	 * Tests the appearance of a linear function on the view. This is done by checking a specific pixel where the graph should lie.
+	 * The color should be Color.cyan.
+	 */
+	@Test
+	public void testLinearFunction()
+	{
+		controller.numericButton("5");
+		controller.enter();
+		controller.x();
+		drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+		bi = new BufferedImage(drawFunction.getWidth(), drawFunction.getHeight(), BufferedImage.TYPE_INT_RGB);
+		g = bi.createGraphics();
+		drawFunction.paintComponent(g);
+		Color c1 = Color.cyan;
+		Color c2 = new Color(bi.getRGB(bi.getWidth()/2+50, (int)Math.round(bi.getHeight()/ 2.0 - 50)));
+		assertEquals(c1, c2);
+	}
+	
+	/**
+	 * Tests the appearance of a sinusoidal function on the view. The pixel where the graph lies should be cyan.
+	 */
+	@Test
+	public void testSinusoidalFunction()
+	{
+		controller.x();
+		controller.sine();
+		drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+		bi = new BufferedImage(drawFunction.getWidth(), drawFunction.getHeight(), BufferedImage.TYPE_INT_RGB);
+		g = bi.createGraphics();
+		drawFunction.paintComponent(g);
+		Color c1 = Color.cyan;
+		Color c2 = new Color(bi.getRGB(bi.getWidth()/2 + 15,(int)Math.round(bi.getHeight()/ 2.0 - 10)));
+		assertEquals(c1, c2);
+	}
+	
+	/**
+	 * Tests the appearance of a quadratic function. The pixel where the graph lies should be cyan.
+	 */
+	@Test
+	public void testQuadraticFunction()
+	{
+		controller.x();
+		controller.x();
+		controller.multiply();
+		drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+		bi = new BufferedImage(drawFunction.getWidth(), drawFunction.getHeight(), BufferedImage.TYPE_INT_RGB);
+		g = bi.createGraphics();
+		drawFunction.paintComponent(g);
+		Color c1 = Color.cyan;
+		Color c2 = new Color(bi.getRGB(bi.getWidth()/2 + 10,(int)Math.round(bi.getHeight()/ 2.0 - 10)));
+		assertEquals(c1, c2);
+	}
+	
+	/**
+	 * Tests the appearance of a factorial function. The color where the graph lies should be cyan.
+	 */
+	@Test
+	public void testFactorialFunction()
+	{
+		controller.x();
+		controller.factorial();
+		drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+		bi = new BufferedImage(drawFunction.getWidth(), drawFunction.getHeight(), BufferedImage.TYPE_INT_RGB);
+		g = bi.createGraphics();
+		drawFunction.paintComponent(g);
+		Color c1 = Color.cyan;
+		Color c2 = new Color(bi.getRGB(bi.getWidth()/2 + 20,(int)Math.round(bi.getHeight()/ 2.0 - 20)));
+		assertEquals(c1, c2);
+	}
+	
+	/**
+	 * Tests the method Back. The view should revert back the the main panel.
+	 */
+	@Test
+	public void testBack()
+	{
+		view.frame.setContentPane(view.mainpanel);
+		Container a = view.frame.getContentPane();
+		drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+		drawFunction.Back();
+		Container b = view.frame.getContentPane();
+		assertTrue(a.equals(b));
+	}
+	
+	/**
+	 * Tests the method openFavorites. The view should change to the favorites panel.
+	 */
+	@Test
+	public void testOpenFavourites()
+	{
+		favorites = new CalcFavorites(view);
+		drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+		favorites.displayFavorites(drawFunction);
+		favorites.back();
+		drawFunction.openFavourites();
+		Container a = view.frame.getContentPane();
+		favorites.back();
+		drawFunction.openFavourites();
+		Container b = view.frame.getContentPane();
+		assertEquals(a, b);
+	}
+	
+	/**
+	 * Tests the method addFavorites. A function is added to the favorites and it is checked by verifying a pixel on the favorites panel
+	 * and ensuring that the added function is there.
+	 */
+	@Test
+	public void testFavorites()
+	{
+		controller.x();
+		drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
+		drawFunction.addToFavourites();
+		drawFunction.openFavourites();
+		bi = new BufferedImage(view.frame.getContentPane().getWidth(), view.frame.getContentPane().getHeight(), BufferedImage.TYPE_INT_RGB);
+		g = bi.createGraphics();
+		view.frame.getContentPane().paint(g);
+		Color c = new Color(bi.getRGB(bi.getWidth()-10, 80));
+		assertEquals(c, view.functionColor);
+	}
+}
