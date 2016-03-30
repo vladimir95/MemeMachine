@@ -2,6 +2,8 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 
 public class TestCalcModel 
 {
@@ -575,16 +577,34 @@ public class TestCalcModel
 		assertEquals(model.getInputValue(), "0");
 	}
 
+	/**
+	 * Tests to make sure getFunction returns an array of correct y values of a specific function.
+	 */
 	@Test
-	public void testGetFunction() // no idea how to test the return point
+	public void testGetFunction()
 	{
-		model.numericButton("7");
-		System.out.println(model.getFunction());
-		model.enter();
-		System.out.println(model.getFunction());
+		//testing getFunction on no input
+		double[] array1 = new double[1000];
+		for (int i = 0; i < 1000; i++)
+		{
+			array1[i] = 0.0;
+		}
+		assertTrue(Arrays.equals(model.getFunction(), array1));
 		
+		//testing getFunction on input
+		model.numericButton("6");
+		model.enter();
+		double[] array2 = new double[1000];
+		for (int i = 0; i < 1000; i++)
+		{
+			array2[i] = 6.0;
+		}
+		assertTrue(Arrays.equals(model.getFunction(), array2));
 	}
 	
+	/**
+	 * Tests to make sure getEquation returns a string representation of the function.
+	 */
 	@Test
 	public void testGetEquation() 
 	{
