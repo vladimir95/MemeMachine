@@ -40,7 +40,7 @@ public class TestDrawFunction {
 	{	
 		drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
 		bi = new BufferedImage(drawFunction.getWidth(), drawFunction.getHeight(), BufferedImage.TYPE_INT_RGB);
-		g = bi.createGraphics();
+		g = bi.createGraphics(); 
 		drawFunction.paintComponent(g);
 		Color axisColor = new Color(97,107,116);
 		Color c1 = new Color(bi.getRGB(0, bi.getHeight()/2), true);
@@ -60,8 +60,6 @@ public class TestDrawFunction {
 	@Test
 	public void testLinearFunction()
 	{
-		controller.numericButton("5");
-		controller.enter();
 		controller.x();
 		drawFunction = new DrawFunction(controller.getModel().getFunction(), controller.getModel().getEquation(), view, graphController);
 		bi = new BufferedImage(drawFunction.getWidth(), drawFunction.getHeight(), BufferedImage.TYPE_INT_RGB);
