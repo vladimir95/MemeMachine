@@ -591,15 +591,32 @@ public class TestCalcModel
 		}
 		assertTrue(Arrays.equals(model.getFunction(), array1));
 		
-		//testing getFunction on input
-		model.numericButton("6");
-		model.enter();
-		double[] array2 = new double[1000];
-		for (int i = 0; i < 1000; i++)
-		{
-			array2[i] = 6.0;
-		}
-		assertTrue(Arrays.equals(model.getFunction(), array2));
+		//testing getFunction on input linear
+		model.x();
+		assertTrue(model.getFunction()[0] == -50.0);
+		assertTrue(model.getFunction()[500] == 0.0);
+		assertTrue(model.getFunction()[750] == 25.0);
+		
+		//testing getFunction on input sinusoid
+		model.x();
+		model.sine();
+		assertTrue(model.getFunction()[500] == 0);
+		assertTrue(Math.round(model.getFunction()[562]) == 0);
+		
+		//testing getFunction on factorial function
+		model.x();
+		model.factorial();
+		assertTrue(model.getFunction()[500] == 1);
+		assertTrue(model.getFunction()[510] == 1);
+		assertTrue(model.getFunction()[530] == 6);
+		
+		//testing getFunction on exponetial function
+		model.x();
+		model.x();
+		model.multiply();
+		assertTrue(model.getFunction()[500] == 0);
+		assertTrue(model.getFunction()[510] == 1);
+		assertTrue(model.getFunction()[490] == 1);
 	}
 	
 	/**
@@ -722,4 +739,3 @@ public class TestCalcModel
 		assertEquals(model.getInputValue(), "-2");
 		assertEquals(model.getHistoryValue(), "(1 + 1) ÷ (1 - 2) =");
 	}
-}
