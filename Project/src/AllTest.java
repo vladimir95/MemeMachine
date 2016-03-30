@@ -5,7 +5,9 @@ import org.junit.runners.Suite;
 	TestButtonPress.class,
 	TestCalcModel.class,
 	TestCalcController.class,
-	TestCalcView.class
+	TestCalcView.class,
+	TestDrawFunction.class,
+	TestCalcFavourites.class
 })
 public class AllTest {
 
